@@ -83,6 +83,15 @@
   </url>
   
   <url>
+    <loc>https://joe1sn.eu.org/2022/08/14/cypherpunk/</loc>
+    
+    <lastmod>2022-09-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://joe1sn.eu.org/2022/08/24/os-allinone/</loc>
     
     <lastmod>2022-09-20</lastmod>
@@ -144,6 +153,13 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>https://joe1sn.eu.org/tags/misc/</loc>
+    <lastmod>2023-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/CVE/</loc>
@@ -268,6 +284,13 @@
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/os/</loc>
+    <lastmod>2023-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/categories/misc/</loc>
     <lastmod>2023-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

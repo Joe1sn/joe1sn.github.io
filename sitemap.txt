@@ -7,6 +7,7 @@ https://joe1sn.eu.org/2022/03/16/java-d1-Junit/
 https://joe1sn.eu.org/2021/03/30/Maleware/
 https://joe1sn.eu.org/2022/06/10/windbg-note/
 https://joe1sn.eu.org/2022/07/29/reverse-shell/
+https://joe1sn.eu.org/2022/08/14/cypherpunk/
 https://joe1sn.eu.org/2022/08/24/os-allinone/
 https://joe1sn.eu.org/2022/04/14/sudo-fuzz2exp-3/
 https://joe1sn.eu.org/2022/04/13/sudo-fuzz2exp-2/
@@ -14,6 +15,7 @@ https://joe1sn.eu.org/2022/04/11/sudo-fuzz2exp-1/
 https://joe1sn.eu.org/2022/03/19/java-day3-JDBC/
 https://joe1sn.eu.org/2022/03/18/java-d2-database/
 https://joe1sn.eu.org/
+https://joe1sn.eu.org/tags/misc/
 https://joe1sn.eu.org/tags/CVE/
 https://joe1sn.eu.org/tags/c-c-%E7%AC%94%E8%AE%B0/
 https://joe1sn.eu.org/tags/notes/
@@ -32,3 +34,4 @@ https://joe1sn.eu.org/categories/CVE/
 https://joe1sn.eu.org/categories/notes/kernel/
 https://joe1sn.eu.org/categories/pentest/
 https://joe1sn.eu.org/categories/notes/os/
+https://joe1sn.eu.org/categories/misc/
