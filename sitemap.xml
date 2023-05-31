@@ -2,9 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://joe1sn.eu.org/2023/05/31/hello-world/</loc>
+    <loc>https://joe1sn.eu.org/2023/05/09/CVE-Archive-4-Opt-Aurora/</loc>
     
-    <lastmod>2023-05-31</lastmod>
+    <lastmod>2023-05-21</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/2022/09/05/CVE-Archive-3-TAO/</loc>
+    
+    <lastmod>2023-05-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/2022/04/26/CVE-Archive-2-WANNACRY/</loc>
+    
+    <lastmod>2023-05-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/2022/04/18/CVE-Archive-1_STUXNET/</loc>
+    
+    <lastmod>2023-05-10</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -19,6 +46,27 @@
   </url>
 
   
+  <url>
+    <loc>https://joe1sn.eu.org/tags/misc/</loc>
+    <lastmod>2023-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/tags/CVE/</loc>
+    <lastmod>2023-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
+  
+  <url>
+    <loc>https://joe1sn.eu.org/categories/CVE-Archive/</loc>
+    <lastmod>2023-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
 </urlset>

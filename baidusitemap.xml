@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://joe1sn.eu.org/2023/05/31/hello-world/</loc>
-    <lastmod>2023-05-31</lastmod>
+    <loc>https://joe1sn.eu.org/2023/05/09/CVE-Archive-4-Opt-Aurora/</loc>
+    <lastmod>2023-05-21</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2022/09/05/CVE-Archive-3-TAO/</loc>
+    <lastmod>2023-05-10</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2022/04/26/CVE-Archive-2-WANNACRY/</loc>
+    <lastmod>2023-05-10</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2022/04/18/CVE-Archive-1_STUXNET/</loc>
+    <lastmod>2023-05-10</lastmod>
   </url>
 </urlset> 

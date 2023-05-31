@@ -1,2 +1,8 @@
-https://joe1sn.eu.org/2023/05/31/hello-world/
+https://joe1sn.eu.org/2023/05/09/CVE-Archive-4-Opt-Aurora/
+https://joe1sn.eu.org/2022/09/05/CVE-Archive-3-TAO/
+https://joe1sn.eu.org/2022/04/26/CVE-Archive-2-WANNACRY/
+https://joe1sn.eu.org/2022/04/18/CVE-Archive-1_STUXNET/
 https://joe1sn.eu.org/
+https://joe1sn.eu.org/tags/misc/
+https://joe1sn.eu.org/tags/CVE/
+https://joe1sn.eu.org/categories/CVE-Archive/
