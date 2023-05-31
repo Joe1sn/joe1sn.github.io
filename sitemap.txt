@@ -39,6 +39,8 @@ https://joe1sn.eu.org/tags/dbg/
 https://joe1sn.eu.org/tags/Windows/
 https://joe1sn.eu.org/tags/kernel/
 https://joe1sn.eu.org/tags/windows/
+https://joe1sn.eu.org/tags/muud/
+https://joe1sn.eu.org/tags/web-framework/
 https://joe1sn.eu.org/categories/data-structure-algorithm/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/misc/
@@ -47,3 +49,4 @@ https://joe1sn.eu.org/categories/pentest/
 https://joe1sn.eu.org/categories/notes/os/
 https://joe1sn.eu.org/categories/CVE/
 https://joe1sn.eu.org/categories/notes/kernel/
+https://joe1sn.eu.org/categories/program/

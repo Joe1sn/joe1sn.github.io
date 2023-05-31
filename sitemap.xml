@@ -342,6 +342,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://joe1sn.eu.org/tags/muud/</loc>
+    <lastmod>2023-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/tags/web-framework/</loc>
+    <lastmod>2023-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -395,6 +409,13 @@
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/kernel/</loc>
+    <lastmod>2023-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/categories/program/</loc>
     <lastmod>2023-05-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
