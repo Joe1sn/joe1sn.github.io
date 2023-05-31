@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | SUDO堆溢出提权：从fuzz到exp [1]</title><meta name="description" content="&lt;h1 id=&quot;sudo堆溢出提权从fuzz到exp-1&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#sudo堆溢出提权从fuzz到exp-1&quot;&gt;&lt;/a&gt; SUDO堆溢出提权：从fuzz到exp [1]&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;前文：&lt;a href=&quot;https://blog.joe1sn.top/2022/01/04/CVE-2021-3156/&quot;&gt;https://blog.joe1sn.top/2022/01/04/CVE-2021-3156/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;受到youtuber：LiveOverflow的系列教程的启发，我发现在中文互联网上并没有相关的翻译教程，所以我想以实验报告的形式来创造这个从fuzz到exp的系列图文教程&lt;/p&gt;
+&lt;p&gt;原始视频合集：&lt;a href=&quot;https://www.youtube.com/watch?v=uj1FTiczJSE&amp;amp;list=PLhixgUqwRTjy0gMuT4C3bmjeZjuNQyqdx&quot;&gt;https://www.youtube.com/watch?v=uj1FTiczJSE&amp;amp;list=PLhixgUqwRTjy0gMuT4C3bmjeZjuNQyqdx&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;原始Blog：&lt;a href=&quot;https://liveoverflow.com/why-pick-sudo-research-target-part-1/&quot;&gt;https://liveoverflow.com/why-pick-sudo-research-target-part-1/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;原作者代码仓库：&lt;a href=&quot;https://github.com/LiveOverflow/pwnedit&quot;&gt;https://github.com/LiveOverflow/pwnedit&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">SUDO堆溢出提权：从fuzz到exp [1]</h3><div class="article__date metadata"><div class="post-info">2022/04/11</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/CVE/">CVE</a><a class="article__tags__link metadata" href="/tags/fuzz/">fuzz</a></div><div class="article__body"><h1 id="sudo堆溢出提权从fuzz到exp-1"><a class="markdownIt-Anchor" href="#sudo堆溢出提权从fuzz到exp-1"></a> SUDO堆溢出提权：从fuzz到exp [1]</h1>
+<blockquote>
+<p>前文：<a target="_blank" rel="noopener" href="https://blog.joe1sn.top/2022/01/04/CVE-2021-3156/">https://blog.joe1sn.top/2022/01/04/CVE-2021-3156/</a></p>
+<p>受到youtuber：LiveOverflow的系列教程的启发，我发现在中文互联网上并没有相关的翻译教程，所以我想以实验报告的形式来创造这个从fuzz到exp的系列图文教程</p>
+<p>原始视频合集：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uj1FTiczJSE&amp;list=PLhixgUqwRTjy0gMuT4C3bmjeZjuNQyqdx">https://www.youtube.com/watch?v=uj1FTiczJSE&amp;list=PLhixgUqwRTjy0gMuT4C3bmjeZjuNQyqdx</a></p>
+<p>原始Blog：<a target="_blank" rel="noopener" href="https://liveoverflow.com/why-pick-sudo-research-target-part-1/">https://liveoverflow.com/why-pick-sudo-research-target-part-1/</a></p>
+<p>原作者代码仓库：<a target="_blank" rel="noopener" href="https://github.com/LiveOverflow/pwnedit">https://github.com/LiveOverflow/pwnedit</a></p>
+</blockquote>
+<span id="more"></span>
+<blockquote>
+<p>My previous blog: <a target="_blank" rel="noopener" href="https://blog.joe1sn.top/2022/01/04/CVE-2021-3156/">https://blog.joe1sn.top/2022/01/04/CVE-2021-3156/</a></p>
+<p>I was inspired by the LiveOverflow’s Sudo Vulnerability Walkthrough on youtube, but i found there’s no Chinese version of this walkthrough tutorial, so i decided to write in experimental report way to create this “from fuzz to exploit” series.</p>
+<p>Original Videos: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uj1FTiczJSE&amp;list=PLhixgUqwRTjy0gMuT4C3bmjeZjuNQyqdx">https://www.youtube.com/watch?v=uj1FTiczJSE&amp;list=PLhixgUqwRTjy0gMuT4C3bmjeZjuNQyqdx</a></p>
+<p>Original Blog: <a target="_blank" rel="noopener" href="https://liveoverflow.com/why-pick-sudo-research-target-part-1/">https://liveoverflow.com/why-pick-sudo-research-target-part-1/</a></p>
+<p>Source Project Code: <a target="_blank" rel="noopener" href="https://github.com/LiveOverflow/pwnedit">https://github.com/LiveOverflow/pwnedit</a></p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本节内容：</p>
+<p>Why Pick sudo as Research Target? | Ep. 01</p>
+<p>How Fuzzing with AFL works! | Ep. 02</p>
+</blockquote>
+<h1 id="环境搭建"><a class="markdownIt-Anchor" href="#环境搭建"></a> 环境搭建</h1>
+<p>在最开始的<a target="_blank" rel="noopener" href="https://github.com/LiveOverflow/pwnedit">复现博客</a>中，我最初打算在docker中搭建整个项目，但是由于在docker上exp需要微调和学业压力导致我并不能花太多时间在上面，所以我直接使用的虚拟机。不过在原始的备份文档中我依然保存了当时搭建docker的记录，这里和原作者使用的方法类似.</p>
+<img src="https://img.joe1sn.top/uploads/big/f302c3d5fd27620789f4e5d42a90a000.png" alt="image-20220411105826186" style="zoom:50%;" />
+<h2 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> Docker</h2>
+<p>LiveOverflow在项目的git仓库中有了这个dockerfile文件。因为中国GFW，所以我换了下源，如果不需要可以删掉。我这里用的是windows的DesktopDocker搭建</p>
+<p><code>ep1\Dockerfile</code></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:<span class="number">20.04</span></span><br><span class="line"><span class="keyword">ENV</span> LC_CTYPE C.UTF-<span class="number">8</span></span><br><span class="line"><span class="keyword">ARG</span> DEBIAN_FRONTEND=noninteractive</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> sed -i <span class="string">&#x27;s/archive.ubuntu.com/mirrors.aliyun.com/g&#x27;</span> /etc/apt/sources.list &amp;&amp;\</span></span><br><span class="line"><span class="language-bash">    apt-get update &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    apt-get install -yq gcc make wget curl git vim gdb clang llvm python3 python3-pip bsdmainutils</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">cd</span> /root/ &amp;&amp; wget https://www.sudo.ws/dist/sudo-1.8.31p2.tar.gz &amp;&amp; tar -xvf sudo-1.8.31p2.tar.gz &amp;&amp; <span class="built_in">cd</span> sudo-1.8.31p2 &amp;&amp; ./configure &amp;&amp; make &amp;&amp; make install</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">cd</span> /root/ &amp;&amp; git <span class="built_in">clone</span> https://github.com/google/AFL &amp;&amp; <span class="built_in">cd</span> AFL &amp;&amp; make &amp;&amp; <span class="built_in">cd</span> llvm_mode &amp;&amp; make &amp;&amp; <span class="built_in">cd</span> .. &amp;&amp; make install</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> useradd -ms /bin/bash user</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&#x27;export PS1=&quot;\[\e]0;\u@\h: \w\a\]\[\033[01;31m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]# &quot;&#x27;</span> &gt;&gt; /root/.bashrc</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> <span class="built_in">echo</span> <span class="string">&#x27;export PS1=&quot;\[\e]0;\u@\h: \w\a\]\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$ &quot;&#x27;</span> &gt;&gt; /home/user/.bashrc</span></span><br><span class="line"><span class="keyword">USER</span> <span class="keyword">user</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /home/user</span></span><br></pre></td></tr></table></figure>
+<p>从 <strong>ubuntu20.04</strong> 的基础镜像中，设置编码为 <strong>ENV LC_CTYPE C.UTF-8</strong>，设置非交互式操作(<strong>ARG DEBIAN_FRONTEND=noninteractive</strong>)，升级源并安装必要的编译运行环境，之后下载有漏洞的 <strong>sudoedit</strong> 源代码编译安装。</p>
+<p>之后在该docker中安装 <strong>AFL(American Fuzzy Lop)</strong> 的模糊测试软件，添加普通用户 <strong>user</strong>，最后修改命令提示符的界面美化一下并设置工作目录</p>
+<p>你可以使用<code>docker build . -t sudo1</code>来创建docker，但是同时作者编写了一个makefile来方便管理</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">.PHONY : all stop build run attach root</span><br><span class="line">all : stop build run</span><br><span class="line"></span><br><span class="line"><span class="section">stop:</span></span><br><span class="line">	-docker stop sudo1</span><br><span class="line">	sleep 1</span><br><span class="line">	-docker rmi sudo1</span><br><span class="line"></span><br><span class="line"><span class="section">build:</span></span><br><span class="line">	docker build --no-cache -t sudo1 .</span><br><span class="line"></span><br><span class="line"><span class="section">run:</span></span><br><span class="line">	docker run --rm -v <span class="variable">$(CURDIR)</span>:/pwd --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -d --name sudo1 -i sudo1</span><br><span class="line"></span><br><span class="line"><span class="section">attach:</span></span><br><span class="line">	docker exec -it sudo1 /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="section">root:</span></span><br><span class="line">	docker exec -u root -it sudo1 /bin/bash</span><br></pre></td></tr></table></figure>
+<p>在<code>make run</code>的时候设置了<code>-v $(CURDIR):/pwd</code>参数可以让该目录下的文件同样位于在docker中的<code>/pwd</code>中，但是由于我使用的是DesktopDocker+VsCode(Docker plugin)，对我来说不是很必要</p>
+<p>所以可以<code>make</code>或者<code>make build</code>来创建docker</p>
+<p><img src="https://img.joe1sn.top/uploads/big/450908d4f64d32270280ba5fb238de54.png" alt="image-20220411114503969" /></p>
+<p>&gt;&gt;遇到的问题</p>
+<ul>
+<li>
+<p>ERROR [4/8] RUN cd /root/ &amp;&amp; git clone <a target="_blank" rel="noopener" href="https://github.com/google/AFL">https://github.com/google/AFL</a> &amp;&amp; cd AFL &amp;&amp; make &amp;&amp; make install</p>
+<p>中国大陆网络屏蔽了github，导致其无法git仓库，可以挂代理，或者在docker创建好过后再利用<code>pwd</code>文件夹放入afl</p>
+</li>
+<li>
+<p>docker搭建时间长</p>
+<p>正常现象，更新下载的时间有点长，这取决于网速</p>
+</li>
+</ul>
+<p><img src="https://img.joe1sn.top/uploads/big/768801bd3a1149d8f0edea6cb2b7643c.png" alt="image-20220411151848563" /></p>
+<p>创建容器<code>make run</code></p>
+<p>创建完成后使用<code>make attach</code>进入docker</p>
+<p><img src="https://img.joe1sn.top/uploads/big/690559ec63975ea95406d03d0b53c308.png" alt="image-20220411151953764" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/c0585fb3bab085a968526cfe3eb7a70c.png" alt="image-20220411152135747" /></p>
+<h2 id="afl"><a class="markdownIt-Anchor" href="#afl"></a> AFL</h2>
+<p>项目链接：<a target="_blank" rel="noopener" href="https://lcamtuf.coredump.cx/afl/">https://lcamtuf.coredump.cx/afl/</a></p>
+<blockquote>
+<p><em>American fuzzy lop</em> is a security-oriented <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Fuzz_testing">fuzzer</a> that employs a novel type of compile-time instrumentation and genetic algorithms to automatically discover clean, interesting test cases that trigger new internal states in the targeted binary. This substantially improves the functional coverage for the fuzzed code. The compact <a target="_blank" rel="noopener" href="https://lcamtuf.coredump.cx/afl/demo/">synthesized corpora</a> produced by the tool are also useful for seeding other, more labor- or resource-intensive testing regimes down the road.</p>
+</blockquote>
+<hr />
+<p><strong>编译安装AFL</strong></p>
+<p>这里我是去掉git afl的，所以后来要装上</p>
+<p><img src="https://img.joe1sn.top/uploads/big/428007e38a5a746d930318b906a62cea.png" alt="image-20220411152517640" /><strong>问题：权限不够</strong></p>
+<ul>
+<li>以<code>docker exec -it -u root ContainerID /bin/bash</code>进入，然后编译安装afl就行了</li>
+</ul>
+<h1 id="开始fuzz"><a class="markdownIt-Anchor" href="#开始fuzz"></a> 开始FUZZ</h1>
+<h2 id="afl编译sudo"><a class="markdownIt-Anchor" href="#afl编译sudo"></a> AFL编译sudo</h2>
+<p>AFL的测试是以白盒测试为基础的，我们要使用AFL的编译器对代码进行重新编译；虽然黑盒也行，但是要依靠插桩和qemu</p>
+<p>进入sudo文件夹</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CC=afl-gcc ./configure --disable-shared</span><br><span class="line">make clean</span><br><span class="line">make -j8</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.joe1sn.top/uploads/big/0d8829a95da80ff2fc0f201870bdaac0.png" alt="image-20220411154306319" />出现图中<code>afl-as</code>之类的提示字符，说明正在使用afl编译</p>
+<h2 id="afl进行分析与fuzz"><a class="markdownIt-Anchor" href="#afl进行分析与fuzz"></a> AFL进行分析与fuzz</h2>
+<p>AFL的分析方式有两种</p>
+<ul>
+<li>
+<p>输入为文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz -i input_cases -o output_cases -- ./app.bin @@</span><br></pre></td></tr></table></figure>
+<p>@@就代表我们的输入示例</p>
+</li>
+<li>
+<p>输入为<code>stdin</code>输入流</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz -i input_cases -o output_cases -- ./app.bin</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>但是这里我们的是使用sudo参数处理的字符串</p>
+<p>原作者通过搜索<code>afl fuzz argv</code>发现了在AFL的<code>experimental</code>实验性质文件夹中的<code>argv-fuzz-inl.h</code>头文件，具有以下描述</p>
+<p><img src="https://img.joe1sn.top/uploads/big/a30c3c558427f1ccd4109b75c8038d04.png" alt="image-20220411155120876" /></p>
+<p>所以我们找到sudo main函数的文件，并且将<code>argv-fuzz-inl.h</code>复制到同一个文件夹下，然后在<code>main</code>函数附近添加<code>AFL_INIT_ARGV()</code>函数</p>
+<img src="https://img.joe1sn.top/uploads/big/5626908421e1397f67aaa9f2398fbc12.png" alt="image-20220411155834192" style="zoom:80%;" />
+<p><img src="https://img.joe1sn.top/uploads/big/53c3edb228a27cb149569c7ef2e2bcdf.png" alt="image-20220411155926053" /></p>
+<p><strong><code>AFL_INIT_ARGV()</code>的原理</strong></p>
+<p>可以看原来的头文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> AFL_INIT_ARGV() do &#123; argv = afl_init_argv(&amp;argc); &#125; while (0)</span></span><br></pre></td></tr></table></figure>
+<p><code>afl_init_argv</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">char</span>** <span class="title function_">afl_init_argv</span><span class="params">(<span class="type">int</span>* argc)</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="type">static</span> <span class="type">char</span>  in_buf[MAX_CMDLINE_LEN];</span><br><span class="line">  <span class="type">static</span> <span class="type">char</span>* ret[MAX_CMDLINE_PAR];</span><br><span class="line"></span><br><span class="line">  <span class="type">char</span>* ptr = in_buf;</span><br><span class="line">  <span class="type">int</span>   rc  = <span class="number">1</span>; <span class="comment">/* start after argv[0] */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (read(<span class="number">0</span>, in_buf, MAX_CMDLINE_LEN - <span class="number">2</span>) &lt; <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">while</span> (*ptr) &#123;</span><br><span class="line">    ret[rc] = ptr;</span><br><span class="line">      </span><br><span class="line">    <span class="comment">/* insert &#x27;\0&#x27; at the end of ret[rc] on first space-sym */</span></span><br><span class="line">    <span class="keyword">while</span> (*ptr &amp;&amp; !<span class="built_in">isspace</span>(*ptr)) ptr++;</span><br><span class="line">    *ptr = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    ptr++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* skip more space-syms */</span></span><br><span class="line">    <span class="keyword">while</span> (*ptr &amp;&amp; <span class="built_in">isspace</span>(*ptr)) ptr++;</span><br><span class="line">    rc++;</span><br><span class="line">  &#125;</span><br><span class="line">  *argc = rc;</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本质上该函数就是一个宏定义，将原始的<code>argv</code>替换为<code>afl_init_argv</code>，从而能被后续的fuzzer所分析</p>
+<p><code>afl_init_argv</code>流程</p>
+<ul>
+<li>输入流<code>in_buf</code>开始读取</li>
+<li>指针不为NULL和空格一直读取</li>
+<li>出现空格或NULL置结尾为NULL，
+<ul>
+<li>若为空格，参数数目<code>rc</code>+1</li>
+</ul>
+</li>
+<li>最后返回<code>ret</code>，让<code>ret</code>代替了原来的<code>argv</code>，同时<code>argc</code>被改写为<code>rc</code></li>
+</ul>
+<h2 id="重编译sudo"><a class="markdownIt-Anchor" href="#重编译sudo"></a> 重编译sudo</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CC=afl-gcc ./configure --disable-shared</span><br><span class="line">make clean &amp;&amp; make -j8</span><br></pre></td></tr></table></figure>
+<p>这里就直接略过afl的测试了，因为肯定会崩溃</p>
+<p><img src="https://img.joe1sn.top/uploads/big/0208d8e5bfeb9aea178c81035e2e4bae.png" alt="image-20220411161732603" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/1e6fb1ff1919070ada5e8b05a4898b63.png" alt="image-20220411161840644" /></p>
+<h1 id="afl是如何工作的"><a class="markdownIt-Anchor" href="#afl是如何工作的"></a> AFL是如何工作的</h1>
+<p>这里开始是第二节的内容了。</p>
+<p>我们的主要目标是fuzz出sudo存在的CVE-2021-3156漏洞，然后完成exp的编写，所以并不会细致的讲解fuzz的具体工作原理和过程。不过fuzz主要有以下几个过程：</p>
+<ul>
+<li>
+<p>预处理</p>
+<ol>
+<li>分析和获取有用信息，使用PIN，符号执行，污点检查</li>
+<li>黑盒白盒</li>
+</ol>
+</li>
+<li>
+<p>输入构建</p>
+<p>从数据 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>（种子）产生大量变异数据 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span>。</p>
+</li>
+<li>
+<p>输入选择</p>
+<p>过滤无效数据，优化模糊测试</p>
+</li>
+<li>
+<p>评估</p>
+<p>大多数关于模糊的研究集中在两个指标上：覆盖率和利用漏洞的平均时间</p>
+</li>
+</ul>
+<h2 id="关于上一节的报错"><a class="markdownIt-Anchor" href="#关于上一节的报错"></a> 关于上一节的报错</h2>
+<p>这里就体现了互联网的艺术：<a target="_blank" rel="noopener" href="https://milek7.pl/howlongsudofuzz/%EF%BC%8C%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E9%81%87%E5%88%B0%E4%BA%86%E7%9B%B8%E5%90%8C%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%96%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%98%AF%EF%BC%9A">https://milek7.pl/howlongsudofuzz/，这篇文章遇到了相同的问题他的解决方案是：</a></p>
+<p>将afl-gcc编译器替换为基于LLVM的<code>afl-clang</code>编译</p>
+<blockquote>
+<p>For some reason afl-gcc instrumentation didn’t work, so I used LLVM-based one. We just need to override <code>CC</code> for <code>./configure</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CC=afl-clang-fast ./configure</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>Clang</strong>是个啥？</p>
+<p>了解过编译原理的人，或者编写恶意代码的人对这个一定很熟悉</p>
+<blockquote>
+<p>The Clang project provides a language front-end and tooling infrastructure for languages in the C language family (C, C++, Objective C/C++, OpenCL, CUDA, and RenderScript) for the <a target="_blank" rel="noopener" href="https://www.llvm.org/">LLVM</a> project. Both a GCC-compatible compiler driver (<code>clang</code>) and an MSVC-compatible compiler driver (<code>clang-cl.exe</code>) are provided. You can <a target="_blank" rel="noopener" href="https://clang.llvm.org/get_started.html">get and build</a> the source today.</p>
+</blockquote>
+<p>编译器的结构</p>
+<p><img src="https://img.joe1sn.top/uploads/big/e558964575a6d2a58e84d70d04b01ffc.png" alt="image-20220411163626555" /></p>
+<p>简单理解的话就是说Clang是gcc编译器的另外一个实现</p>
+<p>同时AFL也支持使用<code>afl-clang</code>，和<code>afl-gcc</code>的用法相同</p>
+<blockquote>
+<p>The clang wrappers (afl-clang and afl-clang++) can be used in the same way; clang users may also opt to leverage a higher-performance instrumentation mode, as described in llvm_mode/README.llvm.</p>
+</blockquote>
+<p>这就涉及到<code>afl-clang-fast</code>的安装了</p>
+<h2 id="解决上一节的报错"><a class="markdownIt-Anchor" href="#解决上一节的报错"></a> 解决上一节的报错</h2>
+<p><strong>安装afl-clang和afl-clang++</strong></p>
+<ul>
+<li>
+<p>安装clang和llvm（dockerfile中已经提前装好了）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install llvm clang</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>进入编译安装afl-clang和afl-clang++</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd llvm_mode</span><br><span class="line">make</span><br><span class="line">cd ..</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>重编译sudo</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CC=afl-clang-fast ./configure --disable-shared &amp;&amp; make -j8</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.joe1sn.top/uploads/big/67a66b9d0ed9dd1b0be5e7a8c5031f78.png" alt="image-20220411170002807" /></p>
+<p>这里我发现其实在user用户下也会Segmentation fault，这个是因为权限的问题，后面就大致能感受出来了</p>
+<h2 id="开始fuzz-2"><a class="markdownIt-Anchor" href="#开始fuzz-2"></a> 开始Fuzz</h2>
+<p><strong>创建输入输出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir ../input ../output</span><br><span class="line">echo -en &quot;-l\x00&quot; &gt; ../input/testcase1</span><br><span class="line">afl-fuzz -i ../input/ -o ../output/ -- ./src/sudo</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.joe1sn.top/uploads/big/df0ee6e0b7abad069975cccff20b3121.png" alt="image-20220411170434520" /></p>
+<h2 id="afl的说明"><a class="markdownIt-Anchor" href="#afl的说明"></a> AFL的说明</h2>
+<p>AFL是以基于覆盖率测试的模糊测试工具，将编译过的数据送到被测试的程序中。被测试的程序中有使用AFL编译器编译时的插桩代码(<code>__afl_maybe_log</code>)，可以让编译器返回那些函数被执行过（被覆盖到）</p>
+<p>例如在windows的模糊测试中，可以使用DynamoRIO对文件进行覆盖率测试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">D:\HackTools\Fuzz\winafl\build_x64\bin\Release&gt;D:\HackTools\Fuzz\DynamoRIO-Windows-8.0.0-1\bin64\drrun.exe -t drcov -- test.exe not_kitty.bmp</span><br><span class="line">Error 1</span><br></pre></td></tr></table></figure>
+<p>然后再IDA中加载覆盖率文件</p>
+<p><img src="https://img.joe1sn.top/uploads/big/969249f2d05503b202ad2b8561cc624a.png" alt="image-20220411175334598" /></p>
+<p>其中绿色的就是单次执行被覆盖到的代码，被覆盖到的代码越多，测试也就越准确。</p>
+<p>所以AFL可以通过插桩代码，不断改进输入的数据，从而得到更高的覆盖率</p>
+<h2 id="会得到漏洞吗"><a class="markdownIt-Anchor" href="#会得到漏洞吗"></a> 会得到漏洞吗？</h2>
+<p><strong>不会的</strong>，在<a target="_blank" rel="noopener" href="https://blog.joe1sn.top/2022/01/04/CVE-2021-3156/">前文</a>中已经写过了</p>
+<blockquote>
+<p><code>sudoedit</code>就是一个链接到<code>sudo</code>的文件</p>
+</blockquote>
+<p>但是我们是尝试独立挖掘出这个漏洞，并且 <strong>sudoedit</strong> 是作为独立插件编译得，所以我们并不能直接的测试<code>sudoedit -s</code></p>
+<p><strong>在测试前了解你要测试的程序</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">man sudo</span><br><span class="line">whereis sudo</span><br><span class="line">whereis sudoedit</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.joe1sn.top/uploads/big/f2b8b0e3bf900339ef85824fb9500032.png" alt="image-20220411185630941" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/1190735e7304168525f26ff33563b32d.png" alt="image-20220411185744345" /></p>
+<p>&gt;&gt;问题</p>
+<ul>
+<li>
+<p>This system has been minimized by removing packages and content that are not required on a system that users do not log <a target="_blank" rel="noopener" href="http://into.To">into.To</a> restore this content, including manpages, you can run the ‘unminimize’ command. You will still need to ensure the ‘man-db’ package is installed.</p>
+<p>解决方法和造成原因在这儿：<a target="_blank" rel="noopener" href="https://github.com/docker/for-linux/issues/639#issuecomment-478765756">https://github.com/docker/for-linux/issues/639#issuecomment-478765756</a></p>
+<p>直接输入<code>unminimize</code>，这会花很长的时间，真的很长</p>
+</li>
+</ul>
+<p><strong>新的思路</strong></p>
+<p>细心一点可能会发现在之前的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">char</span>** <span class="title function_">afl_init_argv</span><span class="params">(<span class="type">int</span>* argc)</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="type">static</span> <span class="type">char</span>  in_buf[MAX_CMDLINE_LEN];</span><br><span class="line">  <span class="type">static</span> <span class="type">char</span>* ret[MAX_CMDLINE_PAR];</span><br><span class="line"></span><br><span class="line">  <span class="type">char</span>* ptr = in_buf;</span><br><span class="line">  <span class="type">int</span>   rc  = <span class="number">1</span>; <span class="comment">/* start after argv[0] */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (read(<span class="number">0</span>, in_buf, MAX_CMDLINE_LEN - <span class="number">2</span>) &lt; <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">while</span> (*ptr) &#123;</span><br><span class="line">    ret[rc] = ptr;</span><br><span class="line">      </span><br><span class="line">    <span class="comment">/* insert &#x27;\0&#x27; at the end of ret[rc] on first space-sym */</span></span><br><span class="line">    <span class="keyword">while</span> (*ptr &amp;&amp; !<span class="built_in">isspace</span>(*ptr)) ptr++;</span><br><span class="line">    *ptr = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    ptr++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* skip more space-syms */</span></span><br><span class="line">    <span class="keyword">while</span> (*ptr &amp;&amp; <span class="built_in">isspace</span>(*ptr)) ptr++;</span><br><span class="line">    rc++;</span><br><span class="line">  &#125;</span><br><span class="line">  *argc = rc;</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中<code>rc=1</code>，说明是从<code>argv[1]</code>开始创建fake_argv的，但是我们知道<code>argv[0]</code>就是程序自身，那么我们就可以通过fuzz <code>argv[0]</code>从而找到sudoedit。那么修改试试看，重新编译sudo</p>
+<p><img src="https://img.joe1sn.top/uploads/big/57cef8cb027c29a2455c878105f39006.png" alt="image-20220411195138050" /></p>
+<p>&gt;&gt;问题</p>
+<ul>
+<li>
+<p>为什么没有变化</p>
+<p>改的是同级目录下的<code>argv-fuzz-inl.h</code>文件</p>
+</li>
+</ul>
+<p>**为什么都一样？**问题的解决同样在这里：<a target="_blank" rel="noopener" href="https://milek7.pl/howlongsudofuzz/">https://milek7.pl/howlongsudofuzz/</a></p>
+<blockquote>
+<p>Quick test shows that sudo/sudoedit selection doesn’t work correctly from testcases passed in stdin, because for some reason it uses <code>__progname</code>.</p>
+</blockquote>
+<p>sudo/sudoedit不会直接使用argv[0]作为程序名称，而是使用<code>__progname</code></p>
+<p>阅读sudo源代码我们发现</p>
+<p><img src="https://img.joe1sn.top/uploads/big/b7b60307fbd2f941b818dab1a01f3a92.png" alt="image-20220411190411773" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/e8aa3bd4c3c5953c534746ae56f3de1d.png" alt="image-20220411190748133" /></p>
+<ul>
+<li>
+<p>在<code>main</code>中</p>
+<p>参数数目&gt;0，传递<code>argv[0]</code>，否则使用sudo作为参数</p>
+</li>
+<li>
+<p>在<code>ep1\sudo-1.8.31p2\lib\util\progname.c: init_progname</code>中</p>
+<p>定义了<code>HAVE___PROGNAME</code>，那么在编译时如果<code>__progname</code>不存在，才会用<code>argv[0]</code>做成程序名</p>
+<p>（因为vscode认为是windwos环境，所以这里是灰色的）</p>
+</li>
+<li>
+<p>解决：直接删掉后重新编译</p>
+</li>
+</ul>
+<p><img src="https://img.joe1sn.top/uploads/big/f8957da611aa4f7cd4cabde4f51d316b.png" alt="image-20220411200458294" /></p>
+<h2 id="开始多核fuzz"><a class="markdownIt-Anchor" href="#开始多核fuzz"></a> 开始多核fuzz</h2>
+<ul>
+<li>
+<p><code>-M</code></p>
+<p>选定主fuzz的单元（Master）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz -M master -i /tmp/in -o /tmp/out/ -- ./src/sudo</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>-S</p>
+<p>选定为从属fuzz单元（Slave）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz -S slave -i /tmp/in -o /tmp/out/ -- ./src/sudo</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://img.joe1sn.top/uploads/big/d5b41e9d5a6683942cfd3091d5a0cfb8.png" alt="image-20220411201155776" /></p>
+</div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2022/04/13/sudo-fuzz2exp-2/">prev_post</a><a class="pagination__link pagination__next" href="/2022/03/19/java-day3-JDBC/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
