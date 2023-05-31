@@ -5,6 +5,9 @@ https://joe1sn.eu.org/2023/02/16/windows_kernel_driver_1/
 https://joe1sn.eu.org/2022/03/16/java-d1-annotation/
 https://joe1sn.eu.org/2022/03/16/java-d1-Junit/
 https://joe1sn.eu.org/2021/03/30/Maleware/
+https://joe1sn.eu.org/2022/06/10/windbg-note/
+https://joe1sn.eu.org/2022/07/29/reverse-shell/
+https://joe1sn.eu.org/2022/08/24/os-allinone/
 https://joe1sn.eu.org/2022/04/14/sudo-fuzz2exp-3/
 https://joe1sn.eu.org/2022/04/13/sudo-fuzz2exp-2/
 https://joe1sn.eu.org/2022/04/11/sudo-fuzz2exp-1/
@@ -19,7 +22,13 @@ https://joe1sn.eu.org/tags/git/
 https://joe1sn.eu.org/tags/fuzz/
 https://joe1sn.eu.org/tags/kernel/
 https://joe1sn.eu.org/tags/windows/
+https://joe1sn.eu.org/tags/%E6%B8%97%E9%80%8F/
+https://joe1sn.eu.org/tags/dbg/
+https://joe1sn.eu.org/tags/Windows/
+https://joe1sn.eu.org/tags/os/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
 https://joe1sn.eu.org/categories/CVE/
 https://joe1sn.eu.org/categories/notes/kernel/
+https://joe1sn.eu.org/categories/pentest/
+https://joe1sn.eu.org/categories/notes/os/
