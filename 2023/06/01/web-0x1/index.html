@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | web_0x1</title><meta name="description" content="&lt;h1 id=&quot;muud开发基础结构解析&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#muud开发基础结构解析&quot;&gt;&lt;/a&gt; 【Muud开发】基础结构解析&lt;/h1&gt;
+&lt;p&gt;从0到1开发一个勉强能用的python web“框架”&lt;/p&gt;
+&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/Joe1sn/muud&quot;&gt;https://github.com/Joe1sn/muud&lt;/a&gt;&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">web_0x1</h3><div class="article__date metadata"><div class="post-info">2023/06/01</div></div><div class="article__tags metadata">Tags:
+</div><div class="article__body"><h1 id="muud开发基础结构解析"><a class="markdownIt-Anchor" href="#muud开发基础结构解析"></a> 【Muud开发】基础结构解析</h1>
+<p>从0到1开发一个勉强能用的python web“框架”</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/Joe1sn/muud">https://github.com/Joe1sn/muud</a></p>
+<span id="more"></span>
+<h2 id="简单介绍"><a class="markdownIt-Anchor" href="#简单介绍"></a> 简单介绍</h2>
+<p>​	在毕业设计的时候，初始选题为《基于XMPP的即时通讯系统》，想的是自己照着RFC写一遍XMPP协议，但是时间不够（毕竟要上班）。所以把废案再利用，抽出其中的一些部分，<strong>从Socket到web框架</strong>，实现一个简单的CURD功能，锻炼一下自己的文档化编程能力。受我个人能力有限会随时断更，一路上只有vscode和chatGPT以及所需要的RFC文档。</p>
+<p>​	再说说已实现的部分，首先是确定在Linux上运行的，使用python语言</p>
+<ul>
+<li>
+<p>使用epoll模型完成了部分HTTP服务器的功能</p>
+<p><img src="https://img.joe1sn.top/uploads/big/dbd4bb8a1731037c6334379055b450bc.png" alt="image-20230601015224293" /></p>
+</li>
+<li>
+<p>sqlalchemy完成了数据库的ORM实现</p>
+<p><img src="https://img.joe1sn.top/uploads/big/e832ffc52b70c65e6e796d14c5492273.png" alt="数据库实现" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/204faa35fc0267fca1b4b8dd4e05f435.png" alt="ORM使用示例" /></p>
+</li>
+<li>
+<p>路由通过闭包完成</p>
+<p><img src="https://img.joe1sn.top/uploads/big/9a90cd82302a2b47ca3be38818feccc7.png" alt="image-20230601015455217" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/326180139c370cd9bb466210db93314d.png" alt="image-20230601015736199" /></p>
+</li>
+<li>
+<p>视图部分编写（只考虑JSON传递）</p>
+<p><img src="https://img.joe1sn.top/uploads/big/55f5abfa762abc34bf49fe4d6389f374.png" alt="image-20230601015921484" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/306a31c86f6d380858ddc90d451683af.png" alt="image-20230601015909570" /></p>
+</li>
+<li>
+<p>启动部分参考了Django的设计</p>
+<p><img src="https://img.joe1sn.top/uploads/big/0967be71afa21dab39ca0ca3f4809ea4.png" alt="image-20230601020119447" /></p>
+</li>
+</ul>
+<p>最后运行的效果</p>
+<p><img src="https://img.joe1sn.top/uploads/big/ef7a4d4dbaea1b76e34445f36e3c71da.png" alt="image-20230601020247259" /></p>
+<h2 id="需求分析"><a class="markdownIt-Anchor" href="#需求分析"></a> 需求分析</h2>
+<p>根据ChatGPT，一个典型的Python Web框架通常由以下几个核心组件组成：</p>
+<ol>
+<li>路由（Routing）：路由用于将传入的HTTP请求映射到相应的处理程序或视图函数上。它确定了不同URL路径与应用程序中的不同功能点之间的关联关系。</li>
+<li>视图（Views）：视图是处理HTTP请求并生成HTTP响应的函数或方法。它们接收来自路由的请求并执行相应的逻辑，最后返回响应给客户端。</li>
+<li>模板引擎（Template Engine）：模板引擎允许开发者将静态模板和动态数据结合，生成最终的HTML响应。模板引擎通常支持模板语法、变量替换、条件判断、循环等功能，以简化动态内容的生成。</li>
+<li>中间件（Middleware）：中间件是位于请求和视图之间的组件，用于在请求到达视图之前或响应返回客户端之前执行一些通用的功能。中间件可以处理身份验证、请求预处理、错误处理等任务。</li>
+<li>数据库访问（Database Access）：Web框架通常提供了对数据库的支持，以便应用程序可以与数据库进行交互。这包括连接数据库、执行查询和操作、ORM（对象关系映射）等功能。</li>
+<li>表单处理（Form Handling）：Web应用程序通常需要处理用户提交的表单数据。框架提供了表单验证、数据绑定、错误处理等功能，使开发者可以方便地处理表单数据。</li>
+<li>身份验证与授权（Authentication and Authorization）：身份验证用于验证用户的身份，而授权则用于确定用户是否有权限执行特定操作。框架通常提供了身份验证和授权的支持，以便开发者可以轻松实现用户认证和授权功能。</li>
+<li>测试框架（Testing Framework）：测试框架用于编写和执行自动化测试，以确保应用程序的正确性和稳定性。它提供了测试用例的编写、运行和断言等功能。</li>
+</ol>
+<p>后来的项目像参考Django的设计</p>
+<p>目前项目缺少的：</p>
+<ul>
+<li>模板渲染：设计的时候考虑到前后端分离是开发，没有想过渲染</li>
+<li>中间件：完全没有设计</li>
+<li>表单处理：完全没有设计</li>
+<li>测试框架：还在学</li>
+</ul>
+<p>对于Django这样的框架来说，开启一个项目后，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── 开启的app名称</span><br><span class="line">│   ├── admin.py</span><br><span class="line">│   ├── apps.py</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── migrations</span><br><span class="line">│   ├── models.py</span><br><span class="line">│   ├── tests.py</span><br><span class="line">│   └── views.py</span><br><span class="line">├── 项目名称</span><br><span class="line">│   ├── asgi.py</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── settings.py</span><br><span class="line">│   ├── urls.py</span><br><span class="line">│   └── wsgi.py</span><br><span class="line">├── manage.py</span><br><span class="line">├── static</span><br><span class="line">└── templates</span><br></pre></td></tr></table></figure>
+<p><code>views.py</code>是视图、<code>models.py</code>是ORM对象、<code>asgi.py\wsgi.py</code>是HTTP服务、<code>setting.py</code>是设置、<code>url.py</code>是路由，项目从<code>manage,py</code>开始，那么就可以整理一下原来的代码了。</p>
+<p>那么目前项目的结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">├── config</span><br><span class="line">│   ├── client.conf</span><br><span class="line">│   ├── database.conf        </span><br><span class="line">│   ├── server.conf</span><br><span class="line">│   ├── server.crt</span><br><span class="line">│   ├── server.csr</span><br><span class="line">│   └── server.key</span><br><span class="line">├── manage.py</span><br><span class="line">├── README.md</span><br><span class="line">├── requirements.txt</span><br><span class="line">├── rprint.py</span><br><span class="line">├── server</span><br><span class="line">│   ├── db.py</span><br><span class="line">│   ├── models.py     </span><br><span class="line">│   ├── serialization.py</span><br><span class="line">│   ├── server.py</span><br><span class="line">│   ├── urls.py</span><br><span class="line">│   ├── utils</span><br><span class="line">│   │   ├── autoreload.py</span><br><span class="line">│   │   ├── epollcontrol.py</span><br><span class="line">│   │   ├── functional.py</span><br><span class="line">│   └── views.py</span><br><span class="line">└── test</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>config</strong></p>
+<p>包含数据库配置(<code>database.conf</code>)，SSL使用的证书(<code>server.csr</code>)和key(<code>server.key</code>)，socket服务配置(<code>server.conf</code>)</p>
+</li>
+<li>
+<p><strong>utils</strong></p>
+<p>一些帮助模块</p>
+</li>
+<li>
+<p><strong>server</strong></p>
+<p>主要功能实现，包括路由、epoll管理、数据库相关，其中<code>views.py</code>可以编写api，<code>urls.py</code>中设置路由</p>
+</li>
+<li>
+<p><strong>test</strong></p>
+<p>一些测试用例</p>
+</li>
+</ul>
+<p>目前应该专注于第一块：优化epoll性能以及wsgi、asgi的实现。</p>
+</div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__next" href="/2023/05/24/windows-kernel-1-baisc/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
