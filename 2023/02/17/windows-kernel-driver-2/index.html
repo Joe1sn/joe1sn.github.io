@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | windows_kernel_driver_2</title><meta name="description" content="&lt;h1 id=&quot;驱动开发-2&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#驱动开发-2&quot;&gt;&lt;/a&gt; [驱动开发] 2&lt;/h1&gt;
-&lt;ul&gt;
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | windows内核驱动 2-页表探索</title><meta name="description" content="&lt;ul&gt;
 &lt;li&gt;探索CR4&lt;/li&gt;
 &lt;li&gt;探索页面
 &lt;ul&gt;
@@ -8,9 +7,8 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
-</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">windows_kernel_driver_2</h3><div class="article__date metadata"><div class="post-info">2023/02/17</div></div><div class="article__tags metadata">Tags:
-<a class="article__tags__link metadata" href="/tags/kernel/">kernel</a><a class="article__tags__link metadata" href="/tags/windows/">windows</a></div><div class="article__body"><h1 id="驱动开发-2"><a class="markdownIt-Anchor" href="#驱动开发-2"></a> [驱动开发] 2</h1>
-<ul>
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">windows内核驱动 2-页表探索</h3><div class="article__date metadata"><div class="post-info">2023/02/17</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/kernel/">kernel</a><a class="article__tags__link metadata" href="/tags/windows/">windows</a></div><div class="article__body"><ul>
 <li>探索CR4</li>
 <li>探索页面
 <ul>
