@@ -1,12 +1,10 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | web_0x1</title><meta name="description" content="&lt;h1 id=&quot;muud开发1基础结构解析&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#muud开发1基础结构解析&quot;&gt;&lt;/a&gt; 【Muud开发】1.基础结构解析&lt;/h1&gt;
-&lt;p&gt;从0到1开发一个勉强能用的python web“框架”&lt;/p&gt;
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【Muud开发】1.基础结构解析</title><meta name="description" content="&lt;p&gt;从0到1开发一个勉强能用的python web“框架”&lt;/p&gt;
 &lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/Joe1sn/muud&quot;&gt;https://github.com/Joe1sn/muud&lt;/a&gt;&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
-</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">web_0x1</h3><div class="article__date metadata"><div class="post-info">2023/06/01</div></div><div class="article__tags metadata">Tags:
-<a class="article__tags__link metadata" href="/tags/muud/">muud</a><a class="article__tags__link metadata" href="/tags/web-framework/">web framework</a></div><div class="article__body"><h1 id="muud开发1基础结构解析"><a class="markdownIt-Anchor" href="#muud开发1基础结构解析"></a> 【Muud开发】1.基础结构解析</h1>
-<p>从0到1开发一个勉强能用的python web“框架”</p>
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【Muud开发】1.基础结构解析</h3><div class="article__date metadata"><div class="post-info">2023/06/01</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/muud/">muud</a><a class="article__tags__link metadata" href="/tags/web-framework/">web framework</a></div><div class="article__body"><p>从0到1开发一个勉强能用的python web“框架”</p>
 <p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/Joe1sn/muud">https://github.com/Joe1sn/muud</a></p>
 <span id="more"></span>
-<h2 id="简单介绍"><a class="markdownIt-Anchor" href="#简单介绍"></a> 简单介绍</h2>
+<h1 id="简单介绍"><a class="markdownIt-Anchor" href="#简单介绍"></a> 简单介绍</h1>
 <p>​	在毕业设计的时候，初始选题为《基于XMPP的即时通讯系统》，想的是自己照着RFC写一遍XMPP协议，但是时间不够（毕竟要上班）。所以把废案再利用，抽出其中的一些部分，<strong>从Socket到web框架</strong>，实现一个简单的CURD功能，锻炼一下自己的文档化编程能力。受我个人能力有限会随时断更，一路上只有vscode和chatGPT以及所需要的RFC文档。</p>
 <p>​	再说说已实现的部分，首先是确定在Linux上运行的，使用python语言</p>
 <ul>
@@ -36,7 +34,7 @@
 </ul>
 <p>最后运行的效果</p>
 <p><img src="https://img.joe1sn.top/uploads/big/ef7a4d4dbaea1b76e34445f36e3c71da.png" alt="image-20230601020247259" /></p>
-<h2 id="需求分析"><a class="markdownIt-Anchor" href="#需求分析"></a> 需求分析</h2>
+<h1 id="需求分析"><a class="markdownIt-Anchor" href="#需求分析"></a> 需求分析</h1>
 <p>根据ChatGPT，一个典型的Python Web框架通常由以下几个核心组件组成：</p>
 <ol>
 <li>路由（Routing）：路由用于将传入的HTTP请求映射到相应的处理程序或视图函数上。它确定了不同URL路径与应用程序中的不同功能点之间的关联关系。</li>
@@ -87,4 +85,4 @@
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__next" href="/2023/05/24/windows-kernel-1-baisc/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/06/01/web-0x2/">prev_post</a><a class="pagination__link pagination__next" href="/2023/05/24/windows-kernel-1-baisc/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
