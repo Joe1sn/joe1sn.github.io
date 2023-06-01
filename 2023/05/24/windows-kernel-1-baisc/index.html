@@ -1,6 +1,6 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | win_kernel_1_baisc</title><meta name="description" content="&lt;h1 id=&quot;i-windows系统结构&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#i-windows系统结构&quot;&gt;&lt;/a&gt; I. Windows系统结构&lt;/h1&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
-</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">win_kernel_1_baisc</h3><div class="article__date metadata"><div class="post-info">2023/05/24</div></div><div class="article__tags metadata">Tags:
-<a class="article__tags__link metadata" href="/tags/kernel/">kernel</a><a class="article__tags__link metadata" href="/tags/windows/">windows</a></div><div class="article__body"><h1 id="i-windows系统结构"><a class="markdownIt-Anchor" href="#i-windows系统结构"></a> I. Windows系统结构</h1>
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【win内核原理与实现】I. Windows系统结构</title><meta name="description" content="&lt;p&gt;Windows系统结构还有引导过程&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【win内核原理与实现】I. Windows系统结构</h3><div class="article__date metadata"><div class="post-info">2023/05/24</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/kernel/">kernel</a><a class="article__tags__link metadata" href="/tags/windows/">windows</a></div><div class="article__body"><p>Windows系统结构还有引导过程</p>
 <span id="more"></span>
 <h2 id="ia-大致结构"><a class="markdownIt-Anchor" href="#ia-大致结构"></a> I.a 大致结构</h2>
 <p>windows内核是从<code>windows NT</code>内核发展过来的，从开始就和硬件的发展息息相关。</p>
@@ -61,7 +61,7 @@
 <p>主要是<code>ntfs.sys</code>。漏洞挖掘存在于<code>CLFS</code>（通用日志文件系统）。</p>
 <h2 id="网络"><a class="markdownIt-Anchor" href="#网络"></a> 网络</h2>
 <p>windows套接字、winInet、NetBIOS、RPC</p>
-<h1 id="ii-windows子系统"><a class="markdownIt-Anchor" href="#ii-windows子系统"></a> II. windows子系统</h1>
+<h1 id="iii-windows子系统"><a class="markdownIt-Anchor" href="#iii-windows子系统"></a> III. windows子系统</h1>
 <p>在上面的内核部分已经实现了对硬件的简单访问控制，那么就会在次基础上进行跟高层次的建设。</p>
 <p>在PE文件的头部域<code>Subssytem</code>中指定了该程序会在那个子环境中运行。</p>
 <p>子系统也分为用户模式和内核模式，<strong>核心部分是 win32k.sys</strong>。子系统的DLL链接到应用程序中，包括<code>kernel32.dll</code> <code>user32.dll</code> <code>gdi32.dll</code> <code>advapi.dll</code>，负责实现文档化的windows函数。</p>
@@ -78,7 +78,34 @@
 <p>主要是图形支持，设计Direct3D等</p>
 </li>
 </ul>
-<h1 id="ii-windows发布历史"><a class="markdownIt-Anchor" href="#ii-windows发布历史"></a> II. Windows发布历史</h1>
+<h1 id="iv-安全性管理"><a class="markdownIt-Anchor" href="#iv-安全性管理"></a> IV. 安全性管理</h1>
+<p>三个核心组件：<strong>winlogon</strong>、<strong>SRM</strong> 和 <strong>lsass</strong></p>
+<p>winlogon 和 lsass 是两个用户模式进程， 而 SRM 是 Windows 执行体中的组件</p>
+<p><img src="https://img.joe1sn.top/uploads/big/9af8f1b52745a7587e3e81ae3a156eaf.png" alt="image-20230601094755027" /></p>
+<ul>
+<li>SRM（Security Reference Monitor安全引用监视器），负责执行对象的安全访问检查、管理用户特权、生成安 全审计消息，并且定义了访问令牌数据结构来表示一个安全环境。</li>
+<li>Winlogon，负责响应 SAS（安全注意序列），以及管理交互式登录会话。当用户登 录到系统中时，winlogon 创建一个初始进程，并进一步由它创建外壳（shell）进程。</li>
+<li>Lsass（Local Security Authentic SubSystem本地安全权威子系统），负责本地系统的安全策略，同时，它也认证用户的 身份，以及将安全审计消息发送到系统的事件日志中。</li>
+<li>SAM（安全账户管理器）数据库，包含了本地用户和用户组，以及它们的口令和其 他属性。它位于注册表的 HKLM\SAM 下面。由于 HKLM\SAM 键只允许本地系统账 户访问，所以，除非用户在 Local System 账户下运行 regedit.exe 工具，否则无法访问 HKLM\SAM 子树。</li>
+<li>LSA 策略数据库，包含了有关当前系统的一些信息，譬如谁允许访问系统以及如何 访问（交互式登录、网络登录或者以服务方式登录）；分配给谁哪些特权；安全审计 如何进行等。如同 SAM 数据库一样，LSA 策略数据库也存储在注册表中，位于 HKLM\SECURITY 下面。同样地，除了 Local System 账户以外的其他账户均无法访 问 HKLM\SECURITY 子树。</li>
+</ul>
+<p>winlogon 负责<strong>系统登录</strong>，包括对用户身份的认证；<strong>lsass 负责管理系统本地安全策略</strong>，并且将这些策略通知到内核中的 SRM。在内核 中，SRM 负责实现基于对象的访问控制以及系统全局安全策略的实施。</p>
+<h2 id="关于一些提权"><a class="markdownIt-Anchor" href="#关于一些提权"></a> 关于一些提权</h2>
+<p>在 Windows 中，特权是由 LUID 对象来标识的，LUID 代表一个本地唯一标识符（Locally  Unique Identifier）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">LUID_AND_ATTRIBUTES</span> &#123;</span> </span><br><span class="line"> LUID Luid; </span><br><span class="line"> ULONG Attributes; </span><br><span class="line"> &#125; LUID_AND_ATTRIBUTES, * PLUID_AND_ATTRIBUTES; </span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SE_PRIVILEGE_ENABLED_BY_DEFAULT (0x00000001L) </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SE_PRIVILEGE_ENABLED (0x00000002L) </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SE_PRIVILEGE_REMOVED (0X00000004L) </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SE_PRIVILEGE_USED_FOR_ACCESS (0x80000000L)</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img.joe1sn.top/uploads/big/5b43b7eea8f959062d9d429d24c4b7ef.png" alt="image-20230601100327861" /></p>
+<p>Windows 内核中定义了一组特权，即类型为 LUID 的 Se全局变量。Windows 内核中，与安全相关的函数以“Se”作为前缀，有一些安全函数还存在对应的系 统服务。这些系统服务函数的名称以“Nt”作为前缀，后面部分与“Se”函数相同。</p>
+<h1 id="v-windows的引导过程"><a class="markdownIt-Anchor" href="#v-windows的引导过程"></a> V. Windows的引导过程</h1>
+<p>最开始也是从经典的MBR开始，然后是ntldr的osloader。</p>
+<p>在osloader中将物理地址转为虚拟地址，该过程可见：windows_kernel_driver_2中对CR3、CR4寄存器的控制。</p>
+<p>之后osloader加载NTDETECT.COM程序，利用系统BIOS查询系统基本设备，在引导过程的后期被存放到注册表 HKLM\HARDWARE\DESCRIPTION</p>
+<p>os loader 加载内核模块映像文件，默认为 ntoskrnl.exe，以及 HAL 映像文件，默 认为 hal.dll。再加载注册表的 SYSTEM 储巢，即\WINDOWS\system32\config\system 文件。</p>
+<p><img src="https://img.joe1sn.top/uploads/big/1b982f19ef122b020f794aa867004e2b.png" alt="image-20230601100916238" /></p>
+<p>然后是内核的初始化，此入口函数为 <code>KiSystemStartup</code></p>
+<p>为了解决在初始化过程中的相互依赖 性问题，内核的初始化分两个阶段进行，称为阶段 0 和阶段 1。大多数内核组件的初始化函 数相应地带有一个整数参数，以指明一次调用是阶段 0 初始化还是阶段 1 初始化，而有些组 件的初始化函数通过检查一个全局变量 InitializationPhase 的值来判断当前处于哪个阶段。</p>
+<p>阶段 0 初始化的目的是，将阶段 1 初始化所要用到的基 本数据结构建立起来。这时中断被禁止，调整IDT、TSS、PCR等。接着调用 KiInitializeKernel 函数，执行内核初始化。最后，当前线程蜕变成一个空闲线程。</p>
+<p><img src="https://img.joe1sn.top/uploads/big/37b5a3335cbcb32366e40e7111162964.png" alt="image-20230601101312886" /></p>
+<h1 id="v-windows发布历史"><a class="markdownIt-Anchor" href="#v-windows发布历史"></a> V. Windows发布历史</h1>
 <p>MicroSoft在操作系统领域中最开始起源于MS-DOS，随后演变出了两个分支，最开始的<code>Win 95/98/Me</code>，之后就是基于<code>Windows NT</code>的内核版本的<code>Window XP/7/8/10/vista</code>的版本。</p>
 <table>
 <thead>
@@ -171,4 +198,4 @@
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/06/01/web-0x1/">prev_post</a><a class="pagination__link pagination__next" href="/2023/05/24/win-kernel-1-baisc/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/06/01/web-0x1/">prev_post</a><a class="pagination__link pagination__next" href="/2023/03/25/mirai-bota/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

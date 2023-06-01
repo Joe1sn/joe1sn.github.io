@@ -1,24 +1,16 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 操作系统实现-合集1</title><meta name="description" content="&lt;blockquote&gt;
-&lt;p&gt;代码来源：&lt;a href=&quot;https://github.com/StevenBaby/onix&quot;&gt;https://github.com/StevenBaby/onix&lt;/a&gt;&lt;/p&gt;
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 操作系统实现-合集1</title><meta name="description" content="&lt;p&gt;代码来源：&lt;a href=&quot;https://github.com/StevenBaby/onix&quot;&gt;https://github.com/StevenBaby/onix&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;相关课程：&lt;a href=&quot;https://www.bilibili.com/video/BV1gR4y1u7or&quot;&gt;https://www.bilibili.com/video/BV1gR4y1u7or&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;感谢B站UP：&lt;a href=&quot;https://space.bilibili.com/491131440&quot;&gt;踌躇月光&lt;/a&gt; 带来的相关代码和教程&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;后来觉得操作系统从0到1这样学是一个非常蠢得概念，因为每个人学习他应该是有重点地。对系统有个基础的认知后，就该去精通自己要专注的方向，比如内存管理、网络协议等&lt;/p&gt;
-&lt;p&gt;也有可能你只是为了面试，但是面试也是有重点的对吧&lt;/p&gt;
-&lt;p&gt;所以把之前的文章做一个合集，喜欢在认识系统后再在方面创造子系统&lt;/p&gt;
-&lt;/blockquote&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+&lt;p&gt;后来觉得操作系统从0到1这样学是一个非常蠢得概念，因为每个人学习他应该是有重点地。对系统有个基础的认知后，就该去精通自己要专注的方向，比如内存管理、网络协议等&lt;br /&gt;
+也有可能你只是为了面试，但是面试也是有重点的对吧&lt;br /&gt;
+所以把之前的文章做一个合集，喜欢在认识系统后再在方面创造子系统&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
 </head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">操作系统实现-合集1</h3><div class="article__date metadata"><div class="post-info">2022/08/24</div></div><div class="article__tags metadata">Tags:
-<a class="article__tags__link metadata" href="/tags/os/">os</a></div><div class="article__body"><blockquote>
-<p>代码来源：<a target="_blank" rel="noopener" href="https://github.com/StevenBaby/onix">https://github.com/StevenBaby/onix</a></p>
+<a class="article__tags__link metadata" href="/tags/os/">os</a></div><div class="article__body"><p>代码来源：<a target="_blank" rel="noopener" href="https://github.com/StevenBaby/onix">https://github.com/StevenBaby/onix</a></p>
 <p>相关课程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1gR4y1u7or">https://www.bilibili.com/video/BV1gR4y1u7or</a></p>
 <p>感谢B站UP：<a target="_blank" rel="noopener" href="https://space.bilibili.com/491131440">踌躇月光</a> 带来的相关代码和教程</p>
-</blockquote>
-<blockquote>
-<p>后来觉得操作系统从0到1这样学是一个非常蠢得概念，因为每个人学习他应该是有重点地。对系统有个基础的认知后，就该去精通自己要专注的方向，比如内存管理、网络协议等</p>
-<p>也有可能你只是为了面试，但是面试也是有重点的对吧</p>
-<p>所以把之前的文章做一个合集，喜欢在认识系统后再在方面创造子系统</p>
-</blockquote>
+<p>后来觉得操作系统从0到1这样学是一个非常蠢得概念，因为每个人学习他应该是有重点地。对系统有个基础的认知后，就该去精通自己要专注的方向，比如内存管理、网络协议等<br />
+也有可能你只是为了面试，但是面试也是有重点的对吧<br />
+所以把之前的文章做一个合集，喜欢在认识系统后再在方面创造子系统</p>
 <span id="more"></span>
 <h1 id="操作系统实现基础篇"><a class="markdownIt-Anchor" href="#操作系统实现基础篇"></a> [操作系统实现]基础篇</h1>
 <p><strong>CPU中的段寄存器</strong></p>
