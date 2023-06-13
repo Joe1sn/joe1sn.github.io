@@ -11,6 +11,15 @@
   </url>
   
   <url>
+    <loc>https://joe1sn.eu.org/2021/03/30/Maleware/</loc>
+    
+    <lastmod>2023-06-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://joe1sn.eu.org/2023/06/01/web-0x2/</loc>
     
     <lastmod>2023-06-06</lastmod>
@@ -75,15 +84,6 @@
   
   <url>
     <loc>https://joe1sn.eu.org/2022/03/16/java-d1-Junit/</loc>
-    
-    <lastmod>2023-06-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://joe1sn.eu.org/2021/03/30/Maleware/</loc>
     
     <lastmod>2023-06-01</lastmod>
     
@@ -197,13 +197,6 @@
   
   <url>
     <loc>https://joe1sn.eu.org/tags/Java/</loc>
-    <lastmod>2023-06-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://joe1sn.eu.org/tags/c-c-%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2023-06-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
