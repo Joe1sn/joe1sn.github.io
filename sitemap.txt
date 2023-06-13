@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2023/06/13/pe-loader/
 https://joe1sn.eu.org/2023/06/01/web-0x2/
 https://joe1sn.eu.org/2023/02/17/windows_kernel_driver_2/
 https://joe1sn.eu.org/2023/02/16/windows_kernel_driver_1/
@@ -32,6 +33,8 @@ https://joe1sn.eu.org/tags/dbg/
 https://joe1sn.eu.org/tags/Windows/
 https://joe1sn.eu.org/tags/kernel/
 https://joe1sn.eu.org/tags/windows/
+https://joe1sn.eu.org/tags/malware/
+https://joe1sn.eu.org/tags/C/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
