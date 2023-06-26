@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【Fuzz】关于windows GUI程序FUZZ的思考</title><meta name="description" content="&lt;p&gt;看着之前的CVE-2019-9766浮现的&lt;/p&gt;
+&lt;p&gt;在之前按照国外的博客复现了sudo漏洞的从Fuzz到EXP&lt;br /&gt;
+看着之前的CVE-2019-9766复现的，发现Windows图形化程序的Fuzz存在着一系列的问题&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【Fuzz】关于windows GUI程序FUZZ的思考</h3><div class="article__date metadata"><div class="post-info">2023/06/15</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/misc/">misc</a><a class="article__tags__link metadata" href="/tags/fuzz/">fuzz</a></div><div class="article__body"><p>看着之前的CVE-2019-9766浮现的</p>
+<p>在之前按照国外的博客复现了sudo漏洞的从Fuzz到EXP<br />
+看着之前的CVE-2019-9766复现的，发现Windows图形化程序的Fuzz存在着一系列的问题</p>
+<span id="more"></span>
+<h1 id="与同类的不同"><a class="markdownIt-Anchor" href="#与同类的不同"></a> 与同类的不同</h1>
+<p>​	在windows闭源的生态下，如何对图形化程序（GUI）进行自动的模糊测试是个问题。有人也向winafl团队反映了这个问题，根据google talks的<a target="_blank" rel="noopener" href="https://groups.google.com/g/afl-users/c/Z1I5sdWGnC4">问答</a>，由于GUI程序缺少自动退出，将会造成fuzz每次迭代都将超时或崩溃，所以很难。</p>
+<p>​	不过对于使用DLL的程序来说会方便很多，这里已迅雷举例。迅雷的前端GUI使用Electron进行的打包，但是其对<code>.torrent</code>文件的解析使用的是外部DLL。编写程序通过加载DLL并运行其中的函数，Fuzz这个程序就能够得到该段解析代码。</p>
+<p>​	<strong>？如何找到对应功能：</strong> 使用ProcessHack等工具查看外部资源调用，并且使用调试器通过断点判断功能，最后通过描述符或者内存地址找到改DLL和所在函数。</p>
+<p>​	在 <strong>CVE-2019-9766</strong> winafl的Fuzz中，漏洞是存在于 <code>sub_496F9C</code> ，位于<code>fcrip.exe</code>中。同时根据调试PoC发现漏洞函数位置也难以确定，当SEH接收报错的时候，PoC中的数据早已通过漏洞函数写入到了栈帧上，这里是通过相邻的栈帧靠运气发现的。在这里它使用了一个循环写</p>
+<p><img src="https://z3.ax1x.com/2021/05/18/gWOYaF.png" alt="vuln2" /></p>
+<p>但是文件长度必须循环0x2000次才能够退出循环，然而栈大小只有0x1010，造成了溢出的机会。</p>
+<p><img src="https://z3.ax1x.com/2021/05/18/gWOm5Q.png" alt="vuln1" /></p>
+<p><img src="https://z3.ax1x.com/2021/05/18/gWOxs0.png" alt="vuln3" /></p>
+<p>像这样一个非常标准的栈溢出漏洞，我们居然无法通过现有的手段进行高效率、自动化Fuzz。</p>
+<h1 id="当前的解决方法"><a class="markdownIt-Anchor" href="#当前的解决方法"></a> 当前的解决方法</h1>
+<ol>
+<li>
+<p>在<a target="_blank" rel="noopener" href="https://github.com/googleprojectzero/winafl/issues/205%E4%B8%AD%E6%9C%89%E5%A6%82%E4%B8%8B%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95">https://github.com/googleprojectzero/winafl/issues/205中有如下解决方法</a></p>
+</li>
+<li></li>
+</ol>
+<h1 id="gui的种类"><a class="markdownIt-Anchor" href="#gui的种类"></a> GUI的种类</h1>
+<h1 id="或许是解决方法"><a class="markdownIt-Anchor" href="#或许是解决方法"></a> 或许是解决方法？</h1>
+</div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/06/26/cpp-function/">prev_post</a><a class="pagination__link pagination__next" href="/2023/06/14/windows-kernel-2-process&amp;thread/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

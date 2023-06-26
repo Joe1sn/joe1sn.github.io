@@ -1,3 +1,5 @@
+https://joe1sn.eu.org/2023/06/26/cpp-function/
+https://joe1sn.eu.org/2023/06/15/fuzz-1-GUI/
 https://joe1sn.eu.org/2023/06/14/windows-kernel-2-process&thread/
 https://joe1sn.eu.org/2023/06/13/pe-loader/
 https://joe1sn.eu.org/2021/03/30/Maleware/
@@ -35,6 +37,7 @@ https://joe1sn.eu.org/tags/kernel/
 https://joe1sn.eu.org/tags/windows/
 https://joe1sn.eu.org/tags/malware/
 https://joe1sn.eu.org/tags/C/
+https://joe1sn.eu.org/tags/cpp/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/

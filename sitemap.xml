@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://joe1sn.eu.org/2023/06/26/cpp-function/</loc>
+    
+    <lastmod>2023-06-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/2023/06/15/fuzz-1-GUI/</loc>
+    
+    <lastmod>2023-06-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://joe1sn.eu.org/2023/06/14/windows-kernel-2-process&thread/</loc>
     
     <lastmod>2023-06-14</lastmod>
@@ -184,7 +202,7 @@
 
   <url>
     <loc>https://joe1sn.eu.org/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -192,112 +210,119 @@
   
   <url>
     <loc>https://joe1sn.eu.org/tags/misc/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/CVE/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/Java/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/notes/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/git/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/os/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/%E6%B8%97%E9%80%8F/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/fuzz/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/muud/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/web-framework/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/dbg/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/Windows/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/kernel/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/windows/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/malware/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/C/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/tags/cpp/</loc>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -306,56 +331,56 @@
   
   <url>
     <loc>https://joe1sn.eu.org/categories/misc/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/java/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/os/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/pentest/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/CVE/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/program/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/kernel/</loc>
-    <lastmod>2023-06-14</lastmod>
+    <lastmod>2023-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
