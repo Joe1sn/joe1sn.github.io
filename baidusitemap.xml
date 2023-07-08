@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joe1sn.eu.org/2023/07/08/win-pwn-stack/</loc>
+    <lastmod>2023-07-08</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2023/07/03/qq-evasion/</loc>
+    <lastmod>2023-07-04</lastmod>
+  </url>
+  <url>
     <loc>https://joe1sn.eu.org/2023/06/26/googleCTF-wp/</loc>
-    <lastmod>2023-06-26</lastmod>
+    <lastmod>2023-06-27</lastmod>
   </url>
   <url>
     <loc>https://joe1sn.eu.org/2023/06/26/cpp-function/</loc>
