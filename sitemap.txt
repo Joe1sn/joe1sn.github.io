@@ -1,6 +1,7 @@
+https://joe1sn.eu.org/2023/07/03/qq-evasion/
+https://joe1sn.eu.org/2023/07/17/dll-injector/
 https://joe1sn.eu.org/2023/07/12/win-pwn-stack2/
 https://joe1sn.eu.org/2023/07/08/win-pwn-stack/
-https://joe1sn.eu.org/2023/07/03/qq-evasion/
 https://joe1sn.eu.org/2023/06/26/googleCTF-wp/
 https://joe1sn.eu.org/2023/06/26/cpp-function/
 https://joe1sn.eu.org/2023/06/14/windows-kernel-2-process&thread/
