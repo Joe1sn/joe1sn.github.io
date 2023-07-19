@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2023/07/18/win-afl/
 https://joe1sn.eu.org/2023/07/03/qq-evasion/
 https://joe1sn.eu.org/2023/07/17/dll-injector/
 https://joe1sn.eu.org/2023/07/12/win-pwn-stack2/
