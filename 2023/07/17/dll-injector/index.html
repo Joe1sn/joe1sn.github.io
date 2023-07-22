@@ -67,6 +67,19 @@
 <p><img src="https://img.joe1sn.top/uploads/big/54c47164be9d9b6e6bf4a8a34377b787.png" alt="image-20230718092010464" /></p>
 <p>还有一个技巧就是使用NTDLL中的未导出函数<code>NtTestAlert</code>就可以立即调用APC例程</p>
 <p><strong>上面的把<code>hProcess = GetCurrentProcess()</code>，<code>pAddress = shellcode_Address</code>相当于使用DLL注入进行免杀了</strong></p>
+<h1 id="上下文注入"><a class="markdownIt-Anchor" href="#上下文注入"></a> 上下文注入</h1>
+<p>之前在写PE加载器的时候就想到了这个，主要是通过暂停程序，获得并修改上下文，在内存中写入shellcode，然后再恢复就行了</p>
+<p>问题在于shellcode还有计算各种偏移，个人觉得涉及shellcode和汇编较多，就不再本篇文章赘述</p>
+<p>用到的主要WINAPI就是</p>
+<ol>
+<li>创建会shellcode裸函数（<code>__declspec(naked)</code>）,导出<code>LoadLibrary</code>等函数</li>
+<li><code>OpenProcess</code>后再<code>OpenThread</code>，使用<code>SuspendThread</code>暂停线程</li>
+<li>创建类型为<code>CONTEXT</code>的变量，初始化<code>context.ContextFlags=CONTEXT_FULL</code></li>
+<li><code>GetThreadContext</code>获得上下文</li>
+<li><code>VirualAlloc</code>获得空间，类似<code>RtlMoveMemory</code>这种复制shellcode到空间</li>
+<li>将<code>context.eip = shellcode_addr</code>，使用<code>SetThreadContext</code>重新设置上下文，<code>ResumeThread</code>恢复线程</li>
+</ol>
+<p>内核中的过程差不多，不过更多的是不一样的API</p>
 </div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
 (function () {
   var dsq = document.createElement('script');

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joe1sn.eu.org/2023/07/22/afl-source/</loc>
+    <lastmod>2023-07-22</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2023/07/17/dll-injector/</loc>
+    <lastmod>2023-07-22</lastmod>
+  </url>
+  <url>
     <loc>https://joe1sn.eu.org/2023/07/19/win-afl2/</loc>
     <lastmod>2023-07-21</lastmod>
   </url>
@@ -10,10 +18,6 @@
   </url>
   <url>
     <loc>https://joe1sn.eu.org/2023/07/03/qq-evasion/</loc>
-    <lastmod>2023-07-18</lastmod>
-  </url>
-  <url>
-    <loc>https://joe1sn.eu.org/2023/07/17/dll-injector/</loc>
     <lastmod>2023-07-18</lastmod>
   </url>
   <url>
