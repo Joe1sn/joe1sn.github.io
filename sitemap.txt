@@ -48,6 +48,8 @@ https://joe1sn.eu.org/tags/cpp/
 https://joe1sn.eu.org/tags/CTF/
 https://joe1sn.eu.org/tags/writeup/
 https://joe1sn.eu.org/tags/pwn/
+https://joe1sn.eu.org/tags/source/
+https://joe1sn.eu.org/tags/AFL/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
