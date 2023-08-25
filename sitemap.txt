@@ -1,3 +1,7 @@
+https://joe1sn.eu.org/2021/03/14/BUUCTF/
+https://joe1sn.eu.org/2022/04/10/clash-rce/
+https://joe1sn.eu.org/2021/12/12/log4j2-minecraft-rce/
+https://joe1sn.eu.org/2022/04/11/sudo-fuzz2exp-1/
 https://joe1sn.eu.org/2023/07/22/afl-source/
 https://joe1sn.eu.org/2023/07/17/dll-injector/
 https://joe1sn.eu.org/2023/07/19/win-afl2/
@@ -24,7 +28,6 @@ https://joe1sn.eu.org/2022/08/14/cypherpunk/
 https://joe1sn.eu.org/2022/08/24/os-allinone/
 https://joe1sn.eu.org/2022/04/14/sudo-fuzz2exp-3/
 https://joe1sn.eu.org/2022/04/13/sudo-fuzz2exp-2/
-https://joe1sn.eu.org/2022/04/11/sudo-fuzz2exp-1/
 https://joe1sn.eu.org/2022/03/19/java-day3-JDBC/
 https://joe1sn.eu.org/2022/03/18/java-d2-database/
 https://joe1sn.eu.org/
@@ -50,6 +53,9 @@ https://joe1sn.eu.org/tags/writeup/
 https://joe1sn.eu.org/tags/pwn/
 https://joe1sn.eu.org/tags/source/
 https://joe1sn.eu.org/tags/AFL/
+https://joe1sn.eu.org/tags/BUUCTF/
+https://joe1sn.eu.org/tags/cve/
+https://joe1sn.eu.org/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
