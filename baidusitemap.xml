@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joe1sn.eu.org/2023/07/22/afl-source/</loc>
+    <lastmod>2024-01-10</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2023/09/24/stm-2-manualA/</loc>
+    <lastmod>2023-09-24</lastmod>
+  </url>
+  <url>
     <loc>https://joe1sn.eu.org/2023/09/10/stm32-1-light/</loc>
     <lastmod>2023-09-10</lastmod>
   </url>
@@ -23,10 +31,6 @@
   <url>
     <loc>https://joe1sn.eu.org/2022/04/11/sudo-fuzz2exp-1/</loc>
     <lastmod>2023-08-25</lastmod>
-  </url>
-  <url>
-    <loc>https://joe1sn.eu.org/2023/07/22/afl-source/</loc>
-    <lastmod>2023-07-23</lastmod>
   </url>
   <url>
     <loc>https://joe1sn.eu.org/2023/07/17/dll-injector/</loc>
