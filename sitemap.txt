@@ -1,5 +1,5 @@
+https://joe1sn.eu.org/2024/01/12/MW300R-vuln/
 https://joe1sn.eu.org/2023/07/22/afl-source/
-https://joe1sn.eu.org/2023/09/24/stm-2-manualA/
 https://joe1sn.eu.org/2023/09/10/stm32-1-light/
 https://joe1sn.eu.org/2022/04/01/spring4shell/
 https://joe1sn.eu.org/2021/03/14/BUUCTF/
@@ -61,6 +61,7 @@ https://joe1sn.eu.org/tags/cve/
 https://joe1sn.eu.org/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/
 https://joe1sn.eu.org/tags/spring/
 https://joe1sn.eu.org/tags/stm32/
+https://joe1sn.eu.org/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
