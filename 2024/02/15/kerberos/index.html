@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【免杀】探索Windows内网的Kerberos协议</title><meta name="description" content="&lt;p&gt;感恩学校扎实的密码学功底，分析起来也是很简单的&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【免杀】探索Windows内网的Kerberos协议</h3><div class="article__date metadata"><div class="post-info">2024/02/15</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/windows/">windows</a></div><div class="article__body"><p>感恩学校扎实的密码学功底，分析起来也是很简单的</p>
+<span id="more"></span>
+<p>说白了就一张图</p>
+<p><img src="https://img.joe1sn.top/uploads/big/173ba503f8f4d7d2cbc88312cb0a2551.png" alt="img" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/1946078615b1e4c4c817b0bf733df49d.png" alt="img" /></p>
+<h1 id="攻击方式"><a class="markdownIt-Anchor" href="#攻击方式"></a> 攻击方式</h1>
+<h2 id="黄金票据"><a class="markdownIt-Anchor" href="#黄金票据"></a> 黄金票据</h2>
+<p>第三步中 使用 KDC 特定账户 Krbtgt 的 NTLM-Hash 时，如果我们有了该<code>NTML-Hash</code>那么就能做到伪造TGT</p>
+<p>该方法由于需要DC的<code>NTLM-Hash</code>，所以用于留后门</p>
+<h2 id="白银票据"><a class="markdownIt-Anchor" href="#白银票据"></a> 白银票据</h2>
+<p>需要知道Server的<code>HTLM-Hash</code></p>
+<p>使用该值伪造TGT，在第七步中发送给Server</p>
+<blockquote>
+<p>但是在有些服务中并没有验证 PAC 这一步，这也是白银票据能成功的前提，因为就算拥有用户的 Hash，可以伪造 TGS，但是也不能制作 PAC，PAC 当然也验证不成功，但是有些服务不去验证 PAC，这是白银票据成功的前提。</p>
+</blockquote>
+<h2 id="ms14-06"><a class="markdownIt-Anchor" href="#ms14-06"></a> MS14-06</h2>
+<p>问题出在第四步</p>
+<p>KDC会根据客户端指定PAC中数字签名的加密算法，以及PAC的加密算法，来校验PAC的合法性。这使得攻击者可通过伪造PAC，修改PAC中的SID，导致KDC判断攻击者为高权限用户，从而导致权限提升漏洞的产生</p>
+</div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__next" href="/2024/01/25/win-hevd-exp-stackoverflow-III/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2024 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
