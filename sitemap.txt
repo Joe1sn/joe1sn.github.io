@@ -1,3 +1,5 @@
+https://joe1sn.eu.org/2024/02/20/ad-dc-1/
+https://joe1sn.eu.org/2024/02/15/intranet/
 https://joe1sn.eu.org/2024/02/16/win-hevd-exp-arbitrary-write/
 https://joe1sn.eu.org/2024/02/16/win-hevd-exp-stackoverflow-GS/
 https://joe1sn.eu.org/2024/02/15/kerberos/
@@ -68,6 +70,7 @@ https://joe1sn.eu.org/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/
 https://joe1sn.eu.org/tags/spring/
 https://joe1sn.eu.org/tags/stm32/
 https://joe1sn.eu.org/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/
+https://joe1sn.eu.org/tags/pentest/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
