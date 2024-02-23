@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【内网】从PoC看JuicyPotato提权</title><meta name="description" content="&lt;p&gt;从此认识到自己不是做win安全的料&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【内网】从PoC看JuicyPotato提权</h3><div class="article__date metadata"><div class="post-info">2024/02/23</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/notes/">notes</a><a class="article__tags__link metadata" href="/tags/pentest/">pentest</a></div><div class="article__body"><p>从此认识到自己不是做win安全的料</p>
+<span id="more"></span>
+<p>个人认为JuictPotato的前身是著名的<code>Rotten Potato</code></p>
+<p><img src="https://shs3.b.qianxin.com/attack_forum/2021/12/attach-d521498a177634056408fa3503d1d1362d5b0ac7.png" alt="image-20211022212121001" /></p>
+<blockquote>
+<ol>
+<li>使用CoGetInstanceFromIStorage API 调用欺骗RPC,对代理进行身份验证.在此调用中指定了代理 IP/端口</li>
+<li>RPC 向代理发送 NTLM 协商包</li>
+<li>代理依赖的NTLM协商到RPC在端口135，被用作模板。同时，执行对AcceptSecurityContext的调用以强制进行本地身份验证<br />
+注:此包被修改为强制本地身份验证.</li>
+<li>&amp; 5. RPC 135和AcceptSecurityContext用NTLM Challenge回复</li>
+<li>将两个数据包的内容混合以匹配本地协商并转发到RPC</li>
+<li>RPC使用发送到AcceptSecurityContext(8.)的NLTM Auth包进行响应，并执行模拟</li>
+</ol>
+</blockquote>
+<ol>
+<li>
+<p>【PotatoAPI】创建COM监听器<code>startCOMListenerThread</code></p>
+<ul>
+<li>
+<p>初始化<code>WinSocket</code>，创建非阻塞式socket，并监听<code>-t</code>端口。<strong>跳转到2</strong>，后面的就是监听循环中的</p>
+</li>
+<li>
+<p>【LocalNegotiator】使用<code>processNtlmBytes</code>处理返回地NTLM信息。处理顺序刚好是1,2,3</p>
+<ul>
+<li>首先获取<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/secgloss/s-gly"><em>安全主体</em></a>的预先存在的凭据的句柄，初始化Client和Sever的Token，建立安全上下文（新进程的身份验证），转发给RPC</li>
+<li>RPC返回NTLM挑战应答问题，新进程的身份验证也会返回他的NTLM挑战应答问题，然后改装RPC的数据，塞入新进程的身份验证的NTLM挑战应答的部分数据</li>
+<li>从系统回答中，创建新的system令牌</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>【PotatoAPI】同本地135端口建立RPC连接，发送消息从<code>PotatoAPI-&gt;rpcSendQ</code>走出队列</p>
+</li>
+<li>
+<p>【PotatoAPI】触发<code>triggerDCOM</code></p>
+<ul>
+<li><code>StgCreateDocfileOnILockBytes</code>：创建Istorage对象</li>
+<li>【IStorageTrigger】创建<code>IStorageTrigger</code>对象</li>
+<li><code>CLSIDFromString</code>：将CLSID字符转为COM对象</li>
+<li><code> CoGetInstanceFromIStorage</code> ：创建一个新的 对象，使用<code> IPersistFile：：Load</code>初始化</li>
+<li><strong>触发DCOM后，进入1中的监听循环</strong></li>
+</ul>
+</li>
+<li>
+<p>通过得到的system token，经典的<code>CreateProcessWithTokenW</code>创建新的进程</p>
+</li>
+</ol>
+<p>要一个人写的话工作量还是挺大的，而且<code>IstroageTrigger</code>得自己构造，感谢开源PoC！</p>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<p><a target="_blank" rel="noopener" href="https://github.com/ohpe/juicy-potato">https://github.com/ohpe/juicy-potato</a></p>
+<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/860">https://forum.butian.net/share/860</a></p>
+</div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2024/02/24/kerberos/">prev_post</a><a class="pagination__link pagination__next" href="/2024/02/20/ad-dc-1/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2024 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
