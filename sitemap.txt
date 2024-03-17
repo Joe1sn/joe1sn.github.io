@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2024/03/17/win-kernel-pool/
 https://joe1sn.eu.org/2024/03/15/little-hook/
 https://joe1sn.eu.org/2024/02/25/PeFile/
 https://joe1sn.eu.org/2024/02/23/win-hevd-exp-arbitrary-write/
