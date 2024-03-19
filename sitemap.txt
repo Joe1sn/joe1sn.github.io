@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2024/03/19/windows-kernel-driver-5-thread-lock/
 https://joe1sn.eu.org/2024/03/18/windows-kernel-driver-4-reg/
 https://joe1sn.eu.org/2024/03/17/windows-kernel-driver-3/
 https://joe1sn.eu.org/2024/03/17/win-kernel-pool/
