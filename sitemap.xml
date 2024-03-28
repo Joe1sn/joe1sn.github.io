@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://joe1sn.eu.org/2024/03/28/crackme-coploit/</loc>
+    
+    <lastmod>2024-03-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://joe1sn.eu.org/2024/03/27/windows-kernel-driver-8-timer-notify/</loc>
     
     <lastmod>2024-03-27</lastmod>
@@ -685,6 +694,13 @@
   
   <url>
     <loc>https://joe1sn.eu.org/tags/pentest/</loc>
+    <lastmod>2024-03-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/tags/crack/</loc>
     <lastmod>2024-03-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

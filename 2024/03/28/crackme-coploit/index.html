@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【破解】一次无害的Coploit激活工具破解</title><meta name="description" content="&lt;p&gt;难度：⭐&lt;/p&gt;
+&lt;p&gt;- 要不要后面把怎么写外挂啥的放上来？还是说开一个知识星球？-&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【破解】一次无害的Coploit激活工具破解</h3><div class="article__date metadata"><div class="post-info">2024/03/28</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/malware/">malware</a><a class="article__tags__link metadata" href="/tags/crack/">crack</a></div><div class="article__body"><p>难度：⭐</p>
+<p>- 要不要后面把怎么写外挂啥的放上来？还是说开一个知识星球？-</p>
+<span id="more"></span>
+<p>难度一星，一颗给go，一颗给密码学，减一颗给简单的认证过程</p>
+<h1 id="静态分析"><a class="markdownIt-Anchor" href="#静态分析"></a> 静态分析</h1>
+<p>首先是来源</p>
+<img src="https://img.joe1sn.top/uploads/big/629a93de1f16c97ddc782fa332ec2e2e.png" alt="image-20240328142334526" style="zoom:50%;" />
+<p>下载Windows版看看</p>
+<p><img src="https://img.joe1sn.top/uploads/big/c89f58cc8d4e57a7febbb3b28a9abe93.png" alt="image-20240328142559130" /></p>
+<p>哦？golang打包的，看看版本</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; go version .\authTool.exe</span><br><span class="line">.\authTool.exe: go1.<span class="number">21.0</span></span><br></pre></td></tr></table></figure>
+<p>有点难搞啊，有无Go是无符号的，IDA打开看也是一坨</p>
+<h1 id="粗略动态"><a class="markdownIt-Anchor" href="#粗略动态"></a> 粗略动态</h1>
+<p>这个阶段就是看网络活动，文件操作等等，先打开<code>WireShark</code>和<code>Procmon64</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/31e2c85ca1f654ce3c318522defe02c1.png" alt="image-20240328142838195" /></p>
+<p>然后打开软件跑一下</p>
+<p><img src="https://img.joe1sn.top/uploads/big/be06388ed1da5f3f6edf21e8fe0a4b11.png" alt="image-20240328143029707" /></p>
+<p>这个时候ProcessMonitor已经有了，凭经验来说这里只有网络连接有点价值</p>
+<p><img src="https://img.joe1sn.top/uploads/big/65f90e11e593ac438eaaf16dcae07212.png" alt="image-20240328143233355" /></p>
+<p>两个IP：<code>43.x.x.x</code>（记为ipA）和<code>149.x.x.x</code>（记为ipB），按照先后顺序看</p>
+<p>在wireshark中<code>ip.addr == 43.x.x.x</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/20358a76784ee006c61ced9e1cc126e0.png" alt="image-20240328143548755" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/f05d636bb0c29798546351a070ffd061.png" alt="image-20240328143744161" /></p>
+<p>在wireshark中<code>ip.addr == 149.x.x.x</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/3a3d09d1f2075bd3a291766be88f7b9f.png" alt="image-20240328144255295" /></p>
+<p>两段都是密文，一眼base64，而且解码完成过后也是乱码，接下来回到你想本身</p>
+<h1 id="动静结合"><a class="markdownIt-Anchor" href="#动静结合"></a> 动静结合</h1>
+<p>根据运行时候的字符串，用golang写过网络请求的小伙伴都知道，网络请求部分是在<code>net</code>库中，立刻在<code>main_main</code>中找到相关</p>
+<p><img src="https://img.joe1sn.top/uploads/big/3503ac001cc8b3e7579f161d9a8b2604.png" alt="image-20240328145108076" /></p>
+<p>有时间的还在静态跟流程，心急的已经开始用ida动调了</p>
+<h2 id="43xxx"><a class="markdownIt-Anchor" href="#43xxx"></a> 43.x.x.x</h2>
+<p>写过golang的都知道，获得发送完请求的结果需要使用一个<code>ReadAll</code>之类的东西</p>
+<p><img src="https://img.joe1sn.top/uploads/big/7cb42a1992de2870953ab1af02b7daba.png" alt="image-20240328145645886" /></p>
+<p>看看下面的AES解密</p>
+<p><img src="https://img.joe1sn.top/uploads/big/28493cae840676bc3cca1bd586f440cd.png" alt="image-20240328145713758" /></p>
+<p>发现有个相关值<code>1234567890123456</code>，但是CBC加密方式的话不知道这个是<code>key</code>还是<code>iv</code>，动态看看</p>
+<p><img src="https://img.joe1sn.top/uploads/big/e1dd0cb4f3c84a66d33b80062eda7e9e.png" alt="image-20240328145840300" /></p>
+<p>这里<code>slicebytetostring</code>刚好返回，根据汇编的传参，说明接收到的内容可能在<code>RAX</code>寄存器里面</p>
+<p><img src="https://img.joe1sn.top/uploads/big/5b6937a0583f0c2bb87eb8746fb6da86.png" alt="image-20240328150411467" /></p>
+<p>和wireshark拦截到的报文一样，跟进AES解密看看</p>
+<p><img src="https://img.joe1sn.top/uploads/big/4872a34c83530c548d73ad5f8a9e0edf.png" alt="image-20240328150500799" /></p>
+<p>这里可以自己确认一下，确实是Base64解码的</p>
+<p><img src="https://img.joe1sn.top/uploads/big/b8f63dc746e6142d8fbc094e1e044b6b.png" alt="image-20240328151834101" /></p>
+<p>这里看一下<code>crypto_aes_NewCipher</code>，根据Windows下的传参规则，看一下栈和<code>rcx</code>，<code>rdx</code>，<code>r8</code>，<code>r9</code> <code>...</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/558d4083ef42f374961f5fa815011d77.png" alt="image-20240328152054358" /></p>
+<p>那么应该就是Key了</p>
+<p><img src="https://img.joe1sn.top/uploads/big/251621fe0d79cd536c57e89bc691324d.png" alt="image-20240328150718900" /></p>
+<p>这里要开始解密了对吧，还是看下相关参数</p>
+<p>猜测：这时候的key和iv都是<code>1234567890123456</code>，写个python脚本验证下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.Padding <span class="keyword">import</span> unpad</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">aes_cbc_decrypt</span>(<span class="params">key, iv, ciphertext</span>):</span><br><span class="line">    cipher = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">    plaintext = cipher.decrypt(ciphertext)</span><br><span class="line">    plaintext = unpad(plaintext, AES.block_size)</span><br><span class="line">    <span class="keyword">return</span> plaintext</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment"># 密钥和IV（Initialization Vector）</span></span><br><span class="line">    key = <span class="string">b&#x27;1234567890123456&#x27;</span></span><br><span class="line">    iv = <span class="string">b&#x27;1234567890123456&#x27;</span></span><br><span class="line">    ciphertext = base64.b64decode(<span class="string">b&#x27;k9FQxxxxxxxxxxxxxxxxxxx9wy7w==&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 解密</span></span><br><span class="line">    plaintext = aes_cbc_decrypt(key, iv, ciphertext)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 输出解密后的明文</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Decrypted plaintext:\n&quot;</span>, plaintext.decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>得到了两个IP，根据后续操作会把解密出的字符串按照<code>,</code>切分开，而且第一个ip就是wireshark得到的，那么就是一个主用，一个备用两个IP</p>
+<p><img src="https://img.joe1sn.top/uploads/big/4e8202a0421cba9627f44559f8b5dafe.png" alt="image-20240328152657681" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/c816ca26646d4fab48a4a238a21f90a1.png" alt="image-20240328153020248" /></p>
+<h2 id="143xxx"><a class="markdownIt-Anchor" href="#143xxx"></a> 143.x.x.x</h2>
+<p><img src="https://img.joe1sn.top/uploads/big/55bfbd6dc95952f309209799fba04d59.png" alt="image-20240328153057080" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/8d90360b6f7c444f12e76341c51f527e.png" alt="image-20240328153154421" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/dba1bd1ec60b516e0489b1b211857c43.png" alt="image-20240328153647769" /></p>
+<p>这里有个很明显的拼接api的操作，得到url：<code>http://149.x.x.x:8699/api/v</code>，和ipB的流量对上了</p>
+<p><img src="https://img.joe1sn.top/uploads/big/fc9b121500715223314b7da22858a6b6.png" alt="image-20240328153718535" /></p>
+<p>接着用了和上面一样的解密函数，解密一下看看</p>
+<p><img src="https://img.joe1sn.top/uploads/big/f1c66826a18679b2e386f0c76db94441.png" alt="image-20240328153927993" /></p>
+<p>发现了一个新的url，记为<code>urlB</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/b56778815fb0c85ffc42c713cc2b49c9.png" alt="image-20240328154034283" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/eb683ff98d23acc7f208875322dee860.png" alt="image-20240328154130156" /></p>
+<p>解析这个json，然后就是一些文件操作，然后来到了输入激活码的地方</p>
+<h2 id="激活"><a class="markdownIt-Anchor" href="#激活"></a> 激活</h2>
+<p><img src="https://img.joe1sn.top/uploads/big/32f31a0ef77265eed3d30cc39c9f4f58.png" alt="image-20240328154349545" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/acebaa815b8afac070f436ac1a2f30f6.png" alt="image-20240328154517796" /></p>
+<p>第一处认证，说明输入的激活码长度要为16，这里后续可能要patch，记一下patch点：<code>00000000006A3CF1</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/12a3d4f2556f9e8c20ffdae87bdaab07.png" alt="image-20240328154705589" /></p>
+<p>这里还有后续都做了一些信息搜集，其中包括有：时间戳，主机名(hostname)，所有网卡的mac，本地IP，还有一个user（可能是正确的激活码才会有的）</p>
+<p><img src="https://img.joe1sn.top/uploads/big/c0f05c45877b764bf05b002d8dbb26de.png" alt="image-20240328155108207" /></p>
+<p>这里调用了一个<code>main_ec</code>，先看一下截至目前拼接的字符串</p>
+<p><img src="https://img.joe1sn.top/uploads/big/1cd57ec5e4bb3f6c29515afbd9bcb1e9.png" alt="image-20240328155141755" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/0de9c338c7f0b006867940181870ff75.png" alt="image-20240328155231715" /></p>
+<p>不用认证分析了，功能：加密，key和iv两个都试一下，密文选择后面base64过后的内容</p>
+<p><img src="https://img.joe1sn.top/uploads/big/ca5a94668dbac66be885ae03eecf75e2.png" alt="image-20240328160202691" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/999097adb13ed0504686ca03d6dd061c.png" alt="image-20240328160242425" /></p>
+<p>最后发现使用，key：<code>1234567890ABCDEF</code>，iv：<code>ABCDEF1234567890</code></p>
+<p><img src="https://img.joe1sn.top/uploads/big/0729af5ea300c003fc8e94c3d0fba1cb.png" alt="image-20240328160352591" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/005fbc331117868d3c9de5f3f78f72ae.png" alt="image-20240328160553109" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/595b90a0eb802058cc030c48b42a0727.png" alt="image-20240328160643189" /></p>
+<p>拼接好参数，用最开始通讯的密钥和iv进行加密，使用POST送回服务端，貌似我们距离最后的认证也来越近了</p>
+<h2 id="校验"><a class="markdownIt-Anchor" href="#校验"></a> 校验</h2>
+<p><img src="https://img.joe1sn.top/uploads/big/f2a23063aa38d9de6ae9abd3b4c91551.png" alt="image-20240328161126355" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/c2dc2cea4390441735ea54de46c3b8f5.png" alt="image-20240328161105890" /></p>
+<p>接收到返回后就开始各种比较，那么这里就是校验的地方了，直接nop或者jmp掉就可以了，注意jmp的话栈上面的修改别覆盖了，得到第二个patch的位置：<code>00000000006A4293</code></p>
+<p>这里动态调试我就直接改rip过了</p>
+<p><img src="https://img.joe1sn.top/uploads/big/776b072899c97c4555bd43f6fc3f1d9f.png" alt="image-20240328161249744" /></p>
+<p><img src="https://img.joe1sn.top/uploads/big/267212cc688c5fa796fe0fb187050b82.png" alt="image-20240328161327045" /></p>
+<h2 id="破解coploit"><a class="markdownIt-Anchor" href="#破解coploit"></a> 破解coploit</h2>
+<p>哈哈，你不会真的以为有什么方法能免费试用coploit吧</p>
+<p>无害之处就在于此</p>
+<p>就和chatGPT一样，这个用的时候要联网，联网会验证token，所以这样的token肯定没有在他数据库里面注册过</p>
+<p>这些平台只是做一个流量转发，买几个<code>key</code>然后做个token转换然后卖给大家用而已，是不是割韭菜就仁者见仁智者见智了</p>
+<p><img src="https://img.joe1sn.top/uploads/big/22c3130c52d0e00b096e9c321edab646.png" alt="image-20240328161936587" /></p>
+<p>根据我所了解的大多是修改js文件等等的操作进行的，后续具体修改插件什么的操作，js相关文件怎么实现的，就不再分析了，点到为止</p>
+<h1 id="打包"><a class="markdownIt-Anchor" href="#打包"></a> 打包</h1>
+<p>截图的地址可能有问题是因为我重新用IDA打开过一次</p>
+<h2 id="0x6a3cf1"><a class="markdownIt-Anchor" href="#0x6a3cf1"></a> 0x6A3CF1</h2>
+<p><img src="https://img.joe1sn.top/uploads/big/049b9079c31f292231c347531bbd9aab.png" alt="image-20240328162119065" /></p>
+<p>nop掉，但是这个内容会返回到服务端，如果服务端默认这个是16个字符串而且使用了下标寻找内容，可能会出问题</p>
+<p><img src="https://img.joe1sn.top/uploads/big/43da0b7f6494ae69af300c66d51e068d.png" alt="image-20240328162228494" /></p>
+<h2 id="0x6a4293"><a class="markdownIt-Anchor" href="#0x6a4293"></a> 0x6A4293</h2>
+<p>需要注意的是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.text:00000000006A42B5                 mov     rax, [rsp+0A58h+var_5F0]</span><br><span class="line">.text:00000000006A42BD                 mov     rbx, [rsp+0A58h+var_968]</span><br><span class="line">.text:00000000006A42C5                 mov     rcx, [rsp+0A58h+var_560]</span><br><span class="line">.text:00000000006A42CD                 mov     rdi, [rsp+0A58h+var_8C8]</span><br><span class="line">.text:00000000006A42D5                 mov     rsi, [rsp+0A58h+var_680]</span><br><span class="line">.text:00000000006A42DD                 mov     r8, [rsp+0A58h+var_9C8]</span><br><span class="line">.text:00000000006A42E5                 call    main_writeHostsJSON2</span><br></pre></td></tr></table></figure>
+<p>这段修改了寄存器的值，如果跳过可能对<code>main_writeHostsJSON2</code>有不好的影响，把校验全部nop</p>
+<p><img src="https://img.joe1sn.top/uploads/big/140e555b7072a7895ccbdb0e9a0b3476.png" alt="image-20240328165823229" /></p>
+<hr />
+<p>初步达到效果</p>
+<p><img src="https://img.joe1sn.top/uploads/big/1b49ee80f0fd38cca8e43806ae1aede7.png" alt="image-20240328170337749" /></p>
+<h2 id="网络连接"><a class="markdownIt-Anchor" href="#网络连接"></a> 网络连接</h2>
+<h3 id="思路a"><a class="markdownIt-Anchor" href="#思路a"></a> 思路A</h3>
+<p>根据相关传参，按照一下两次<code>jmp</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.text: 00000000006631B9                 call    net_http___Client__Get</span><br><span class="line">.text: 00000000006638D8                 call    os_UserHomeDir</span><br><span class="line">----------------------------------------------------------------------------</span><br><span class="line">.text: 00000000006641B4                 call    net_http___Client__Post</span><br><span class="line">.text: 00000000006642B5                 mov     rax, [rsp+0A58h+var_5F0]</span><br></pre></td></tr></table></figure>
+<h3 id="思路b"><a class="markdownIt-Anchor" href="#思路b"></a> 思路B</h3>
+<p>修改域名和ip为自己的，自己搭一套服务</p>
+<ol>
+<li>
+<p>urlA的网络模拟</p>
+<p><code>urls</code> =<code> authURL_A</code>+“,”+<code>authURL_B</code></p>
+<p>使用Key-iv = <code>1234567890123456</code>-<code>1234567890123456</code>进行AES-CBC加密<code>urls </code>并返回</p>
+</li>
+<li>
+<p>urlB的网络模拟</p>
+<p>返回如下json值</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;link&quot;</span><span class="punctuation">:</span><span class="string">&quot;https://xxxxx.xyz/xxxx.html&quot;</span><span class="punctuation">,</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;x&quot;</span><span class="punctuation">,</span><span class="attr">&quot;title&quot;</span><span class="punctuation">:</span><span class="string">&quot;x.x&quot;</span><span class="punctuation">,</span><span class="attr">&quot;id&quot;</span><span class="punctuation">:</span>x<span class="punctuation">,</span><span class="attr">&quot;linktext&quot;</span><span class="punctuation">:</span><span class="string">&quot;xxxxxxxxx&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>接收post传参，返回值随便（客户端得patch）</p>
+</li>
+</ol>
+<hr />
+<p>最终效果</p>
+<p><img src="https://img.joe1sn.top/uploads/big/91efd3518aff1ad455201e80e1a155dc.png" alt="image-20240328174729083" /></p>
+</div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
+(function () {
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__next" href="/2024/03/27/windows-kernel-driver-8-timer-notify/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2024 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
