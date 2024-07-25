@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2024/07/24/minhook-source/
 https://joe1sn.eu.org/2024/06/01/crackme-cs2-entity-controller/
 https://joe1sn.eu.org/2024/03/28/crackme-coploit/
 https://joe1sn.eu.org/2024/03/27/windows-kernel-driver-8-timer-notify/
@@ -85,6 +86,7 @@ https://joe1sn.eu.org/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/
 https://joe1sn.eu.org/tags/pentest/
 https://joe1sn.eu.org/tags/crack/
 https://joe1sn.eu.org/tags/cheats/
+https://joe1sn.eu.org/tags/MinHook/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
