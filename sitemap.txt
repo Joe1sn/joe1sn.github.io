@@ -1,3 +1,5 @@
+https://joe1sn.eu.org/2024/10/01/dll-inject/
+https://joe1sn.eu.org/2024/10/11/d3d11-hook/
 https://joe1sn.eu.org/2024/07/24/minhook-source/
 https://joe1sn.eu.org/2024/06/01/crackme-cs2-entity-controller/
 https://joe1sn.eu.org/2024/03/28/crackme-coploit/
@@ -87,6 +89,7 @@ https://joe1sn.eu.org/tags/pentest/
 https://joe1sn.eu.org/tags/crack/
 https://joe1sn.eu.org/tags/cheats/
 https://joe1sn.eu.org/tags/MinHook/
+https://joe1sn.eu.org/tags/bypass/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/

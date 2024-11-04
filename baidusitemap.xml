@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joe1sn.eu.org/2024/10/01/dll-inject/</loc>
+    <lastmod>2024-11-04</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2024/10/11/d3d11-hook/</loc>
+    <lastmod>2024-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://joe1sn.eu.org/2024/07/24/minhook-source/</loc>
     <lastmod>2024-07-25</lastmod>
   </url>
