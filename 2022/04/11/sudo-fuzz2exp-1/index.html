@@ -25,7 +25,7 @@
 </blockquote>
 <h1 id="环境搭建"><a class="markdownIt-Anchor" href="#环境搭建"></a> 环境搭建</h1>
 <p>在最开始的<a target="_blank" rel="noopener" href="https://github.com/LiveOverflow/pwnedit">复现博客</a>中，我最初打算在docker中搭建整个项目，但是由于在docker上exp需要微调和学业压力导致我并不能花太多时间在上面，所以我直接使用的虚拟机。不过在原始的备份文档中我依然保存了当时搭建docker的记录，这里和原作者使用的方法类似.</p>
-<img src="https://img.joe1sn.top/uploads/big/f302c3d5fd27620789f4e5d42a90a000.png" alt="image-20220411105826186" style="zoom:50%;" />
+<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f302c3d5fd27620789f4e5d42a90a000.png" alt="image-20220411105826186" style="zoom:50%;" />
 <h2 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> Docker</h2>
 <p>LiveOverflow在项目的git仓库中有了这个dockerfile文件。因为中国GFW，所以我换了下源，如果不需要可以删掉。我这里用的是windows的DesktopDocker搭建</p>
 <p><code>ep1\Dockerfile</code></p>
@@ -36,7 +36,7 @@
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">.PHONY : all stop build run attach root</span><br><span class="line">all : stop build run</span><br><span class="line"></span><br><span class="line"><span class="section">stop:</span></span><br><span class="line">	-docker stop sudo1</span><br><span class="line">	sleep 1</span><br><span class="line">	-docker rmi sudo1</span><br><span class="line"></span><br><span class="line"><span class="section">build:</span></span><br><span class="line">	docker build --no-cache -t sudo1 .</span><br><span class="line"></span><br><span class="line"><span class="section">run:</span></span><br><span class="line">	docker run --rm -v <span class="variable">$(CURDIR)</span>:/pwd --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -d --name sudo1 -i sudo1</span><br><span class="line"></span><br><span class="line"><span class="section">attach:</span></span><br><span class="line">	docker exec -it sudo1 /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="section">root:</span></span><br><span class="line">	docker exec -u root -it sudo1 /bin/bash</span><br></pre></td></tr></table></figure>
 <p>在<code>make run</code>的时候设置了<code>-v $(CURDIR):/pwd</code>参数可以让该目录下的文件同样位于在docker中的<code>/pwd</code>中，但是由于我使用的是DesktopDocker+VsCode(Docker plugin)，对我来说不是很必要</p>
 <p>所以可以<code>make</code>或者<code>make build</code>来创建docker</p>
-<p><img src="https://img.joe1sn.top/uploads/big/450908d4f64d32270280ba5fb238de54.png" alt="image-20220411114503969" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/450908d4f64d32270280ba5fb238de54.png" alt="image-20220411114503969" /></p>
 <p>&gt;&gt;遇到的问题</p>
 <ul>
 <li>
@@ -48,11 +48,11 @@
 <p>正常现象，更新下载的时间有点长，这取决于网速</p>
 </li>
 </ul>
-<p><img src="https://img.joe1sn.top/uploads/big/768801bd3a1149d8f0edea6cb2b7643c.png" alt="image-20220411151848563" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/768801bd3a1149d8f0edea6cb2b7643c.png" alt="image-20220411151848563" /></p>
 <p>创建容器<code>make run</code></p>
 <p>创建完成后使用<code>make attach</code>进入docker</p>
-<p><img src="https://img.joe1sn.top/uploads/big/690559ec63975ea95406d03d0b53c308.png" alt="image-20220411151953764" /></p>
-<p><img src="https://img.joe1sn.top/uploads/big/c0585fb3bab085a968526cfe3eb7a70c.png" alt="image-20220411152135747" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/690559ec63975ea95406d03d0b53c308.png" alt="image-20220411151953764" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c0585fb3bab085a968526cfe3eb7a70c.png" alt="image-20220411152135747" /></p>
 <h2 id="afl"><a class="markdownIt-Anchor" href="#afl"></a> AFL</h2>
 <p>项目链接：<a target="_blank" rel="noopener" href="https://lcamtuf.coredump.cx/afl/">https://lcamtuf.coredump.cx/afl/</a></p>
 <blockquote>
@@ -61,7 +61,7 @@
 <hr />
 <p><strong>编译安装AFL</strong></p>
 <p>这里我是去掉git afl的，所以后来要装上</p>
-<p><img src="https://img.joe1sn.top/uploads/big/428007e38a5a746d930318b906a62cea.png" alt="image-20220411152517640" /><strong>问题：权限不够</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/428007e38a5a746d930318b906a62cea.png" alt="image-20220411152517640" /><strong>问题：权限不够</strong></p>
 <ul>
 <li>以<code>docker exec -it -u root ContainerID /bin/bash</code>进入，然后编译安装afl就行了</li>
 </ul>
@@ -70,7 +70,7 @@
 <p>AFL的测试是以白盒测试为基础的，我们要使用AFL的编译器对代码进行重新编译；虽然黑盒也行，但是要依靠插桩和qemu</p>
 <p>进入sudo文件夹</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CC=afl-gcc ./configure --disable-shared</span><br><span class="line">make clean</span><br><span class="line">make -j8</span><br></pre></td></tr></table></figure>
-<p><img src="https://img.joe1sn.top/uploads/big/0d8829a95da80ff2fc0f201870bdaac0.png" alt="image-20220411154306319" />出现图中<code>afl-as</code>之类的提示字符，说明正在使用afl编译</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/0d8829a95da80ff2fc0f201870bdaac0.png" alt="image-20220411154306319" />出现图中<code>afl-as</code>之类的提示字符，说明正在使用afl编译</p>
 <h2 id="afl进行分析与fuzz"><a class="markdownIt-Anchor" href="#afl进行分析与fuzz"></a> AFL进行分析与fuzz</h2>
 <p>AFL的分析方式有两种</p>
 <ul>
@@ -86,10 +86,10 @@
 </ul>
 <p>但是这里我们的是使用sudo参数处理的字符串</p>
 <p>原作者通过搜索<code>afl fuzz argv</code>发现了在AFL的<code>experimental</code>实验性质文件夹中的<code>argv-fuzz-inl.h</code>头文件，具有以下描述</p>
-<p><img src="https://img.joe1sn.top/uploads/big/a30c3c558427f1ccd4109b75c8038d04.png" alt="image-20220411155120876" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a30c3c558427f1ccd4109b75c8038d04.png" alt="image-20220411155120876" /></p>
 <p>所以我们找到sudo main函数的文件，并且将<code>argv-fuzz-inl.h</code>复制到同一个文件夹下，然后在<code>main</code>函数附近添加<code>AFL_INIT_ARGV()</code>函数</p>
-<img src="https://img.joe1sn.top/uploads/big/5626908421e1397f67aaa9f2398fbc12.png" alt="image-20220411155834192" style="zoom:80%;" />
-<p><img src="https://img.joe1sn.top/uploads/big/53c3edb228a27cb149569c7ef2e2bcdf.png" alt="image-20220411155926053" /></p>
+<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5626908421e1397f67aaa9f2398fbc12.png" alt="image-20220411155834192" style="zoom:80%;" />
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/53c3edb228a27cb149569c7ef2e2bcdf.png" alt="image-20220411155926053" /></p>
 <p><strong><code>AFL_INIT_ARGV()</code>的原理</strong></p>
 <p>可以看原来的头文件：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> AFL_INIT_ARGV() do &#123; argv = afl_init_argv(&amp;argc); &#125; while (0)</span></span><br></pre></td></tr></table></figure>
@@ -110,8 +110,8 @@
 <h2 id="重编译sudo"><a class="markdownIt-Anchor" href="#重编译sudo"></a> 重编译sudo</h2>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CC=afl-gcc ./configure --disable-shared</span><br><span class="line">make clean &amp;&amp; make -j8</span><br></pre></td></tr></table></figure>
 <p>这里就直接略过afl的测试了，因为肯定会崩溃</p>
-<p><img src="https://img.joe1sn.top/uploads/big/0208d8e5bfeb9aea178c81035e2e4bae.png" alt="image-20220411161732603" /></p>
-<p><img src="https://img.joe1sn.top/uploads/big/1e6fb1ff1919070ada5e8b05a4898b63.png" alt="image-20220411161840644" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/0208d8e5bfeb9aea178c81035e2e4bae.png" alt="image-20220411161732603" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/1e6fb1ff1919070ada5e8b05a4898b63.png" alt="image-20220411161840644" /></p>
 <h1 id="afl是如何工作的"><a class="markdownIt-Anchor" href="#afl是如何工作的"></a> AFL是如何工作的</h1>
 <p>这里开始是第二节的内容了。</p>
 <p>我们的主要目标是fuzz出sudo存在的CVE-2021-3156漏洞，然后完成exp的编写，所以并不会细致的讲解fuzz的具体工作原理和过程。不过fuzz主要有以下几个过程：</p>
@@ -149,7 +149,7 @@
 <p>The Clang project provides a language front-end and tooling infrastructure for languages in the C language family (C, C++, Objective C/C++, OpenCL, CUDA, and RenderScript) for the <a target="_blank" rel="noopener" href="https://www.llvm.org/">LLVM</a> project. Both a GCC-compatible compiler driver (<code>clang</code>) and an MSVC-compatible compiler driver (<code>clang-cl.exe</code>) are provided. You can <a target="_blank" rel="noopener" href="https://clang.llvm.org/get_started.html">get and build</a> the source today.</p>
 </blockquote>
 <p>编译器的结构</p>
-<p><img src="https://img.joe1sn.top/uploads/big/e558964575a6d2a58e84d70d04b01ffc.png" alt="image-20220411163626555" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e558964575a6d2a58e84d70d04b01ffc.png" alt="image-20220411163626555" /></p>
 <p>简单理解的话就是说Clang是gcc编译器的另外一个实现</p>
 <p>同时AFL也支持使用<code>afl-clang</code>，和<code>afl-gcc</code>的用法相同</p>
 <blockquote>
@@ -170,18 +170,18 @@
 </ul>
 <p><strong>重编译sudo</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CC=afl-clang-fast ./configure --disable-shared &amp;&amp; make -j8</span><br></pre></td></tr></table></figure>
-<p><img src="https://img.joe1sn.top/uploads/big/67a66b9d0ed9dd1b0be5e7a8c5031f78.png" alt="image-20220411170002807" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/67a66b9d0ed9dd1b0be5e7a8c5031f78.png" alt="image-20220411170002807" /></p>
 <p>这里我发现其实在user用户下也会Segmentation fault，这个是因为权限的问题，后面就大致能感受出来了</p>
 <h2 id="开始fuzz-2"><a class="markdownIt-Anchor" href="#开始fuzz-2"></a> 开始Fuzz</h2>
 <p><strong>创建输入输出</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir ../input ../output</span><br><span class="line">echo -en &quot;-l\x00&quot; &gt; ../input/testcase1</span><br><span class="line">afl-fuzz -i ../input/ -o ../output/ -- ./src/sudo</span><br></pre></td></tr></table></figure>
-<p><img src="https://img.joe1sn.top/uploads/big/df0ee6e0b7abad069975cccff20b3121.png" alt="image-20220411170434520" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/df0ee6e0b7abad069975cccff20b3121.png" alt="image-20220411170434520" /></p>
 <h2 id="afl的说明"><a class="markdownIt-Anchor" href="#afl的说明"></a> AFL的说明</h2>
 <p>AFL是以基于覆盖率测试的模糊测试工具，将编译过的数据送到被测试的程序中。被测试的程序中有使用AFL编译器编译时的插桩代码(<code>__afl_maybe_log</code>)，可以让编译器返回那些函数被执行过（被覆盖到）</p>
 <p>例如在windows的模糊测试中，可以使用DynamoRIO对文件进行覆盖率测试</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">D:\HackTools\Fuzz\winafl\build_x64\bin\Release&gt;D:\HackTools\Fuzz\DynamoRIO-Windows-8.0.0-1\bin64\drrun.exe -t drcov -- test.exe not_kitty.bmp</span><br><span class="line">Error 1</span><br></pre></td></tr></table></figure>
 <p>然后再IDA中加载覆盖率文件</p>
-<p><img src="https://img.joe1sn.top/uploads/big/969249f2d05503b202ad2b8561cc624a.png" alt="image-20220411175334598" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/969249f2d05503b202ad2b8561cc624a.png" alt="image-20220411175334598" /></p>
 <p>其中绿色的就是单次执行被覆盖到的代码，被覆盖到的代码越多，测试也就越准确。</p>
 <p>所以AFL可以通过插桩代码，不断改进输入的数据，从而得到更高的覆盖率</p>
 <h2 id="会得到漏洞吗"><a class="markdownIt-Anchor" href="#会得到漏洞吗"></a> 会得到漏洞吗？</h2>
@@ -192,8 +192,8 @@
 <p>但是我们是尝试独立挖掘出这个漏洞，并且 <strong>sudoedit</strong> 是作为独立插件编译得，所以我们并不能直接的测试<code>sudoedit -s</code></p>
 <p><strong>在测试前了解你要测试的程序</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">man sudo</span><br><span class="line">whereis sudo</span><br><span class="line">whereis sudoedit</span><br></pre></td></tr></table></figure>
-<p><img src="https://img.joe1sn.top/uploads/big/f2b8b0e3bf900339ef85824fb9500032.png" alt="image-20220411185630941" /></p>
-<p><img src="https://img.joe1sn.top/uploads/big/1190735e7304168525f26ff33563b32d.png" alt="image-20220411185744345" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f2b8b0e3bf900339ef85824fb9500032.png" alt="image-20220411185630941" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/1190735e7304168525f26ff33563b32d.png" alt="image-20220411185744345" /></p>
 <p>&gt;&gt;问题</p>
 <ul>
 <li>
@@ -206,7 +206,7 @@
 <p>细心一点可能会发现在之前的</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">char</span>** <span class="title function_">afl_init_argv</span><span class="params">(<span class="type">int</span>* argc)</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="type">static</span> <span class="type">char</span>  in_buf[MAX_CMDLINE_LEN];</span><br><span class="line">  <span class="type">static</span> <span class="type">char</span>* ret[MAX_CMDLINE_PAR];</span><br><span class="line"></span><br><span class="line">  <span class="type">char</span>* ptr = in_buf;</span><br><span class="line">  <span class="type">int</span>   rc  = <span class="number">1</span>; <span class="comment">/* start after argv[0] */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (read(<span class="number">0</span>, in_buf, MAX_CMDLINE_LEN - <span class="number">2</span>) &lt; <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">while</span> (*ptr) &#123;</span><br><span class="line">    ret[rc] = ptr;</span><br><span class="line">      </span><br><span class="line">    <span class="comment">/* insert &#x27;\0&#x27; at the end of ret[rc] on first space-sym */</span></span><br><span class="line">    <span class="keyword">while</span> (*ptr &amp;&amp; !<span class="built_in">isspace</span>(*ptr)) ptr++;</span><br><span class="line">    *ptr = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">    ptr++;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* skip more space-syms */</span></span><br><span class="line">    <span class="keyword">while</span> (*ptr &amp;&amp; <span class="built_in">isspace</span>(*ptr)) ptr++;</span><br><span class="line">    rc++;</span><br><span class="line">  &#125;</span><br><span class="line">  *argc = rc;</span><br><span class="line">  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中<code>rc=1</code>，说明是从<code>argv[1]</code>开始创建fake_argv的，但是我们知道<code>argv[0]</code>就是程序自身，那么我们就可以通过fuzz <code>argv[0]</code>从而找到sudoedit。那么修改试试看，重新编译sudo</p>
-<p><img src="https://img.joe1sn.top/uploads/big/57cef8cb027c29a2455c878105f39006.png" alt="image-20220411195138050" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/57cef8cb027c29a2455c878105f39006.png" alt="image-20220411195138050" /></p>
 <p>&gt;&gt;问题</p>
 <ul>
 <li>
@@ -220,8 +220,8 @@
 </blockquote>
 <p>sudo/sudoedit不会直接使用argv[0]作为程序名称，而是使用<code>__progname</code></p>
 <p>阅读sudo源代码我们发现</p>
-<p><img src="https://img.joe1sn.top/uploads/big/b7b60307fbd2f941b818dab1a01f3a92.png" alt="image-20220411190411773" /></p>
-<p><img src="https://img.joe1sn.top/uploads/big/e8aa3bd4c3c5953c534746ae56f3de1d.png" alt="image-20220411190748133" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/b7b60307fbd2f941b818dab1a01f3a92.png" alt="image-20220411190411773" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e8aa3bd4c3c5953c534746ae56f3de1d.png" alt="image-20220411190748133" /></p>
 <ul>
 <li>
 <p>在<code>main</code>中</p>
@@ -236,7 +236,7 @@
 <p>解决：直接删掉后重新编译</p>
 </li>
 </ul>
-<p><img src="https://img.joe1sn.top/uploads/big/f8957da611aa4f7cd4cabde4f51d316b.png" alt="image-20220411200458294" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f8957da611aa4f7cd4cabde4f51d316b.png" alt="image-20220411200458294" /></p>
 <h2 id="开始多核fuzz"><a class="markdownIt-Anchor" href="#开始多核fuzz"></a> 开始多核fuzz</h2>
 <ul>
 <li>
@@ -250,7 +250,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz -S slave -i /tmp/in -o /tmp/out/ -- ./src/sudo</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="https://img.joe1sn.top/uploads/big/d5b41e9d5a6683942cfd3091d5a0cfb8.png" alt="image-20220411201155776" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/d5b41e9d5a6683942cfd3091d5a0cfb8.png" alt="image-20220411201155776" /></p>
 </div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
 (function () {
   var dsq = document.createElement('script');
@@ -258,4 +258,4 @@
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2022/04/13/sudo-fuzz2exp-2/">prev_post</a><a class="pagination__link pagination__next" href="/2022/04/10/clash-rce/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2024 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2022/04/13/sudo-fuzz2exp-2/">prev_post</a><a class="pagination__link pagination__next" href="/2022/04/10/clash-rce/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

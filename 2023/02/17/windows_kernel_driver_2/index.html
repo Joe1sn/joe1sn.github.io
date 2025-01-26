@@ -22,10 +22,10 @@
 <p>英特尔® 64 位和 IA-32 架构开发人员手册合订本</p>
 <p>第3卷第四章第五小节《4-LEVEL PAGING AND 5-LEVEL PAGING》</p>
 <h3 id="判断cpu是四级分页还是五级分页"><a class="markdownIt-Anchor" href="#判断cpu是四级分页还是五级分页"></a> 判断CPU是四级分页还是五级分页</h3>
-<p><img src="https://img.joe1sn.top/uploads/big/52fd7a50c413368bd8a695de90fcd4cd.png" alt="image-20230216154149842" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/52fd7a50c413368bd8a695de90fcd4cd.png" alt="image-20230216154149842" /></p>
 <p>page: 3074</p>
-<p><img src="https://img.joe1sn.top/uploads/big/14c30bac52de0e60030b23bcb577fe75.png" alt="image-20230216155742771" /></p>
-<p><img src="https://img.joe1sn.top/uploads/big/a843d486654ecf31cdcb72aedeec3a00.png" alt="image-20230216160252784" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/14c30bac52de0e60030b23bcb577fe75.png" alt="image-20230216155742771" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a843d486654ecf31cdcb72aedeec3a00.png" alt="image-20230216160252784" /></p>
 <p>该寄存器的值决定了映射层级是4/5，</p>
 <ul>
 <li>1：5级分页</li>
@@ -35,7 +35,7 @@
 <h2 id="驱动开发探索页面"><a class="markdownIt-Anchor" href="#驱动开发探索页面"></a> [驱动开发]探索页面</h2>
 <h3 id="cr3寄存器于页遍历"><a class="markdownIt-Anchor" href="#cr3寄存器于页遍历"></a> CR3寄存器于页遍历</h3>
 <p>CR3 寄存器设计 <code>CR3[512][512][512][512]</code></p>
-<p><img src="https://img.joe1sn.top/uploads/big/232aa1382631d6a7942c76e6deb33f7c.png" alt="image-20230217100658871" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/232aa1382631d6a7942c76e6deb33f7c.png" alt="image-20230217100658871" /></p>
 <p>个人觉得这块儿和CSAPP上面讲的差不多</p>
 <p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>页号</mtext><mo>=</mo><mfrac><mtext>页首地址</mtext><mtext>页大小</mtext></mfrac><mo>=</mo><mfrac><mtext>页首地址</mtext><mrow><mn>4</mn><mi>K</mi><mi>B</mi></mrow></mfrac><mo>=</mo><mo>=</mo><mfrac><mtext>页首地址</mtext><msup><mn>2</mn><mn>12</mn></msup></mfrac><mo>=</mo><mo>=</mo><mtext>页首地址</mtext><mo>&gt;</mo><mo>&gt;</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">页号 = \frac{页首地址}{页大小}= \frac{页首地址}{4KB}== \frac{页首地址}{2^{12}}== 页首地址&gt;&gt;12</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord cjk_fallback">页</span><span class="mord cjk_fallback">号</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.217331em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">页</span><span class="mord cjk_fallback mtight">大</span><span class="mord cjk_fallback mtight">小</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">页</span><span class="mord cjk_fallback mtight">首</span><span class="mord cjk_fallback mtight">地</span><span class="mord cjk_fallback mtight">址</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.217331em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">4</span><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">页</span><span class="mord cjk_fallback mtight">首</span><span class="mord cjk_fallback mtight">地</span><span class="mord cjk_fallback mtight">址</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.217331em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord cjk_fallback mtight">页</span><span class="mord cjk_fallback mtight">首</span><span class="mord cjk_fallback mtight">地</span><span class="mord cjk_fallback mtight">址</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord cjk_fallback">页</span><span class="mord cjk_fallback">首</span><span class="mord cjk_fallback">地</span><span class="mord cjk_fallback">址</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">2</span></span></span></span></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.得到CR3寄存器的值，从而得到一级页表地址</span></span><br><span class="line">CR3 Cr3 = &#123; .Value = __readcr3() &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2.对每一个一级页读取</span></span><br><span class="line">PL1PTE L1pt = MmGetVirtualForPhysical(L1ptPa.AsLargeInteger);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> n1 = <span class="number">0</span>; n1 &lt; <span class="number">512</span>; n1++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!L1pt[n1].Fields.P || !L1pt[n1].Fields.U_S) <span class="keyword">continue</span>;</span><br><span class="line">        PA L2ptPa = &#123; .Fields4KB.PPN = L1pt[n1].Fields.PPN &#125;;</span><br><span class="line">        DbgPrint(<span class="string">&quot;...&quot;</span>);</span><br><span class="line">    	<span class="comment">//3.得到二级页表地址</span></span><br><span class="line">        PL2PTE L2pt = MmGetVirtualForPhysical(L2ptPa.AsLargeInteger);</span><br><span class="line">    		<span class="comment">//4.类似嵌套循环，遍历</span></span><br></pre></td></tr></table></figure>
@@ -45,16 +45,16 @@
 </li>
 <li>
 <p>得到<code>Level_1_PageTable</code>的值过后，可以使用函数<code>MmGetVirtualForPhysical</code>获得该内存地址的值，从而遍历一级页表。要判断当前<code>L1pt.P</code>是否有效，同时<code>L1pt.U_S</code>可以判断该页的权限，详细可以看开发者手册 <code>Table 4-20</code></p>
-<p><img src="https://img.joe1sn.top/uploads/big/fd903a2be055b9552c224180031c3356.png" alt="image-20230217140249814" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/fd903a2be055b9552c224180031c3356.png" alt="image-20230217140249814" /></p>
 </li>
 <li>
 <p>依次循环可以遍历完整个内存页（下图中L4pt放不下了）</p>
 </li>
 </ol>
-<p><img src="https://img.joe1sn.top/uploads/big/2fde29bb895532a0e3dbe6caf96b39ab.png" alt="image-20230217134809379" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/2fde29bb895532a0e3dbe6caf96b39ab.png" alt="image-20230217134809379" /></p>
 <h3 id="虚拟地址-物理地址"><a class="markdownIt-Anchor" href="#虚拟地址-物理地址"></a> 虚拟地址-&gt;物理地址</h3>
 <p>程序按照4KB分页个数太多不利于实验，可以强制将其分页为1GB，这样便于翻译</p>
-<p><img src="https://img.joe1sn.top/uploads/big/5a04f7c630f2039a36b284c729accfa3.png" alt="image-20230217140941496" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5a04f7c630f2039a36b284c729accfa3.png" alt="image-20230217140941496" /></p>
 <p>编写一个测试程序，该程序能申请出一页的内存，并打印其值</p>
 <p>使用<code>PsGetCurrentProcess</code>获得当前进程<code>PROCESS</code>对象，若相等则不启用新方法</p>
 <p>使用<code>KeStackAttachProcess</code>附加到要翻译的内存的<code>PROCESS</code>对象中，使用老方法输出就OK了，最后<code>KeUnstackDetachProcess</code>脱离</p>
@@ -66,21 +66,21 @@
 </li>
 <li>
 <p>具体过程</p>
-<p><img src="https://img.joe1sn.top/uploads/big/0fdab9499f3cf26c73a14209daa70aaa.png" alt="image-20230217144908513" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/0fdab9499f3cf26c73a14209daa70aaa.png" alt="image-20230217144908513" /></p>
 <p>这里以<code>0x00000254000003BC  Str1</code> 为例子，加载插件打印，耐心等待。。。</p>
-<p><img src="https://img.joe1sn.top/uploads/big/7d498b364278092281843a4f1d83dab3.png" alt="image-20230217145848060" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/7d498b364278092281843a4f1d83dab3.png" alt="image-20230217145848060" /></p>
 <p>这时候的数据大小就有83KB了</p>
 <p><code>format(0x00000254000003BC, &quot;064b&quot;)</code>，内存前16位为空是没有用的</p>
 <ul>
 <li>
 <p>高9位 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>P</mi><mi>N</mi><mn>1</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">VPN1=4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span></p>
 <p><code>int(format(0x00000254000003BC, &quot;064b&quot;)[16:][:9],2)</code></p>
-<p><img src="https://img.joe1sn.top/uploads/big/4637e86e487404ab026afbbc26328816.png" alt="image-20230217150603957" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/4637e86e487404ab026afbbc26328816.png" alt="image-20230217150603957" /></p>
 </li>
 <li>
 <p>再9位 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>P</mi><mi>N</mi><mn>2</mn><mo>=</mo><mn>336</mn></mrow><annotation encoding="application/x-tex">VPN2=336</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">3</span><span class="mord">6</span></span></span></span></p>
 <p><code>int(format(0x00000254000003BC, &quot;064b&quot;)[16:][9:18],2)</code></p>
-<p><img src="https://img.joe1sn.top/uploads/big/5bda92c2a7cdbea9c04507263f971258.png" alt="image-20230217150709452" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5bda92c2a7cdbea9c04507263f971258.png" alt="image-20230217150709452" /></p>
 <p><strong>该页表的PS=1，则不需要查找下一个页表了</strong>（而且后面也没有了）</p>
 </li>
 <li>
@@ -90,13 +90,13 @@
 </li>
 <li>
 <p>暂停系统，Windbg -&gt; memory window -&gt; 右键 -&gt; proeries -&gt; physical memory</p>
-<p><img src="https://img.joe1sn.top/uploads/big/5a6dddfa643cdd1d03c716121b4de8f3.png" alt="image-20230217151350113" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5a6dddfa643cdd1d03c716121b4de8f3.png" alt="image-20230217151350113" /></p>
 </li>
 <li>
 <p>尝试修改</p>
-<p><img src="https://img.joe1sn.top/uploads/big/a1166647d16ba21f913e126ca6ea3592.png" alt="image-20230217151439604" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a1166647d16ba21f913e126ca6ea3592.png" alt="image-20230217151439604" /></p>
 <p>再次刷新应该就是<code>1234</code>了</p>
-<p><img src="https://img.joe1sn.top/uploads/big/656aff6ff9e27f5686dfeac7868602d2.png" alt="image-20230217151554657" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/656aff6ff9e27f5686dfeac7868602d2.png" alt="image-20230217151554657" /></p>
 <p>成功修改</p>
 </li>
 </ul>
@@ -104,7 +104,7 @@
 </ul>
 <h3 id="官方文档"><a class="markdownIt-Anchor" href="#官方文档"></a> 官方文档</h3>
 <p>2938/4834</p>
-<p><img src="https://img.joe1sn.top/uploads/big/068eed44fe76c0448ad99c95bb66a87d.png" alt="image-20230217151657940" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/068eed44fe76c0448ad99c95bb66a87d.png" alt="image-20230217151657940" /></p>
 </div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
 (function () {
   var dsq = document.createElement('script');
@@ -112,4 +112,4 @@
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/03/25/mirai-bota/">prev_post</a><a class="pagination__link pagination__next" href="/2023/02/16/windows_kernel_driver_1/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2024 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/03/25/mirai-bota/">prev_post</a><a class="pagination__link pagination__next" href="/2023/02/16/windows_kernel_driver_1/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

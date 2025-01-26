@@ -30,15 +30,15 @@
 <p>但是在漏洞利用中，只存在这一个堆溢出，我们无法进行系列的<code>free</code>、<code>malloc</code>，所以思路是能否攻击堆内的有效数据，尝试找到堆内的函数指针或者其他有用的数据。<strong>本质上是攻击堆上的数据</strong></p>
 <h2 id="gdb调试"><a class="markdownIt-Anchor" href="#gdb调试"></a> GDB调试</h2>
 <p>不适用asan重新编译后，使用<strong>GEF</strong>分析crash时堆的分布</p>
-<p><img src="https://img.joe1sn.top/uploads/big/532a062a01ed40da463ddb63ede2b010.png" alt="image-20220414081956697" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/532a062a01ed40da463ddb63ede2b010.png" alt="image-20220414081956697" /></p>
 <p>一个很明显的堆溢出，再看看出发时的堆分布</p>
 <p>断点</p>
-<p><img src="https://img.joe1sn.top/uploads/big/977a9e1186a3d96c3b29ef7214e2f822.png" alt="image-20220414082506061" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/977a9e1186a3d96c3b29ef7214e2f822.png" alt="image-20220414082506061" /></p>
 <p>堆chunk</p>
-<p><img src="https://img.joe1sn.top/uploads/big/929d8e8804974a002194405514a80b0c.png" alt="image-20220414082234355" /></p>
-<p><img src="https://img.joe1sn.top/uploads/big/cf2f151144da211172788131fd8df6bb.png" alt="image-20220414082408083" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/929d8e8804974a002194405514a80b0c.png" alt="image-20220414082234355" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/cf2f151144da211172788131fd8df6bb.png" alt="image-20220414082408083" /></p>
 <p>再次到达断点，堆溢出</p>
-<p><img src="https://img.joe1sn.top/uploads/big/7da088de496daf242ff6f08f51273c77.png" alt="image-20220414083507789" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/7da088de496daf242ff6f08f51273c77.png" alt="image-20220414083507789" /></p>
 <h2 id="困难与解决"><a class="markdownIt-Anchor" href="#困难与解决"></a> 困难与解决</h2>
 <p>这样的堆分配情况让我们很难使用堆风水去调整堆分配，并且在程序运行中会遇到各种何样的内存分配情况，哪怕是不一样的长度都会造成堆分配的不同，进而让数据分配到不同的地方。</p>
 <p>如何解决，有两个思路</p>
@@ -58,7 +58,7 @@ randomly selects the following parameters:</p>
 <h1 id="函数指针工具编写"><a class="markdownIt-Anchor" href="#函数指针工具编写"></a> 函数指针工具编写</h1>
 <h2 id="思路分析"><a class="markdownIt-Anchor" href="#思路分析"></a> 思路分析</h2>
 <p>从gdb的<code>vmmap</code>指令我们知道程序有哪些代码段</p>
-<p><img src="https://img.joe1sn.top/uploads/big/aafecabf6b9432e4732b8135953de8fe.png" alt="image-20220414084942194" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/aafecabf6b9432e4732b8135953de8fe.png" alt="image-20220414084942194" /></p>
 <p>如果在堆内存中带有<code>x</code>即可执行权限的话就可能存在能够被我们利用的函数指针</p>
 <h2 id="工具编写"><a class="markdownIt-Anchor" href="#工具编写"></a> 工具编写</h2>
 <ol>
@@ -76,7 +76,7 @@ randomly selects the following parameters:</p>
 </li>
 <li>
 <p>得到结果</p>
-<p><img src="https://img.joe1sn.top/uploads/big/449bbaa76e8ed77743a08a0c31acb492.png" alt="image-20220414092034283" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/449bbaa76e8ed77743a08a0c31acb492.png" alt="image-20220414092034283" /></p>
 <p>能堆溢出的堆在最下面，不能覆写任何函数指针，艹</p>
 </li>
 <li>
@@ -84,11 +84,11 @@ randomly selects the following parameters:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">0x41</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(heap), <span class="number">8</span>):</span><br><span class="line">    heap_addr = i+<span class="number">0x005555555f9000</span></span><br><span class="line">    b = heap[i:i+<span class="number">8</span>]</span><br><span class="line">    q = struct.unpack(<span class="string">&#x27;Q&#x27;</span>, b)[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> mem <span class="keyword">in</span> memmap:</span><br><span class="line">        <span class="keyword">if</span> q&gt;=mem[<span class="number">0</span>] <span class="keyword">and</span> q&lt;=mem[<span class="number">1</span>]:</span><br><span class="line">            <span class="comment"># print(f&quot;0x&#123;heap_addr:016x&#125;: &#123;q:016x&#125; &#123;b&#125;&quot;)</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;set *0x<span class="subst">&#123;heap_addr:016x&#125;</span> = 0x&quot;</span>+(<span class="built_in">hex</span>(n)[<span class="number">2</span>:]*<span class="number">5</span>))</span><br><span class="line">            n += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> <span class="number">0x000055555561b4d0</span> == heap_addr:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;0x<span class="subst">&#123;heap_addr:016x&#125;</span>: our [buffer]&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>生成不会造成<code>crash</code>的文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo -en &quot;0edit\x00-s\x000000000&quot; &gt; /tmp/normal</span><br></pre></td></tr></table></figure>
-<p><img src="https://img.joe1sn.top/uploads/big/f75b0c385d066b7147fb7d12818f4fbf.png" alt="image-20220414092905786" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f75b0c385d066b7147fb7d12818f4fbf.png" alt="image-20220414092905786" /></p>
 <p>在gdb中设置这些值</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">set *0x00005555556149a8 = 0x4141414141</span><br><span class="line">set *0x00005555556149b0 = 0x4242424242</span><br><span class="line">set *0x0000555555615260 = 0x4343434343</span><br><span class="line">set *0x0000555555615268 = 0x4444444444</span><br><span class="line">set *0x0000555555617e00 = 0x4545454545</span><br><span class="line">set *0x0000555555617eb0 = 0x4646464646</span><br><span class="line">set *0x0000555555618378 = 0x4747474747</span><br><span class="line">set *0x0000555555618398 = 0x4848484848</span><br><span class="line">set *0x00005555556183b8 = 0x4949494949</span><br><span class="line">set *0x00005555556183d8 = 0x4a4a4a4a4a</span><br><span class="line">set *0x00005555556184d8 = 0x4b4b4b4b4b</span><br><span class="line">set *0x0000555555619b40 = 0x4c4c4c4c4c</span><br><span class="line">set *0x000055555561a0b0 = 0x4d4d4d4d4d</span><br></pre></td></tr></table></figure>
 <p>取消断点继续，应该就会出现一些报错了</p>
-<p><img src="https://img.joe1sn.top/uploads/big/1f7019cfc44dd23bc8341b49638dfff1.png" alt="image-20220414103302900" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/1f7019cfc44dd23bc8341b49638dfff1.png" alt="image-20220414103302900" /></p>
 <p>&gt;&gt;问题</p>
 <ul>
 <li>
@@ -97,9 +97,9 @@ randomly selects the following parameters:</p>
 </li>
 </ul>
 <p>发现一个红黑树!</p>
-<p><img src="https://img.joe1sn.top/uploads/big/d2970fcab1ca82e6035b8dc63f429930.png" alt="image-20220414103855166" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/d2970fcab1ca82e6035b8dc63f429930.png" alt="image-20220414103855166" /></p>
 <p>结果看到<code>compar</code>变量被我们覆盖了，说明函数真的被调用了，如果我们能覆盖<code>compar</code>地址，那么就能改写函数指针。重复这些过程就可以找到更多的函数指针。比如修改输入类型，然后把输入换成普通输入，<code>set *0x000055555561a0b0 = 0x4d4d4d4d4d</code>换掉，得到另一个crash</p>
-<p><img src="https://img.joe1sn.top/uploads/big/8f92f140a02788a9be9ae451e5e482b2.png" alt="image-20220415105540238" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/8f92f140a02788a9be9ae451e5e482b2.png" alt="image-20220415105540238" /></p>
 </li>
 </ol>
 <h1 id="强制堆分配"><a class="markdownIt-Anchor" href="#强制堆分配"></a> 强制堆分配</h1>
@@ -110,19 +110,19 @@ randomly selects the following parameters:</p>
 <ol>
 <li>
 <p>添加打印参数Chunk地址</p>
-<p><img src="https://img.joe1sn.top/uploads/big/2cef5162ba6a14905755f21063a29737.png" alt="image-20220414120240051" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/2cef5162ba6a14905755f21063a29737.png" alt="image-20220414120240051" /></p>
 </li>
 <li>
 <p>已上一节的红黑树为例，打印<code>compar</code>的值</p>
 <p><s>忘写分号了</s></p>
-<p><img src="https://img.joe1sn.top/uploads/big/0277679ee8b79157542b7ca86679262e.png" alt="image-20220414122222094" /></p>
-<p><img src="https://img.joe1sn.top/uploads/big/677cba2f8962fddb6943fa56da03b8d1.png" alt="image-20220414122448875" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/0277679ee8b79157542b7ca86679262e.png" alt="image-20220414122222094" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/677cba2f8962fddb6943fa56da03b8d1.png" alt="image-20220414122448875" /></p>
 </li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure &amp;&amp; make</span><br><span class="line">ln -s /pwd/sudo_test/src/.libs/sudo ./src/.libs/sudoedit</span><br></pre></td></tr></table></figure>
 <p>作者在这里踩了坑，我想复现下，不想看的可以略过</p>
-<p><img src="https://img.joe1sn.top/uploads/big/4ecd2bb3d6b06eefcd140b1cbc096af3.png" alt="image-20220414123642675" /></p>
-<p><img src="https://img.joe1sn.top/uploads/big/cc0e7e9154dd2ed5e98aae914cc289f4.png" alt="image-20220414123801800" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/4ecd2bb3d6b06eefcd140b1cbc096af3.png" alt="image-20220414123642675" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/cc0e7e9154dd2ed5e98aae914cc289f4.png" alt="image-20220414123801800" /></p>
 <p>虽然报错的方式不一样，但是结果和原因都是一样的。一个都是libsudo这个库找不到，作者的问题是使用的是系统变量中的库，<strong>但是这个库不含有<code>printf</code>即其他输出，自然也就没法打印字符串</strong></p>
 <p>&gt;&gt;问题</p>
 <ul>
@@ -132,7 +132,7 @@ randomly selects the following parameters:</p>
 </li>
 </ul>
 <p>所以使用<code>make install</code>安装方法就好了，只要之前make过一次之后就都可以了</p>
-<p><img src="https://img.joe1sn.top/uploads/big/a9391826eb45d490d44f3519b94854f8.png" alt="image-20220414212057228" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a9391826eb45d490d44f3519b94854f8.png" alt="image-20220414212057228" /></p>
 <p>堆溢出发生时，程序并不会立即<code>crash</code>，而是会进入到红黑树的部分，但是能溢出的<code>user_args</code>地址在<code>rbtree1</code>地址后面，所以依然无法利用</p>
 <h2 id="暴力测试脚本"><a class="markdownIt-Anchor" href="#暴力测试脚本"></a> 暴力测试脚本</h2>
 <p>尝试构造不同的输入，看看能不能有路径可以把函数指针放在我们能溢出的chunk后面的</p>
@@ -167,7 +167,7 @@ randomly selects the following parameters:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># this will run sudoedit with a set of arguments and environment variables</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_sudoedit</span>(<span class="params">arg, env</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;-------------&quot;</span>)</span><br><span class="line">    <span class="comment"># disable stdout buffering with stdbuf wrapping around sudoedit</span></span><br><span class="line">    <span class="comment"># and add the commandline arguments</span></span><br><span class="line">    _cmd = [<span class="string">&quot;/usr/bin/stdbuf&quot;</span>, <span class="string">&quot;-o0&quot;</span>, <span class="string">&quot;/usr/local/bin/sudoedit&quot;</span>] + arg</span><br><span class="line"></span><br><span class="line">    <span class="comment"># execute it</span></span><br><span class="line">    p = subprocess.Popen(_cmd, env=env, bufsize=<span class="number">0</span>, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># send some newlines and check if we get any output</span></span><br><span class="line">        lines = p.communicate(<span class="string">b&quot;x\nx\nx\nx\n&quot;</span>, timeout=<span class="number">0.1</span>)</span><br><span class="line">    <span class="keyword">except</span> subprocess.TimeoutExpired:</span><br><span class="line">        <span class="comment"># terminate on timeout</span></span><br><span class="line">        p.terminate()</span><br><span class="line">        lines = p.communicate()</span><br><span class="line">    <span class="keyword">if</span> p.returncode == -<span class="number">11</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;SEGFAULT&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># read the list of function pointers</span></span><br><span class="line">    ptrs = &#123;&#125;</span><br><span class="line">    skipping = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines[<span class="number">0</span>].splitlines():</span><br><span class="line">        key,val = line.split(<span class="string">b&#x27;=&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> key == <span class="string">b&#x27;user_args&#x27;</span>:</span><br><span class="line">            skipping = <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> skipping:</span><br><span class="line">            ptrs[key] = <span class="built_in">int</span>(val,<span class="number">16</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># go through all function pointers</span></span><br><span class="line">    <span class="keyword">if</span> ptrs <span class="keyword">and</span> <span class="string">b&#x27;user_args&#x27;</span> <span class="keyword">in</span> ptrs:</span><br><span class="line">        <span class="keyword">for</span> key <span class="keyword">in</span> ptrs:</span><br><span class="line">            <span class="keyword">if</span> key != <span class="string">b&#x27;user_args&#x27;</span>:</span><br><span class="line">                <span class="comment"># is our overflow buffer before a function pointer?</span></span><br><span class="line">                <span class="keyword">if</span> ptrs[<span class="string">b&#x27;user_args&#x27;</span>] &lt; ptrs[key]:</span><br><span class="line">                    distance = ptrs[key] - ptrs[<span class="string">b&#x27;user_args&#x27;</span>]</span><br><span class="line">                    <span class="keyword">if</span> distance&lt;<span class="number">14000</span>:</span><br><span class="line">                        fname = <span class="string">f&#x27;<span class="subst">&#123;FOLDER&#125;</span>/<span class="subst">&#123;distance&#125;</span>&#x27;</span></span><br><span class="line">                        dump_file(fname, lines, ptrs, arg, env, key)</span><br><span class="line"></span><br><span class="line">                        <span class="comment"># did we get a segfault?</span></span><br><span class="line">                        <span class="keyword">if</span> p.returncode == -<span class="number">11</span>:</span><br><span class="line">                            fname = <span class="string">f&quot;<span class="subst">&#123;FOLDER&#125;</span>/crashes/segfault_<span class="subst">&#123;distance&#125;</span>&quot;</span></span><br><span class="line">                            dump_file(fname, lines, ptrs, arg, env, <span class="literal">None</span>)</span><br><span class="line">                            <span class="keyword">return</span></span><br><span class="line">                        <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p><img src="https://img.joe1sn.top/uploads/big/8415ea76e1d7d757ab5a0a2a64b55aa8.png" alt="image-20220415130840543" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/8415ea76e1d7d757ab5a0a2a64b55aa8.png" alt="image-20220415130840543" /></p>
 <p>最后发现chunk位置相差太远不同 ，根本无法利用</p>
 <h1 id="gdb工具编写"><a class="markdownIt-Anchor" href="#gdb工具编写"></a> GDB工具编写</h1>
 <h2 id="阶段-1"><a class="markdownIt-Anchor" href="#阶段-1"></a> 阶段 1</h2>
@@ -176,20 +176,20 @@ randomly selects the following parameters:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> breakpoint pending on</span><br><span class="line"><span class="built_in">break</span> free</span><br><span class="line">commands</span><br><span class="line"> silent</span><br><span class="line"> <span class="built_in">printf</span> <span class="string">&quot;free(): %s\n&quot;</span>,<span class="variable">$rdi</span></span><br><span class="line"> <span class="built_in">continue</span></span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">run -s <span class="string">&#x27;SSSSSSSSSSSSSSSSSSSSSYYY\&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>运行</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb -x ./gdb.init /usr/local/bin/sudoedit  &gt; free_trace</span><br></pre></td></tr></table></figure>
-<p><img src="https://img.joe1sn.top/uploads/big/087221d78d84e19ddbcfe7d6a788fbfc.png" alt="image-20220415123301007" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/087221d78d84e19ddbcfe7d6a788fbfc.png" alt="image-20220415123301007" /></p>
 <p>发现有环境变量，再次尝试设置环境变量</p>
-<p><img src="https://img.joe1sn.top/uploads/big/19f25365a5ccc6c30832bb70793e9ff3.png" alt="image-20220415123740168" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/19f25365a5ccc6c30832bb70793e9ff3.png" alt="image-20220415123740168" /></p>
 <p>发现根本没变，要是我们尝试更多的环境变量呢？</p>
 <h2 id="阶段-2"><a class="markdownIt-Anchor" href="#阶段-2"></a> 阶段 2</h2>
 <p>直接在加载环境变量（<code>getenv(3p)</code>）的时候下断点，看看用了那些</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">set breakpoint pending on</span><br><span class="line"></span><br><span class="line">break getenv</span><br><span class="line">commands</span><br><span class="line"> silent</span><br><span class="line"> printf &quot;getenv(): %s\n&quot;,$rdi</span><br><span class="line"> continue</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">run -s &#x27;SSSSSSSSSSSSSSSSSSSSSYYY\&#x27;</span><br></pre></td></tr></table></figure>
 <p>发现可以设置的环境变量值</p>
-<p><img src="https://img.joe1sn.top/uploads/big/dc45f29e3991c2d964986b846b522f9c.png" alt="image-20220415124335590" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/dc45f29e3991c2d964986b846b522f9c.png" alt="image-20220415124335590" /></p>
 <p>再次改写脚本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">set breakpoint pending on</span><br><span class="line">set environment LOCPATH = HEAP0</span><br><span class="line">set environment LC_ALL = HEAP1</span><br><span class="line">set environment LC_IDENTIFICATION = HEAP2</span><br><span class="line">set environment LANG = HEAP3</span><br><span class="line">set environment LC_MEASUREMENT = HEAP4</span><br><span class="line">set environment LC_TELEPHONE = HEAP5</span><br><span class="line">set environment LC_ADDRESS = HEAP6</span><br><span class="line">set environment LC_NAME = HEAP7</span><br><span class="line">set environment LC_PAPER = HEAP8</span><br><span class="line">set environment LC_MESSAGES = HEAP9</span><br><span class="line">set environment LC_MONETARY = HEAPA</span><br><span class="line">set environment LC_COLLATE = HEAPB</span><br><span class="line">set environment LC_TIME = HEAPC</span><br><span class="line">set environment LC_NUMERIC = HEAPD</span><br><span class="line">set environment LC_CTYPE = HEAPE</span><br><span class="line">set environment GCONV_PATH = HEAPF</span><br><span class="line">set environment TZ = HEAPG</span><br><span class="line">set environment SHELL = HEAPI</span><br><span class="line"></span><br><span class="line">break free</span><br><span class="line">commands</span><br><span class="line"> silent</span><br><span class="line"> printf &quot;free(): %s\n&quot;,$rdi</span><br><span class="line"> continue</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">run -s &#x27;SSSSSSSSSSSSSSSSSSSSSYYY\&#x27;</span><br></pre></td></tr></table></figure>
-<p><img src="https://img.joe1sn.top/uploads/big/465ccd9c3a880d07af8a9a78aba2a03d.png" alt="image-20220415125938308" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/465ccd9c3a880d07af8a9a78aba2a03d.png" alt="image-20220415125938308" /></p>
 <p>所以可以从这些地方下手来构建更好的暴力测试工具，同时作者也在第一份暴力测试工具中犯了很多错误。用github上的改进版本能快速找到能利用的点</p>
-<p><img src="https://img.joe1sn.top/uploads/big/14cd70c46596227d77bdee90d7be5605.png" alt="image-20220415131006033" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/14cd70c46596227d77bdee90d7be5605.png" alt="image-20220415131006033" /></p>
 <p>或许利用点在于覆写环境变量？</p>
 <h2 id="阶段-3"><a class="markdownIt-Anchor" href="#阶段-3"></a> 阶段 3</h2>
 <p>这时里exp还很远，也可以尝试下分析堆溢出过后还有哪些地方申请</p>
@@ -200,7 +200,7 @@ randomly selects the following parameters:</p>
 <p>使用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb -ex &#x27;set breakpoint pending on&#x27; -ex &#x27;sudoedit&#x27; -ex &#x27;r -s xxxxxxxxxxxxxxxxxx&#x27; -ex &#x27;sudoedit&#x27; -ex &#x27;continue&#x27; /usr/local/bin/sudoedit | tee heap.log</span><br></pre></td></tr></table></figure>
 <p>主要就是跟踪<code>malloc</code>和<code>free</code>在堆溢出之后的行为</p>
-<p><img src="https://img.joe1sn.top/uploads/big/e672b987fc044881b8c2552c9cf2fb30.png" alt="image-20220415204128487" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e672b987fc044881b8c2552c9cf2fb30.png" alt="image-20220415204128487" /></p>
 <p>只有将这个改写到暴力脚本里面，找到符合条件的Chunk</p>
 </div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
 (function () {
@@ -209,4 +209,4 @@ randomly selects the following parameters:</p>
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2022/06/10/windbg-note/">prev_post</a><a class="pagination__link pagination__next" href="/2022/04/13/sudo-fuzz2exp-2/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2024 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2022/06/10/windbg-note/">prev_post</a><a class="pagination__link pagination__next" href="/2022/04/13/sudo-fuzz2exp-2/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

