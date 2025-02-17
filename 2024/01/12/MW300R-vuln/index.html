@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【漏洞挖掘】记一次痛苦的VxWorks路由器漏洞挖掘</title><meta name="description" content="&lt;p&gt;问题多又多&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【漏洞挖掘】记一次痛苦的VxWorks路由器漏洞挖掘</h3><div class="article__date metadata"><div class="post-info">2024/01/12</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/cve/">cve</a><a class="article__tags__link metadata" href="/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/">漏洞挖掘</a></div><div class="article__body"><p>问题多又多</p>
+<span id="more"></span>
+<h1 id="记一次痛苦的vxworks路由器漏洞挖掘"><a class="markdownIt-Anchor" href="#记一次痛苦的vxworks路由器漏洞挖掘"></a> 记一次痛苦的VxWorks路由器漏洞挖掘</h1>
+<p>路由器很老了，是Mercury MW300R的某个版本，网上找不到固件，所以最开始想用uart进shell</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/71cdd1353aa2a65e2a93bbe74505794c.png" alt="image-20240112140428176" /></p>
+<p>拆开过后可以快速找到UART引脚</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/d81c03bcc326000e5b9b614d815ff5c7.png" alt="image-20240112153117629" /></p>
+<h2 id="uart调试"><a class="markdownIt-Anchor" href="#uart调试"></a> UART调试</h2>
+<h3 id="i-打开uart"><a class="markdownIt-Anchor" href="#i-打开uart"></a> I 打开UART</h3>
+<p>路由器断电，然后把万用表调到测接地，黑笔随便找一个电路板上的接口（我用的wifi天线的），红笔测口子，响的那个就是接地</p>
+<p>接着路由器连上电源，万用表调到测电压，黑笔随便找一个电路板上的接口，红笔挨个测试接口</p>
+<ul>
+<li>如果为3.3V左右，那么是电源线（3.3V）</li>
+<li>如果为0V，为接地（GND）</li>
+<li>如果为2.5V左右，为TXD（路由器的Write）</li>
+<li>如果不断跳动，为RXD（路由器的Read）</li>
+</ul>
+<p><strong>然后第一点不寻常的就来了</strong></p>
+<p>我在测试的时候只能通过排除法筛选出了RXD，我的RXD一直为0V</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/df439aaa4d8867c9c8b18f22a95516a4.png" alt="image-20240112141505800" /></p>
+<p>这个时候通过</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FT232: 3.3V -&gt; 路由器: 3.3v</span><br><span class="line">FT232: GND  -&gt; 路由器: GND</span><br><span class="line">FT232: RXD  -&gt; 路由器: TXD</span><br><span class="line">FT232: TXD  -&gt; 路由器: RXD</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5ad1558352398a3e6b14c9e3e5c46073.png" alt="image-20240112141907775" /></p>
+<p><strong>插上路由器电源线，但是不插插头</strong>，通过串口就能连上了</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/233aa50fe42f5f25c24eac6239ebf2ab.png" alt="image-20240112141950855" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/82994c0bdd9f2b4aea62b9d6e2c1e53e.png" alt="image-20240112142014239" /></p>
+<p>但是会发现无法输入，导致设备一直重启，在这个地方无法停下autoboot，很显然需要输入来打断</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c1236c0af9b717b34e85926972b4206c.png" alt="image-20240112142420406" /></p>
+<p>但是路由器的RXD一直为0V，说明并没有开启向路由器写入的功能，通过仔细观察电路，发现RXD出口有下面几个接口，不断测试发现RXD可以在下方的焊点使用</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c3d16dc94aba9ff8146c2856f4ca05b6.png" alt="image-20240112143120491" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/3afacc1f2ea7063dd9974ef16cb89012.png" alt="img" /></p>
+<p>但是我没有架子，而且焊点太小了（本人电烙铁太菜），所以折弯了一根曲别针来传信号</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/0e9613116215b8795f1d5ed68339eab5.png" alt="image-20240112143216503" /></p>
+<h3 id="ii-开始调试-a"><a class="markdownIt-Anchor" href="#ii-开始调试-a"></a> II 开始调试 A</h3>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/571f2be4829451e211dcf8573f43f4c4.png" alt="image-20240112143502782" /></p>
+<p>能用的功能特别少，而且tftp功能用不了，不过<code>md</code>可以查看内存</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/312c1b8e77e551c29417858947e95854.png" alt="image-20240112143630442" /></p>
+<p>其实这里可以<strong>参考</strong><a target="_blank" rel="noopener" href="https://e3pem.github.io/2019/07/03/IoT/%E6%8F%90%E5%8F%96tl-wdr5620%E5%9B%BA%E4%BB%B6/">这篇博客</a>进行dump提取的，但是当时没想到。</p>
+<h3 id="iii-开始调试-b"><a class="markdownIt-Anchor" href="#iii-开始调试-b"></a> III 开始调试 B</h3>
+<p>在进入uboot的时候发现<code>ctrl+C</code>会打断一个TP-Link的shell</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/2d96f7d56b8ae8fe623b18558e80d79a.png" alt="img" /></p>
+<p>后续发现插上插头后有概率会停在这里</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/7474c84098dc952a5c5eee5346ead3cc.png" alt="image-20240112144335565" /></p>
+<p>使用命令查看内存分配</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flash -layout</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/8577ceadac971f3d42c2aa0655d187ff.png" alt="image-20240112144442000" /></p>
+<p>看到这里我才明白最开始进的是uboot的控制窗口，这里才是真正的Flash存储的启动点</p>
+<p>修改了<a target="_blank" rel="noopener" href="https://e3pem.github.io/2019/07/03/IoT/%E6%8F%90%E5%8F%96tl-wdr5620%E5%9B%BA%E4%BB%B6/">这篇博客</a>的脚本按照一样的思路试图提取固件出来，但是binwalk没有任何识别，所以UART走到尽头了</p>
+<h2 id="cha341a法"><a class="markdownIt-Anchor" href="#cha341a法"></a> CHA341A法</h2>
+<p>就是传统的飞线法，路由器上能用芯片夹的就两个芯片，用CHA341编程器读取一下就知道了（记得装驱动）</p>
+<p>关于组装可以看<a target="_blank" rel="noopener" href="https://macoshome.com/hackintosh/hcourse/8672.html">这篇</a></p>
+<p><strong>芯片没有识别到，但是重要的是芯片存储的大小</strong>，通过上flash layout可以看到总空间大小是1024KB=1MB，选择大小为1MB的芯片就好了</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/3f5f93b6fe9ccdfcfc54dd34435e866e.png" alt="image-20240112145236126" /></p>
+<p>用binwalk看一下，发现是VxWorks的系统，而且根本就没有Unix/Linux的文件系统，而是使用了<code>Wind River </code>文件系统，怪不得所有东西都是一坨，而且知道了程序入口是<code>0x80001000</code></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/d9c9135a8be26c1216591ef7d8813e15.png" alt="image-20240112150503842" /></p>
+<p>可以参考<a target="_blank" rel="noopener" href="https://e3pem.github.io/2019/07/03/IoT/%E6%8F%90%E5%8F%96tl-wdr5620%E5%9B%BA%E4%BB%B6/">这篇</a>来慢慢提取，不过也可以直接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -Me MW300R.bin</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a2348594065a762a3cc1983166df2c7b.png" alt="image-20240112150701769" /></p>
+<p>看上去挺多的，其实根本不慌，随便看一个</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c0af0c85c57c40b65475e67c21787054.png" alt="image-20240112150746160" /></p>
+<p>再看看<code>Wind River</code>那段的数据，按顺序就对对应的不同文件了</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e0cb52fbcca6ca98ff37d6673d177fc3.png" alt="image-20240112150918772" /></p>
+<p>可以按照对应的格式写脚本提取，不过本文的中心并不在这儿。</p>
+<p>在提取的时候发现</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f63e1cf98c122aa8c596bfb7af7ce99c.png" alt="image-20240112151253608" /></p>
+<p>把<code>49200</code>文件特殊看一下</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/249494f2709907f5dc0a18650d8fab8a.png" alt="image-20240112151338519" /></p>
+<p>恭喜，找到了主要文件的</p>
+<p>用ida 32位 MIPS大端序打开</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/60ee931f155256c22afa57d55644622f.png" alt="image-20240112151500456" /></p>
+<p>根据前文提到的入口地址<code>0x80001000</code>设置入口</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/ce3b8f706d348b5b68a467ce65dc9f50.png" alt="image-20240112151550592" /></p>
+<p>在开头按下C就IDA就开始自动分析了</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/b5cdbb90e788e174da8417fd777b9807.png" alt="image-20240112151715384" /></p>
+<h2 id="漏洞挖掘"><a class="markdownIt-Anchor" href="#漏洞挖掘"></a> 漏洞挖掘</h2>
+<p>上面的二进制分析起来还是有难度的，不过用常规思路（包括web）即可</p>
+<p>比如一个很明显的DOS洞，很明显只做了前端校验</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/1d769daf0f6578f0f773a90d36c2d831.png" alt="image-20240112151913239" /></p>
+<p>直接把路由器打崩，得重启才能恢复正常工作</p>
+<h1 id="引用"><a class="markdownIt-Anchor" href="#引用"></a> 引用</h1>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/2024">https://paper.seebug.org/2024</a></p>
+<p><a target="_blank" rel="noopener" href="https://e3pem.github.io/2019/07/03/IoT/%E6%8F%90%E5%8F%96tl-wdr5620%E5%9B%BA%E4%BB%B6/">https://e3pem.github.io/2019/07/03/IoT/提取tl-wdr5620固件/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.quarkslab.com/reverse-engineering-a-vxworks-os-based-router.html">https://blog.quarkslab.com/reverse-engineering-a-vxworks-os-based-router.html</a></p>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2024/01/25/win-hevd-exp-stackoverflow-I/">prev_post</a><a class="pagination__link pagination__next" href="/2023/09/10/stm32-1-light/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

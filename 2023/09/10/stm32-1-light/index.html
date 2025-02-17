@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | 【STM32】1.点灯大师</title><meta name="description" content="&lt;p&gt;如何三小时之内，从0开始学会stm32点灯&lt;/p&gt;
+&lt;p&gt;（其实是想验证下发的芯片是不是好的）&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【STM32】1.点灯大师</h3><div class="article__date metadata"><div class="post-info">2023/09/10</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/stm32/">stm32</a></div><div class="article__body"><p>如何三小时之内，从0开始学会stm32点灯</p>
+<p>（其实是想验证下发的芯片是不是好的）</p>
+<span id="more"></span>
+<h1 id="准备工作"><a class="markdownIt-Anchor" href="#准备工作"></a> 准备工作</h1>
+<p>我是在JD上随便买的一家，有</p>
+<p>STM32F103C8T6，面包板，USB转TTL，显示器…</p>
+<p>缺啥少啥买配件就行了</p>
+<h1 id="1软件"><a class="markdownIt-Anchor" href="#1软件"></a> 1.软件</h1>
+<p>由于我们是小白，所以暂时不需要看电路啥的，直接先把软件装上。</p>
+<ul>
+<li>STM32CubeIDE</li>
+</ul>
+<p><strong>这里我参考了：BV1HM411b78E</strong></p>
+<iframe src="//player.bilibili.com/player.html?aid=522761379&bvid=BV1HM411b78E&cid=964014224&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+<p>或者知乎的<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/321845090">https://zhuanlan.zhihu.com/p/321845090</a></p>
+<p>知乎的有一个模拟程序</p>
+<ul>
+<li>驱动（因为我是USB转TTL）：CH340-驱动，这个你可以找客服要，一般都会发给你的</li>
+<li>烧录软件：FLYMCU</li>
+</ul>
+<p>首先需要熟悉的就是STM32CubeIDE的使用，可以参考上面的B站视频后者知乎，这里还有：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV13B4y1y7yk">https://www.bilibili.com/video/BV13B4y1y7yk</a></p>
+<h1 id="2硬件"><a class="markdownIt-Anchor" href="#2硬件"></a> 2.硬件</h1>
+<p>这个是始终绕不开的（除非你用EDA）</p>
+<p><strong>1.面包板</strong></p>
+<p>有时间可以参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1gz4y1Z7N7">https://www.bilibili.com/video/BV1gz4y1Z7N7</a></p>
+<p>或者</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/2e4be1b02468f7dc6f30ca5fa39743b3.png" alt="image-20230910201039379" /></p>
+<p>导线就是这样连接的</p>
+<p><strong>2.STM32F103C8T6</strong></p>
+<p>显示再IDE中的</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/240043662443e27813cb75699f9d0052.png" alt="image-20230910201448666" /></p>
+<p>比如这里的<code>PA0</code>就是代表芯片的A0接口</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/fa1182386227986f3a24676b4578f5b7.png" alt="image-20230910201538474" /></p>
+<p>这里的<code>GPIO_Output</code>代表的是<code>信号输出</code>（严格来说不是这样的）。具体的设置可以参考<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ja411J766">https://www.bilibili.com/video/BV1ja411J766</a></p>
+<p>在<code>main.c</code>中的<code>main</code>函数的<code>while</code>死循环里面有</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Infinite loop */</span></span><br><span class="line"><span class="comment">/* USER CODE BEGIN WHILE */</span></span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">/* USER CODE END WHILE */</span></span><br><span class="line"> HAL_GPIO_TogglePin(GPIOA, LED1_Pin);</span><br><span class="line"> HAL_Delay(<span class="number">200</span>);</span><br><span class="line"> HAL_GPIO_TogglePin(GPIOA, LED2_Pin);</span><br><span class="line"> HAL_Delay(<span class="number">200</span>);</span><br><span class="line">  <span class="comment">/* USER CODE BEGIN 3 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>LED1_Pin</code>和<code>LED2_Pin</code>是我给的命名，然后编译就好了</p>
+<p><strong>3.烧录</strong></p>
+<p>可以参考</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wR4y1y7E2/">https://www.bilibili.com/video/BV1wR4y1y7E2/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1P24y1L7Ho">https://www.bilibili.com/video/BV1P24y1L7Ho</a></p>
+<p>PA9&lt;–&gt;RXD</p>
+<p>PA10&lt;–&gt;TXD</p>
+<p>设置条线：</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/27a10a6eafd1d619725072f214b3a299.png" alt="image-20230910211049260" /></p>
+<p>开始FLYMCU烧录</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/90fd0e71f90e0c6eca76f4411c53e554.png" alt="image-20230910204832081" /></p>
+<p>选hex文件烧进去就行了</p>
+<p><strong>如果你像我上图那样外接电源</strong>，在烧录的时候也是需要将其插入USB接口中的</p>
+<h1 id="3电路"><a class="markdownIt-Anchor" href="#3电路"></a> 3.电路</h1>
+<p><strong>不知道二极管功率的最好加上1k欧的电阻</strong>，信号时从A0和A1输出，最后流向的是G跳线（参考上图）</p>
+<p>调回boot条线，按下复位键：</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f06da32c2c7c09a43ba0ac9ac1e50929.png" alt="image-20230910210541362" /></p>
+<p>成功点亮</p>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2024/01/12/MW300R-vuln/">prev_post</a><a class="pagination__link pagination__next" href="/2023/07/22/afl-source/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

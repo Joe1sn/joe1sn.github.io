@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabinet | windbg调试入门笔记</title><meta name="description" content="&lt;p&gt;准备点windows基础功&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabinet"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabinet" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabinet</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">windbg调试入门笔记</h3><div class="article__date metadata"><div class="post-info">2022/06/10</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/dbg/">dbg</a><a class="article__tags__link metadata" href="/tags/Windows/">Windows</a></div><div class="article__body"><p>准备点windows基础功</p>
+<span id="more"></span>
+<h1 id="安装与配置"><a class="markdownIt-Anchor" href="#安装与配置"></a> 安装与配置</h1>
+<h2 id="1版本"><a class="markdownIt-Anchor" href="#1版本"></a> 1.版本</h2>
+<p>WinDbg一般分为x86和x64，具体由调试os平台(Host)和被调试程序类型决定</p>
+<ul>
+<li>
+<p>x86-based Host Computer</p>
+<p>x86处理器平台上调试所有程序都使用该版本</p>
+</li>
+<li>
+<p>x64-based Host Computer</p>
+<ol>
+<li>
+<p>分析DUMP文件：若文件是在windows XP及更新的版本生成的，则两者都可；若Windows2000及更早的版本就只能使用x86版本的WinDbg</p>
+</li>
+<li>
+<p>双机调试</p>
+<p>对于WindowsXP及其更新的系统windbg会自动适应，更老的只能使用x86版本</p>
+</li>
+<li>
+<p>用户态</p>
+<p>x64版本程序只能使用x64版本，x86版本程序则是两者皆可</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="2工作空间"><a class="markdownIt-Anchor" href="#2工作空间"></a> 2.工作空间</h2>
+<p>​	每调试一个程序，会涉及到要使用的参数、配置等信息，WinDBG会使用<code>Workspace</code>来保存这些信息，可以理解为项目文件<br />
+​	<img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/31aa964c371ef13a22717dae6c0dae5f.png" alt="image-20220609192902393" /></p>
+<h2 id="3调试符号"><a class="markdownIt-Anchor" href="#3调试符号"></a> 3.调试符号</h2>
+<p>​	最经典的就是使用IDA反汇编的时候，如果文件没有调试符号信息，那么函数就会被命名为<code>sub_startaddr</code>这样。所以在调试的时候这些信息会大大帮助我们理解程序</p>
+<p>​	windows的就是PDB文件，</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/db341f48da00aa2a5ee50f661c31ef9f.png" alt="image-20220609193314803" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a00f0495058fee33942e17baf4649f33.png" alt="image-20220609193424085" /></p>
+<p>WinDBG允许用户指定一个或者多个目录存放符号文件，并使用环境变量<code>_NT_SYMBOL_PATH</code>指向目录，最常用的是从微软的符号服务器下载(IDA会默认加载，并且设置了全局变量为符号服务器的话每次vs编译都会从服务器拉，特别慢)，具体配置百度</p>
+<p><strong>相关指令</strong></p>
+<p><code>ld</code>：自动从符号文件目录或者符号服务器加载符号文件</p>
+<ol>
+<li>
+<p>使用 <code>lm</code> 查看模块</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/913b12c4e2e3e79ef892bc40f6cf261f.png" alt="image-20220609194324229" /></p>
+</li>
+<li>
+<p>符号的表达：<code>模块名!函数名</code>，</p>
+<p>如<code>kernel32</code>模块的<code>OpenProcess</code>函数：<code>kernel32!OpenProcess</code></p>
+<p>内核不同，比如 <code>ntdll!NtOpenProcess</code> 和 <code>nt!NtOpenProcess</code> 分别表示ntdll中的NtOpenProcess函数 和 内核模块中的NtOpenProcess函数</p>
+</li>
+<li>
+<p>符号检索：<code>x [选项] Module!Symbol</code></p>
+<p>符号名可以使用<code>? * [] # +</code>进行模糊匹配</p>
+</li>
+<li>
+<p>源码级别调试</p>
+<p>需要源文件于WinDBG在同一系统中，使用<code>ctrl+P</code>，指定源代码路径就行了，多个路径使用<code>;</code>分隔</p>
+<p>使用<code>ctrl+O</code>选择源代码文件，在源代码文件中<code>F9</code>添加断点</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c5f4ad5e8db7eba2674b8f309f065c0e.png" alt="image-20220609195717749" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c32ffb9d7d3c7d1858cc570953b2b6d4.png" alt="image-20220609200249003" /></p>
+</li>
+</ol>
+<h1 id="调试过程"><a class="markdownIt-Anchor" href="#调试过程"></a> 调试过程</h1>
+<h2 id="1开始调试"><a class="markdownIt-Anchor" href="#1开始调试"></a> 1.开始调试</h2>
+<p>反汇编代码默认停留在<code>ntdll</code>中的系统断点，使用<code>g @$exentry</code>跳转带函数入口</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/258375d98f20ace03cc23a36c47152ab.png" alt="image-20220609201112856" /></p>
+<h2 id="2控制目标程序执行"><a class="markdownIt-Anchor" href="#2控制目标程序执行"></a> 2.控制目标程序执行</h2>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/c944970e445234b7684674786c53c0a7.png" alt="image-20220609201202279" /></p>
+<p>伪寄存器<code>@$ra</code>表示当前函数返回地址，那么<code>pa @$ra</code>则表示跳出当前函数</p>
+<h1 id="断点命令"><a class="markdownIt-Anchor" href="#断点命令"></a> 断点命令</h1>
+<h2 id="1对于int-3"><a class="markdownIt-Anchor" href="#1对于int-3"></a> 1.对于<code>int 3</code></h2>
+<p>分别是<code>bp bu bm</code></p>
+<ul>
+<li>
+<p><code>bp[ID] [选项] [地址or符号[要忽略的中断次数]] [中断时执行的命令]</code></p>
+<p>选项：<code>/l</code> 一次性断点；<code>/c</code>最大调用深度；<code>/C</code>最小调用深度</p>
+</li>
+<li>
+<p><code>bu kernel32!GetVersion</code>：对符号下断点</p>
+</li>
+<li>
+<p><code>bu kernel32!GetVersio*</code>：对包含通配符下断点</p>
+</li>
+</ul>
+<p><img src="D:%5CPictures%5Ctypora%5Cimage-20220609202028555.png" alt="image-20220609202028555" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/128698d2d1b65f7e76d109b784cbeda4.png" alt="image-20220609203322923" /></p>
+<h2 id="2硬件断点"><a class="markdownIt-Anchor" href="#2硬件断点"></a> 2.硬件断点</h2>
+<p><code>ba[ID] 访问方式 访问长度 [选项] [断点地址or符号[忽略中断次数]] [终端执行指令]</code></p>
+<ul>
+<li>访问方式
+<ul>
+<li>e：读取或执行时触发</li>
+<li>r：读取时触发</li>
+<li>w：写入时触发</li>
+<li>i：在执行输入输出时触发</li>
+</ul>
+</li>
+</ul>
+<h2 id="3条件断点"><a class="markdownIt-Anchor" href="#3条件断点"></a> 3.条件断点</h2>
+<p>建议用到的时候百度</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a4a966dcb6ea39081c68493833774e89.png" alt="image-20220609203950271" /></p>
+<h2 id="4管理断点"><a class="markdownIt-Anchor" href="#4管理断点"></a> 4.管理断点</h2>
+<p><code>bl</code>：列出所有断点</p>
+<p><code>bc bd be</code>：删除 禁止 启用断点</p>
+<h1 id="栈窗口"><a class="markdownIt-Anchor" href="#栈窗口"></a> 栈窗口</h1>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/e8733ff215ccf23bb4a204a1b31d4b19.png" alt="image-20220609204833953" /></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0:000:x86&gt; k</span><br><span class="line"> # ChildEBP RetAddr</span><br><span class="line">00 0019ff3c 0040112e esp+0x115e</span><br><span class="line">01 0019ff54 00401097 esp+0x112e</span><br><span class="line">02 0019ff64 00401009 esp+0x1097</span><br><span class="line">03 0019ff80 77037a7e esp+0x1009</span><br><span class="line">04 0019ffdc 77037a4e ntdll_76fd0000!__RtlUserThreadStart+0x2f</span><br><span class="line">05 0019ffec 00000000 ntdll_76fd0000!_RtlUserThreadStart+0x1b</span><br></pre></td></tr></table></figure>
+<p>每一行都是当前线程的一个栈帧，00~05是站的调用链，从当前到顶层。</p>
+<p>第一列是基地址(ChildEBP)；第二列是返回地址；第三列是函数的执行地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0:000:x86&gt; kb</span><br><span class="line"> # ChildEBP RetAddr  Args to Child              </span><br><span class="line">00 0019ff3c 0040112e 00000008 00000007 00000006 esp+0x115e</span><br><span class="line">01 0019ff54 00401097 00000004 00000003 0019ff80 esp+0x112e</span><br><span class="line">02 0019ff64 00401009 00000002 00000001 7681fa29 esp+0x1097</span><br><span class="line">03 0019ff80 77037a7e 002f5000 f602b8bf 00000000 esp+0x1009</span><br><span class="line">04 0019ffdc 77037a4e ffffffff 77058a01 00000000 ntdll_76fd0000!__RtlUserThreadStart+0x2f</span><br><span class="line">05 0019ffec 00000000 00401000 002f5000 00000000 ntdll_76fd0000!_RtlUserThreadStart+0x1b</span><br></pre></td></tr></table></figure>
+<p>kb会显示栈上面的前3个参数</p>
+<ul>
+<li><code>kp</code> ：参数和参数值按函数原型显示</li>
+<li><code>kv</code>：相对于kp增加帧指针省略信息和调用约定显示</li>
+<li><code>kd</code>：列出栈中的数据</li>
+</ul>
+<h1 id="内存命令"><a class="markdownIt-Anchor" href="#内存命令"></a> 内存命令</h1>
+<h2 id="1查看内存"><a class="markdownIt-Anchor" href="#1查看内存"></a> 1.查看内存</h2>
+<p><code>d[类型] [地址范围]</code></p>
+<p>dw：DWORD<br />
+dd：4字节DWORD<br />
+dp：8字节<br />
+df：4字节单精度浮点<br />
+dp：指针大小格式<br />
+da：ASCII字符串<br />
+db：字节和ASCII字符串<br />
+ds：ANSI_STRING</p>
+<p><code>dt [模块名!]类型名</code>：显示数据类型和数据结构</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/4334bb5e719fc14b63b9e0f1a7c145b4.png" alt="image-20220610105504772" /></p>
+<h2 id="2搜索内存"><a class="markdownIt-Anchor" href="#2搜索内存"></a> 2.搜索内存</h2>
+<p><code>s - [type] range pattern</code></p>
+<ul>
+<li>type：搜索的数据类型：<code>b(byte) w(word) d(dword) a(ASCII) u(Unicode)</code></li>
+<li>range：
+<ul>
+<li>起始地址与终止地址  <code>s -a 0x4000000 0x4030000 &quot;test&quot;</code></li>
+<li>起始地址和搜索长度  <code>s -a 0x0000000 L?0x7fffffff &quot;mytest&quot;</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/eb26bb607e46d5b1ebd5ae3d427bc535.png" alt="image-20220610105541940" /></p>
+<h2 id="3修改内存"><a class="markdownIt-Anchor" href="#3修改内存"></a> 3.修改内存</h2>
+<p><code>e &#123;a|u|za|zu&#125; address &quot;String&quot;</code><br />
+<code>e &#123;a|b|d|D|f|q|u|w&#125; address [value]</code></p>
+<h2 id="4观察内存属性"><a class="markdownIt-Anchor" href="#4观察内存属性"></a> 4.观察内存属性</h2>
+<p><code>!address [Address]</code></p>
+<h1 id="脚本"><a class="markdownIt-Anchor" href="#脚本"></a> 脚本</h1>
+<p>winDBG可以像python一样解释执行脚本中的语言</p>
+<h2 id="1伪寄存器"><a class="markdownIt-Anchor" href="#1伪寄存器"></a> 1.伪寄存器</h2>
+<ul>
+<li><code>@$exentry</code>：当前进程的入口，<code>g @$exentry</code>可以直达入口</li>
+<li><code>$ip</code>：指令指针寄存器</li>
+<li><code>$ra</code>：当前函数返回地址</li>
+<li><code>$retreg</code>：函数返回值</li>
+<li><code>$csp</code>：当前栈指针(current stack pointer)</li>
+</ul>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/40ef9cda6226e310e2ef728fc149c0aa.png" alt="image-20220610114849541" /></p>
+<h2 id="其余建议百度"><a class="markdownIt-Anchor" href="#其余建议百度"></a> 其余建议百度</h2>
+<h1 id="调试拓展功能"><a class="markdownIt-Anchor" href="#调试拓展功能"></a> 调试拓展功能</h1>
+<p>类似于插件的加载</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/35a3060f780589baa66dea1d56421d1d.png" alt="image-20220610115012875" /></p>
+<p>开发的话可以参考WinDbg提供的sdk（在安装文件夹下就有）</p>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2022/07/29/reverse-shell/">prev_post</a><a class="pagination__link pagination__next" href="/2022/04/14/sudo-fuzz2exp-3/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
