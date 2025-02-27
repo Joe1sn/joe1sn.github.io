@@ -1,3 +1,5 @@
+https://joe1sn.eu.org/2024/10/01/reflect_dll/
+https://joe1sn.eu.org/2024/10/01/pe_format/
 https://joe1sn.eu.org/2024/10/01/dll-inject/
 https://joe1sn.eu.org/2023/07/22/afl-source/
 https://joe1sn.eu.org/2024/02/20/ad-dc-1/
