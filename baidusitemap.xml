@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joe1sn.eu.org/2024/10/01/dll-inject/</loc>
+    <lastmod>2025-02-27</lastmod>
+  </url>
+  <url>
     <loc>https://joe1sn.eu.org/2023/07/22/afl-source/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
@@ -98,10 +102,6 @@
   </url>
   <url>
     <loc>https://joe1sn.eu.org/2024/10/11/d3d11-hook/</loc>
-    <lastmod>2025-01-26</lastmod>
-  </url>
-  <url>
-    <loc>https://joe1sn.eu.org/2024/10/01/dll-inject/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
