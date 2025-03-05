@@ -6,7 +6,7 @@
   <link href="https://joe1sn.eu.org/atom.xml" rel="self"/>
   
   <link href="https://joe1sn.eu.org/"/>
-  <updated>2025-02-28T14:26:11.536Z</updated>
+  <updated>2025-03-05T09:32:09.130Z</updated>
   <id>https://joe1sn.eu.org/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【通知】新的测试版本博客</title>
+    <link href="https://joe1sn.eu.org/2099/01/01/new-blog-post/"/>
+    <id>https://joe1sn.eu.org/2099/01/01/new-blog-post/</id>
+    <published>2098-12-31T16:00:00.000Z</published>
+    <updated>2025-03-05T09:32:09.130Z</updated>
+    
+    <content type="html"><![CDATA[<p>厌倦了nodejs的庞大本地空间占用，不熟悉前端部署困难的其他博客框架，只是想放几篇文章上去</p><p>我选择使用c++20编写了一个类似hexo的博客框架，目前处于测试中</p><span id="more"></span><h1 id="通知新的测试版本博客"><a class="markdownIt-Anchor" href="#通知新的测试版本博客"></a> 【通知】新的测试版本博客</h1><p>测试网页：<a href="https://joe1sn.eu.org/TestRepo/">https://joe1sn.eu.org/TestRepo/</a></p><p>项目源代码：<a href="https://github.com/Joe1sn/PureWeb">https://github.com/Joe1sn/PureWeb</a></p><p>使用c++20编写博客框架，目前仍在测试与开发中，<strong>处于it just work阶段</strong></p><p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/20250305173047484.png" alt="image-20250305173047012" /></p><p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/20250305173154675.png" alt="image-20250305173154410" /></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;厌倦了nodejs的庞大本地空间占用，不熟悉前端部署困难的其他博客框架，只是想放几篇文章上去&lt;/p&gt;
+&lt;p&gt;我选择使用c++20编写了一个类似hexo的博客框架，目前处于测试中&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>【免杀】使用CobaltStrike的外置监听器绕过检测</title>
@@ -475,29 +493,6 @@
     <category term="windows" scheme="https://joe1sn.eu.org/tags/windows/"/>
     
     <category term="pwn" scheme="https://joe1sn.eu.org/tags/pwn/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【内网】从PoC看JuicyPotato提权</title>
-    <link href="https://joe1sn.eu.org/2024/02/23/potato-1/"/>
-    <id>https://joe1sn.eu.org/2024/02/23/potato-1/</id>
-    <published>2024-02-23T06:49:21.000Z</published>
-    <updated>2024-02-23T06:53:20.081Z</updated>
-    
-    <content type="html"><![CDATA[<p>从此认识到自己不是做win安全的料</p><span id="more"></span><p>个人认为JuictPotato的前身是著名的<code>Rotten Potato</code></p><p><img src="https://shs3.b.qianxin.com/attack_forum/2021/12/attach-d521498a177634056408fa3503d1d1362d5b0ac7.png" alt="image-20211022212121001" /></p><blockquote><ol><li>使用CoGetInstanceFromIStorage API 调用欺骗RPC,对代理进行身份验证.在此调用中指定了代理 IP/端口</li><li>RPC 向代理发送 NTLM 协商包</li><li>代理依赖的NTLM协商到RPC在端口135，被用作模板。同时，执行对AcceptSecurityContext的调用以强制进行本地身份验证<br />注:此包被修改为强制本地身份验证.</li><li>&amp; 5. RPC 135和AcceptSecurityContext用NTLM Challenge回复</li><li>将两个数据包的内容混合以匹配本地协商并转发到RPC</li><li>RPC使用发送到AcceptSecurityContext(8.)的NLTM Auth包进行响应，并执行模拟</li></ol></blockquote><ol><li><p>【PotatoAPI】创建COM监听器<code>startCOMListenerThread</code></p><ul><li><p>初始化<code>WinSocket</code>，创建非阻塞式socket，并监听<code>-t</code>端口。<strong>跳转到2</strong>，后面的就是监听循环中的</p></li><li><p>【LocalNegotiator】使用<code>processNtlmBytes</code>处理返回地NTLM信息。处理顺序刚好是1,2,3</p><ul><li>首先获取<a href="https://learn.microsoft.com/zh-cn/windows/win32/secgloss/s-gly"><em>安全主体</em></a>的预先存在的凭据的句柄，初始化Client和Sever的Token，建立安全上下文（新进程的身份验证），转发给RPC</li><li>RPC返回NTLM挑战应答问题，新进程的身份验证也会返回他的NTLM挑战应答问题，然后改装RPC的数据，塞入新进程的身份验证的NTLM挑战应答的部分数据</li><li>从系统回答中，创建新的system令牌</li></ul></li></ul></li><li><p>【PotatoAPI】同本地135端口建立RPC连接，发送消息从<code>PotatoAPI-&gt;rpcSendQ</code>走出队列</p></li><li><p>【PotatoAPI】触发<code>triggerDCOM</code></p><ul><li><code>StgCreateDocfileOnILockBytes</code>：创建Istorage对象</li><li>【IStorageTrigger】创建<code>IStorageTrigger</code>对象</li><li><code>CLSIDFromString</code>：将CLSID字符转为COM对象</li><li><code> CoGetInstanceFromIStorage</code> ：创建一个新的 对象，使用<code> IPersistFile：：Load</code>初始化</li><li><strong>触发DCOM后，进入1中的监听循环</strong></li></ul></li><li><p>通过得到的system token，经典的<code>CreateProcessWithTokenW</code>创建新的进程</p></li></ol><p>要一个人写的话工作量还是挺大的，而且<code>IstroageTrigger</code>得自己构造，感谢开源PoC！</p><h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1><p><a href="https://github.com/ohpe/juicy-potato">https://github.com/ohpe/juicy-potato</a></p><p><a href="https://forum.butian.net/share/860">https://forum.butian.net/share/860</a></p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;从此认识到自己不是做win安全的料&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="notes" scheme="https://joe1sn.eu.org/categories/notes/"/>
-    
-    
-    <category term="notes" scheme="https://joe1sn.eu.org/tags/notes/"/>
-    
-    <category term="pentest" scheme="https://joe1sn.eu.org/tags/pentest/"/>
     
   </entry>
   
