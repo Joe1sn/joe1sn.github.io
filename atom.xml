@@ -6,7 +6,7 @@
   <link href="https://joe1sn.eu.org/atom.xml" rel="self"/>
   
   <link href="https://joe1sn.eu.org/"/>
-  <updated>2025-03-05T09:32:09.130Z</updated>
+  <updated>2025-03-05T09:34:45.862Z</updated>
   <id>https://joe1sn.eu.org/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>【通知】新的测试版本博客</title>
+    <title>【置顶】【通知】新的测试版本博客</title>
     <link href="https://joe1sn.eu.org/2099/01/01/new-blog-post/"/>
     <id>https://joe1sn.eu.org/2099/01/01/new-blog-post/</id>
     <published>2098-12-31T16:00:00.000Z</published>
-    <updated>2025-03-05T09:32:09.130Z</updated>
+    <updated>2025-03-05T09:34:45.862Z</updated>
     
     <content type="html"><![CDATA[<p>厌倦了nodejs的庞大本地空间占用，不熟悉前端部署困难的其他博客框架，只是想放几篇文章上去</p><p>我选择使用c++20编写了一个类似hexo的博客框架，目前处于测试中</p><span id="more"></span><h1 id="通知新的测试版本博客"><a class="markdownIt-Anchor" href="#通知新的测试版本博客"></a> 【通知】新的测试版本博客</h1><p>测试网页：<a href="https://joe1sn.eu.org/TestRepo/">https://joe1sn.eu.org/TestRepo/</a></p><p>项目源代码：<a href="https://github.com/Joe1sn/PureWeb">https://github.com/Joe1sn/PureWeb</a></p><p>使用c++20编写博客框架，目前仍在测试与开发中，<strong>处于it just work阶段</strong></p><p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/20250305173047484.png" alt="image-20250305173047012" /></p><p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/20250305173154675.png" alt="image-20250305173154410" /></p>]]></content>
     
