@@ -1,3 +1,5 @@
+https://joe1sn.eu.org/2098/12/31/cpp-constructor/
+https://joe1sn.eu.org/2023/06/26/cpp-function/
 https://joe1sn.eu.org/2099/01/01/new-blog-post/
 https://joe1sn.eu.org/2025/02/28/cs-external/
 https://joe1sn.eu.org/2024/12/01/pe_format/
@@ -13,7 +15,6 @@ https://joe1sn.eu.org/2022/08/24/os-allinone/
 https://joe1sn.eu.org/2022/04/11/sudo-fuzz2exp-1/
 https://joe1sn.eu.org/2022/04/13/sudo-fuzz2exp-2/
 https://joe1sn.eu.org/2023/06/13/pe-loader/
-https://joe1sn.eu.org/2023/06/26/cpp-function/
 https://joe1sn.eu.org/2023/06/26/googleCTF-wp/
 https://joe1sn.eu.org/2023/07/17/dll-injector/
 https://joe1sn.eu.org/2022/04/10/clash-rce/
