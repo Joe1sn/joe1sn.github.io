@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2025/04/05/local-deepseek-MCP/
 https://joe1sn.eu.org/2098/12/31/cpp-constructor/
 https://joe1sn.eu.org/2023/06/26/cpp-function/
 https://joe1sn.eu.org/2099/01/01/new-blog-post/
@@ -95,6 +96,7 @@ https://joe1sn.eu.org/tags/crack/
 https://joe1sn.eu.org/tags/cheats/
 https://joe1sn.eu.org/tags/MinHook/
 https://joe1sn.eu.org/tags/bypass/
+https://joe1sn.eu.org/tags/AI/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
