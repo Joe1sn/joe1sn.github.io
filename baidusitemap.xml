@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joe1sn.eu.org/2025/04/30/rookit-1-hide-process/</loc>
+    <lastmod>2025-04-30</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2098/12/31/develop_handbook/</loc>
+    <lastmod>2025-04-29</lastmod>
+  </url>
+  <url>
     <loc>https://joe1sn.eu.org/2025/04/16/win-exp-big-non-paged-pool-overflow/</loc>
     <lastmod>2025-04-17</lastmod>
   </url>
   <url>
     <loc>https://joe1sn.eu.org/2025/04/05/local-deepseek-MCP/</loc>
     <lastmod>2025-04-05</lastmod>
-  </url>
-  <url>
-    <loc>https://joe1sn.eu.org/2098/12/31/cpp-constructor/</loc>
-    <lastmod>2025-03-10</lastmod>
   </url>
   <url>
     <loc>https://joe1sn.eu.org/2023/06/26/cpp-function/</loc>

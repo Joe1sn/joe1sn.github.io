@@ -1,6 +1,7 @@
+https://joe1sn.eu.org/2025/04/30/rookit-1-hide-process/
+https://joe1sn.eu.org/2098/12/31/develop_handbook/
 https://joe1sn.eu.org/2025/04/16/win-exp-big-non-paged-pool-overflow/
 https://joe1sn.eu.org/2025/04/05/local-deepseek-MCP/
-https://joe1sn.eu.org/2098/12/31/cpp-constructor/
 https://joe1sn.eu.org/2023/06/26/cpp-function/
 https://joe1sn.eu.org/2099/01/01/new-blog-post/
 https://joe1sn.eu.org/2025/02/28/cs-external/
@@ -98,6 +99,9 @@ https://joe1sn.eu.org/tags/cheats/
 https://joe1sn.eu.org/tags/MinHook/
 https://joe1sn.eu.org/tags/bypass/
 https://joe1sn.eu.org/tags/AI/
+https://joe1sn.eu.org/tags/cp/
+https://joe1sn.eu.org/tags/note/
+https://joe1sn.eu.org/tags/rootkit/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
