@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabin | 【免杀】Cobaltstrike Stager Payload分析</title><meta name="description" content="&lt;p&gt;cobaltstrike的payload主要分为Stager和Stageless&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Stager：分阶段式上线，从teamserver下载真正的payload后执行，体积小&lt;/li&gt;
+&lt;li&gt;Stageless：部分阶段上线，真正的payload直接在其中，适合用于红队测试中的免杀制作，体积大&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;公众号：&lt;a href=&quot;https://mp.weixin.qq.com/s/UsPTeRZvlLFUG-EjCkVqTQ&quot;&gt;https://mp.weixin.qq.com/s/UsPTeRZvlLFUG-EjCkVqTQ&lt;/a&gt;&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabin"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabin</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【免杀】Cobaltstrike Stager Payload分析</h3><div class="article__date metadata"><div class="post-info">2025/06/08</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/bypass/">bypass</a></div><div class="article__body"><p>cobaltstrike的payload主要分为Stager和Stageless</p>
+<ul>
+<li>Stager：分阶段式上线，从teamserver下载真正的payload后执行，体积小</li>
+<li>Stageless：部分阶段上线，真正的payload直接在其中，适合用于红队测试中的免杀制作，体积大</li>
+</ul>
+<p>公众号：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/UsPTeRZvlLFUG-EjCkVqTQ">https://mp.weixin.qq.com/s/UsPTeRZvlLFUG-EjCkVqTQ</a></p>
+<span id="more"></span>
+<p>或许我们的公众号会有更多你感兴趣的内容</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a0d42261f5e0b243c214f5af9049fc29.jpg" alt="img" /></p>
+<h1 id="stager-exe-payload分析"><a class="markdownIt-Anchor" href="#stager-exe-payload分析"></a> Stager Exe Payload分析</h1>
+<p>软件版本：Teamserver 4.9.1</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528075956842.png" alt="image-20250528075956842" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528075620725.png" alt="image-20250528075620725" /></p>
+<p>Payloads-&gt;Windows Stager Payload，具体配置如下</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528080113726.png" alt="image-20250528080113726" /></p>
+<h2 id="ida-分析"><a class="markdownIt-Anchor" href="#ida-分析"></a> IDA 分析</h2>
+<p>入口点位于：4014C0</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528080513395.png" alt="image-20250528080513395" /></p>
+<p><strong>sub_401990</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528081509897.png" alt="image-20250528081509897" /></p>
+<p>利用时间等信息异或获得两个随机数：<code>randomA_4044D0</code>和<code>randomB_4044E0</code>，且二者<code>&amp;</code>为<code>0xFFFFFFFFFFFF</code></p>
+<p><strong>sub_401180</strong></p>
+<p>一些初始化的操作，和主要功能关系不大</p>
+<p><strong>sub_403040</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528085711344.png" alt="image-20250528085711344" /></p>
+<p>真正释放payload的地方</p>
+<p><strong>sub_4017F8</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528090021917.png" alt="image-20250528090021917" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528090705443.png" alt="image-20250528090705443" /></p>
+<p>这里模仿了windows中的管道的命名方式，并在后续的<code>sub_4016E6</code>创建该管道</p>
+<p><strong>sub_4016E6 -&gt; sub_401630</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528090836327.png" alt="image-20250528090836327" /></p>
+<p>创建了命名管道后写入一些内容后关闭管道</p>
+<p>查看调用发现向管道写入 <code>lpBuffer_</code>的<code>0x37D</code>字节</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528091202941.png" alt="image-20250528091202941" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528091151364.png" alt="image-20250528091151364" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528091456690.png" alt="image-20250528091456690" /></p>
+<p>shift+e先保存<code>lpBuffer_</code>方便后续分析</p>
+<p><strong>sub_4017A6</strong></p>
+<p>在创建线程冰箱管道写入过后进入该函数</p>
+<ul>
+<li>
+<p><strong>sub_401704</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528091709972.png" alt="image-20250528091709972" /></p>
+<p>从命名管道读取<code>0x37D</code>到申请的<code>lpBuffer</code></p>
+</li>
+<li>
+<p><strong>sub_401595</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528092045154.png" alt="image-20250528092045154" /></p>
+<p>经典的运行shellcode片段，调用如下<code>sub_401595(lpBuffer, nNumberOfBytesToWrite, &amp;unk_404028);</code>。对刚才从管道中读出的数据进行了异或来还原，异或的key为<code>unk_404028</code></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528091952230.png" alt="image-20250528091952230" /></p>
+</li>
+</ul>
+<p>编写还原脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    cipher = <span class="string">b&quot;&quot;</span></span><br><span class="line">    keys = [<span class="number">0xC2</span>, <span class="number">0xF0</span>, <span class="number">0xA1</span>]</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;lpBuffer_.bin&quot;</span>,<span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> srcFile:</span><br><span class="line">        cipher=srcFile.read()</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;decrypted_shellcode.bin&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> dstFile:</span><br><span class="line">        counter = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> cipher:</span><br><span class="line">            dstFile.write((c ^ keys[counter % <span class="number">3</span>]).to_bytes(<span class="number">1</span>,<span class="string">&#x27;little&#x27;</span>))</span><br><span class="line">            counter += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>唯一一个需要注意的地方就是C语言是固定数据类型的，所以使用<code>&amp;</code>可以达到和<code>%</code>一样的效果，只不过**<code>&amp;3</code>等效于<code>%4</code>**。python中的数据是不固定的，所以使用&amp;可能由于数据长度导致数字错误从而<code>index out of range</code></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528093442739.png" alt="image-20250528093442739" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528093021815.png" alt="image-20250528093021815" /></p>
+<p>到这里观察我们还原出来的shellcode</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528093453071.png" alt="image-20250528093453071" /></p>
+<p>如果我们对于相同的payload和listener生成shellcode</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528093604448.png" alt="image-20250528093604448" /></p>
+<p>发现惊人的相似，主要不同</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528094308195.png" alt="image-20250528094308195" /></p>
+<p>得出结论：<strong>CobaltStrike 的 Stager Excute生成的artifact.exe是在运行Stager Shellcode</strong></p>
+<p><strong>sub_401563</strong></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528094713540.png" alt="image-20250528094713540" /></p>
+<p>比shellcode好多了的是这种payload会使用exe提供的<code>GetModuleHandleA</code>和<code>GetProcAddress</code>，从而避免了从LDR中遍历得到</p>
+<h1 id="stager-shellcode-payload分析"><a class="markdownIt-Anchor" href="#stager-shellcode-payload分析"></a> Stager Shellcode Payload分析</h1>
+<p>将刚才还原的<code>decrypted_shellcode.bin</code>放到ida中分析汇编（64位）</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528095217268.png" alt="image-20250528095217268" /></p>
+<p>最开始IDA会将这段识别为数据，可以直接右键</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528095308675.png" alt="image-20250528095308675" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528095323950.png" alt="image-20250528095323950" /></p>
+<p>可以创建为一个函数，便于分析</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528095146672.png" alt="image-20250528095146672" /></p>
+<p>汇编逐行分析的话确实有点冗长</p>
+<p>第一阶段：找到相关函数并加载</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528100242402.png" alt="image-20250528100242402" /></p>
+<p>这里使用循环Ldr和异或比较得到关键值</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528100709289.png" alt="image-20250528100709289" /></p>
+<p>一般来说对应的C代码长这样</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528100759128.png" alt="image-20250528100759128" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528101218855.png" alt="image-20250528101218855" /></p>
+<ul>
+<li>
+<p>找到loadlib</p>
+</li>
+<li>
+<p>加载wininet加载相关函数，如果想知道传入的参数，直接按照传参顺序看寄存器即可（一般是stdcall）</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528101605152.png" alt="image-20250528101605152" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528101746701.png" alt="image-20250528101746701" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528101801289.png" alt="image-20250528101801289" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528101812830.png" alt="image-20250528101812830" /></p>
+<p>估计从这里开始准备接收第二阶段payload然后运行</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528101926813.png" alt="image-20250528101926813" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/image-20250528102238222.png" alt="image-20250528102238222" /></p>
+<p>这里每次读取0x2000大小知道读完，传输了一段shellcode</p>
+</li>
+</ul>
+<p>第二阶段：反射式加载payload，这里运行的shellcode就是teamserveer分发过来的了，提取这部分的shellcode</p>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2098/12/31/develop_handbook/">prev_post</a><a class="pagination__link pagination__next" href="/2025/05/08/rookit-2-priv-escalation/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
