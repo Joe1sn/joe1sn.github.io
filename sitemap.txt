@@ -1,3 +1,5 @@
+https://joe1sn.eu.org/com-hijack.html
+https://joe1sn.eu.org/2025/08/16/talk-about-game-cheats/
 https://joe1sn.eu.org/2025/07/29/rookit-3-ppl/
 https://joe1sn.eu.org/2025/06/23/cs-external-2/
 https://joe1sn.eu.org/2025/06/08/cs-stager-payload-1/
@@ -7,7 +9,6 @@ https://joe1sn.eu.org/2025/04/30/rookit-1-hide-process/
 https://joe1sn.eu.org/2025/04/16/win-exp-big-non-paged-pool-overflow/
 https://joe1sn.eu.org/2025/04/05/local-deepseek-MCP/
 https://joe1sn.eu.org/2023/06/26/cpp-function/
-https://joe1sn.eu.org/2099/01/01/new-blog-post/
 https://joe1sn.eu.org/2025/02/28/cs-external/
 https://joe1sn.eu.org/2024/12/01/pe_format/
 https://joe1sn.eu.org/2025/01/01/reflect_dll/

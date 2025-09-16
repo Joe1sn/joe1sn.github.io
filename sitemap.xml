@@ -2,9 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://joe1sn.eu.org/com-hijack.html</loc>
+    
+    <lastmod>2025-09-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://joe1sn.eu.org/2025/08/16/talk-about-game-cheats/</loc>
+    
+    <lastmod>2025-09-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://joe1sn.eu.org/2025/07/29/rookit-3-ppl/</loc>
     
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -77,15 +95,6 @@
     <loc>https://joe1sn.eu.org/2023/06/26/cpp-function/</loc>
     
     <lastmod>2025-03-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://joe1sn.eu.org/2099/01/01/new-blog-post/</loc>
-    
-    <lastmod>2025-03-05</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -634,7 +643,7 @@
 
   <url>
     <loc>https://joe1sn.eu.org/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -642,266 +651,266 @@
   
   <url>
     <loc>https://joe1sn.eu.org/tags/misc/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/CVE/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/Java/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/notes/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/git/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/os/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/%E6%B8%97%E9%80%8F/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/fuzz/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/muud/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/web-framework/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/dbg/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/Windows/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/kernel/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/windows/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/malware/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/C/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/cpp/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/CTF/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/writeup/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/pwn/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/source/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/AFL/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/BUUCTF/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/cve/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/spring/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/stm32/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/pentest/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/crack/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/cheats/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/MinHook/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/bypass/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/AI/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/note/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/rootkit/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/c/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/tags/python/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -910,70 +919,70 @@
   
   <url>
     <loc>https://joe1sn.eu.org/categories/misc/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/java/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/os/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/pentest/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/CVE/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/program/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/notes/kernel/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/writeup/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://joe1sn.eu.org/categories/hardware/</loc>
-    <lastmod>2025-07-29</lastmod>
+    <lastmod>2025-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabin | 【杂谈】为什么外挂难以根除？</title><meta name="description" content="&lt;p&gt;一个略知逆向工程的人谈谈他的看法&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabin"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabin</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【杂谈】为什么外挂难以根除？</h3><div class="article__date metadata"><div class="post-info">2025/08/16</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/note/">note</a><a class="article__tags__link metadata" href="/tags/rootkit/">rootkit</a></div><div class="article__body"><p>一个略知逆向工程的人谈谈他的看法</p>
+<span id="more"></span>
+<p>或许我们的公众号会有更多你感兴趣的内容</p>
+<p><img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Ca0d42261f5e0b243c214f5af9049fc29.jpg" alt="img" /></p>
+<p>外挂问题一直是《CS:GO》等竞技游戏的最大顽疾，尽管游戏厂商和反作弊团队不断升级技术手段，但外挂仍然屡禁不止。2025年8月，5E对战平台曝出职业选手使用“软路由雷达”作弊，该外挂通过路由器解析游戏数据包获取对手位置，传统检测手段几乎无法识别。这一事件再次凸显了外挂技术的隐蔽性和反作弊的挑战。</p>
+<p><img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Cuploadsimage-20250815113622182.png" alt="image-20250815113622182" /></p>
+<h1 id="电子游戏的本质"><a class="markdownIt-Anchor" href="#电子游戏的本质"></a> 电子游戏的本质</h1>
+<p>电子游戏就是一段运行在计算机上的程序</p>
+<p><strong>电脑</strong>的最基本组成需要：</p>
+<ul>
+<li>
+<p>CPU：中央处理器，处理来自内存的数据。一般包含有寄存器等，寄存器存储<strong>运行中的程序</strong>需要处理的数据，例如进行减少血量的操作就是将血量放入寄存器中然后CPU进行减法运算。</p>
+</li>
+<li>
+<p>主板：安装所有硬件，让各个硬件能进行数据传输。</p>
+</li>
+<li>
+<p>内存：暂存<strong>运行程序</strong>的相关数据，例如程序中的坐标、游戏人物的血量等等。</p>
+</li>
+<li>
+<p>显卡：负责将数据转为屏幕的像素图形成画面。最开始这是CPU的工作，但是CPU不适合大规模的简单运算（让一个博士去狂刷小学加减法，不如让100个小学生去同时运算），英伟达开发的 <strong>Nvidia GeForce 256</strong> 是世界第一个图形处理器（显卡）。</p>
+<p><img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Cuploadsimage-20250815115845791.png" alt="image-20250815115845791" /></p>
+</li>
+<li>
+<p>硬盘：存储<strong>非运行程序</strong>的数据，要使用的时候CPU从硬盘读取或者写入。但是随着时代的进步逐渐出现了直接访问等技术（例如直接从硬盘到显卡、外设到内存双向通信，这也是DMA的基础）。</p>
+</li>
+<li>
+<p>操作系统：对于计算机来说是非必须的，但是对于用户来说很重要。因为他可以协调各个硬件，例如控制程序运行的优先级。</p>
+</li>
+</ul>
+<p>​	对于一个常见的联机游戏中数据流程大致如下：</p>
+<p><img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Cuploadsimage-20250815122009027.png" alt="image-20250815122009027" /></p>
+<h2 id="如何修改一个程序的数据"><a class="markdownIt-Anchor" href="#如何修改一个程序的数据"></a> 如何修改一个程序的数据</h2>
+<p>根据上面的数据传输图，我们会发现通过操作系统和硬件可以在不同的访问等级下对不同的位置进行数据的访问，如：</p>
+<p><img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Cuploadsimage-20250815123016587.png" alt="image-20250815123016587" /></p>
+<h2 id="内存挂"><a class="markdownIt-Anchor" href="#内存挂"></a> 内存挂</h2>
+<p>​	其中最常用的是<strong>内存挂</strong>，由于游戏的数据会放在内存当中，那么我们使用操作系统提供的方法，或者从操作系统内核中的内存管理，<strong>进行跨进程的内存访问/写入</strong>。例如修改器最常用的cheat engine 对单机游戏的金币等等进行修改。在cs中，一场对局中<strong>所有玩家的坐标位置</strong>也是通过上面的流程保存在内存当中的，这就是透视、自瞄等的原理，部分外挂程序通过读取内存中玩家的坐标数据转到屏幕上进行绘制达到透视的效果。<br />
+<img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Cuploadsimage-20240523094055200.png" alt="image-20240523094055200" /></p>
+<p>​	由于运行中的程序的指令是暂存在内存当中的，更加高级的内存挂会<strong>直接修改游戏内存中的代码指令</strong>，<strong>让游戏程序自己绘制出玩家位置</strong>，也可以计算射击角度来自瞄等等。这种类型的外挂防护已经比较成熟了，一个思路是将反作弊程序升级到<strong>更高级的系统内核层面</strong>，从一般程序无法访问的<strong>系统内核拦截外挂对游戏内存的访问和修改</strong>。除了拦截之外，还会利用哈希算法校验游戏关键代码是否被修改。还有的会依靠样本库对当前运行的所有程序进行扫描，扫描到已知的外挂程序会做出相应的处理。还有一些是基于行为分析等等。</p>
+<p><img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Cuploadsimage-20240519162215594.png" alt="image-20240519162215594" /></p>
+<h2 id="dma"><a class="markdownIt-Anchor" href="#dma"></a> DMA</h2>
+<p>​	<strong>DMA</strong>（<strong>Direct Memory Access</strong>，直接内存访问）技术改变了这一切。回忆之前的内容，所有的硬件需要插在主板上运行，并且为了数据访问速度的加快，部分数据可以不经过CPU直接访问内存。正常的功能例如将电脑硬盘中的资料复制到USB中，原来需要通过CPU将数据读取到内存中，然后CPU再把数据复制到USB中。但是DMA是硬盘直接将数据读取到内存，然后usb的DMA控制器直接从内存中得到数据，<strong>CPU在这一过程中是几乎没有参与的，而之前的外挂是需要CPU来运行的</strong>，因此DMA的内存读写方式是硬件层面直接决定的，<strong>往常的反作弊程序难以探测</strong>。<br />
+​	按照<strong>将反作弊程序升级到更高级、更底层这一思路</strong>，近期例如三角洲行动等使用CPU虚拟化技术来进行DMA的反作弊。CPU虚拟化顾名思义就是允许在单个物理CPU上创建多个隔离的虚拟环境（虚拟机），每个虚拟机可以独立运行操作系统或应用程序。这样就可以对特定程序（例如游戏）单独创建一套系统，<strong>通过将游戏运行在受保护的虚拟环境中、拦截和审核所有对关键硬件（如内存、DMA设备）的访问请求</strong>，实现对DMA外挂的检测。</p>
+<p><img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Cuploadsimage-20250815132333382.png" alt="image-20250815132333382" /></p>
+<h2 id="软路由"><a class="markdownIt-Anchor" href="#软路由"></a> 软路由</h2>
+<p>​	回顾上面的数据传输图，游戏数据通过网络传送到电脑上，<strong>网络的传输会通过路由器</strong>。软路由可以说是在路由器中的插件，例如屏蔽特定的域名访问、复制网络流量等等。如果我们能过理清楚游戏和服务器之间的通讯的加密流程，就可以从路由器拦截并解密服务器向游戏发送的数据包，再从<strong>数据包中提取出坐标等相关信息转发</strong>，这样就不需要修改或者访问游戏的任何内存。</p>
+<p><img src="D:%5CBlog%5Cgithub%5Csource_posts%5Cassets%5Cuploads507313ccd0c2aba7cbd123914b2d6d35.png" alt="img" /></p>
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h1>
+<p>​	外挂难以根除的根本原因在于：<strong>游戏必须依赖本地硬件运行，而硬件和网络的开放性为作弊提供了无数切入点</strong>。反作弊与作弊的对抗本质是一场技术军备竞赛，且受限于用户体验、硬件兼容性和黑产利益，短期内无法彻底解决。未来可能需要结合<strong>云端游戏、AI行为分析、法律打击</strong>等多维手段，才能逐步压制外挂的生存空间。</p>
+<p>​	不过也可以复兴LAN派对(局域网游戏聚会形式)参与者通常自带电脑，在自由开放的线下空间进行游戏竞技与交流，发现开挂立刻线下真实。</p>
+<h1 id="引用"><a class="markdownIt-Anchor" href="#引用"></a> 引用</h1>
+<p>[1] <a target="_blank" rel="noopener" href="https://csgo.5eplay.com/article/250811chnj5b">5E对战平台“顺藤摸瓜”收网行动</a></p>
+<p>[2] Donovan, Tristan (2010-04-20). <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Replay:_The_History_of_Video_Games"><em>Replay: The History of Video Games</em></a>. Yellow Ant. pp. 1–9. <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ISBN_(identifier)">ISBN</a> <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Special:BookSources/978-0-9565072-0-4">978-0-9565072-0-4</a>.</p>
+<p>[3] <a target="_blank" rel="noopener" href="https://blogs.nvidia.com/blog/first-gpu-gaming-ai/">Game-Changer: How the World’s First GPU Leveled Up Gaming and Ignited the AI Era</a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://df.qq.com/cp/a20240906main/newsdetail.html?id=12122266884973296027">反作弊升级｜CPU虚拟化功能上线</a></p>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2098/12/31/develop_handbook/">prev_post</a><a class="pagination__link pagination__next" href="/2025/07/29/rookit-3-ppl/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2025 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
