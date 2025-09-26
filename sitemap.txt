@@ -1,4 +1,4 @@
-https://joe1sn.eu.org/com-hijack.html
+https://joe1sn.eu.org/1990/09/26/1d64d36c186dc96562565d0e0c2d50ecca86a0deace8b42b2aead214934a7a42/
 https://joe1sn.eu.org/2025/08/16/talk-about-game-cheats/
 https://joe1sn.eu.org/2025/07/29/rookit-3-ppl/
 https://joe1sn.eu.org/2025/06/23/cs-external-2/
@@ -108,6 +108,7 @@ https://joe1sn.eu.org/tags/note/
 https://joe1sn.eu.org/tags/rootkit/
 https://joe1sn.eu.org/tags/c/
 https://joe1sn.eu.org/tags/python/
+https://joe1sn.eu.org/tags/hardware/
 https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
