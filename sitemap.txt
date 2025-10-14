@@ -1,9 +1,10 @@
+https://joe1sn.eu.org/2098/12/31/develop_handbook/
+https://joe1sn.eu.org/2025/10/14/meltdown/
 https://joe1sn.eu.org/1990/09/26/1d64d36c186dc96562565d0e0c2d50ecca86a0deace8b42b2aead214934a7a42/
 https://joe1sn.eu.org/2025/08/16/talk-about-game-cheats/
 https://joe1sn.eu.org/2025/07/29/rookit-3-ppl/
 https://joe1sn.eu.org/2025/06/23/cs-external-2/
 https://joe1sn.eu.org/2025/06/08/cs-stager-payload-1/
-https://joe1sn.eu.org/2098/12/31/develop_handbook/
 https://joe1sn.eu.org/2025/05/08/rookit-2-priv-escalation/
 https://joe1sn.eu.org/2025/04/30/rookit-1-hide-process/
 https://joe1sn.eu.org/2025/04/16/win-exp-big-non-paged-pool-overflow/
