@@ -71,7 +71,6 @@ https://joe1sn.eu.org/2022/04/01/spring4shell/
 https://joe1sn.eu.org/2021/03/14/BUUCTF/
 https://joe1sn.eu.org/2023/07/03/qq-evasion/
 https://joe1sn.eu.org/2021/03/30/Maleware/
-https://joe1sn.eu.org/2022/07/29/reverse-shell/
 https://joe1sn.eu.org/2022/08/14/cypherpunk/
 https://joe1sn.eu.org/2022/03/18/java-d2-database/
 https://joe1sn.eu.org/
@@ -81,7 +80,6 @@ https://joe1sn.eu.org/tags/Java/
 https://joe1sn.eu.org/tags/notes/
 https://joe1sn.eu.org/tags/git/
 https://joe1sn.eu.org/tags/os/
-https://joe1sn.eu.org/tags/%E6%B8%97%E9%80%8F/
 https://joe1sn.eu.org/tags/fuzz/
 https://joe1sn.eu.org/tags/muud/
 https://joe1sn.eu.org/tags/web-framework/
@@ -118,7 +116,6 @@ https://joe1sn.eu.org/categories/misc/
 https://joe1sn.eu.org/categories/notes/
 https://joe1sn.eu.org/categories/notes/java/
 https://joe1sn.eu.org/categories/notes/os/
-https://joe1sn.eu.org/categories/pentest/
 https://joe1sn.eu.org/categories/CVE/
 https://joe1sn.eu.org/categories/program/
 https://joe1sn.eu.org/categories/notes/kernel/
