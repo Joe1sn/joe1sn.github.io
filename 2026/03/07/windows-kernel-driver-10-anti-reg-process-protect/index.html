@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabin | windows内核驱动 10-对抗进程回调保护与注册表回调保护</title><meta name="description" content="&lt;p&gt;越来越感觉科技树点歪了&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabin"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
+</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabin</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">windows内核驱动 10-对抗进程回调保护与注册表回调保护</h3><div class="article__date metadata"><div class="post-info">2026/03/07</div></div><div class="article__tags metadata">Tags:
+<a class="article__tags__link metadata" href="/tags/kernel/">kernel</a><a class="article__tags__link metadata" href="/tags/windows/">windows</a></div><div class="article__body"><p>越来越感觉科技树点歪了</p>
+<span id="more"></span>
+<h2 id="注册表回调保护对抗"><a class="markdownIt-Anchor" href="#注册表回调保护对抗"></a> 注册表回调保护对抗</h2>
+<ol>
+<li>
+<p>可以得到所有回调的<code>cookie</code>信息，从而进行对抗。</p>
+</li>
+<li>
+<p>通过<code>MmGetSystenRoutineAddross</code>找到<code>CmUnRegisterCallback</code>的位置，解析保存的回调函数链表做<code>patch</code>。</p>
+</li>
+<li>
+<p>找到全局保存的当前注册表的回调值，直接清空。</p>
+</li>
+</ol>
+<h2 id="对象回调保护对抗"><a class="markdownIt-Anchor" href="#对象回调保护对抗"></a> 对象回调保护对抗</h2>
+<ol>
+<li>
+<p>可以得到所有回调的<code>handle</code>信息，从而进行对抗。</p>
+</li>
+<li>
+<p>通过<code>MmGetSystenRoutineAddross</code>找到<code>ObUnRegisterCallbacks</code>的位置，解析保存的回调函数链表到回调函数做<code>patch</code>。</p>
+</li>
+<li>
+<p>从这里</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obReg.ObjectType = PsProcessType;   //注册进程的回调</span><br></pre></td></tr></table></figure>
+<p>解析<code>_OBJECT_TYPE</code>的<code>CallbackList</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">+0x000 TypeList         : _LIST_ENTRY</span><br><span class="line">+0x010 Name             : _UNICODE_STRING</span><br><span class="line">+0x020 DefaultObject    : Ptr64 Void</span><br><span class="line">+0x028 Index            : UChar</span><br><span class="line">+0x02c TotalNumberOfObjects : Uint4B</span><br><span class="line">+0x030 TotalNumberOfHandles : Uint4B</span><br><span class="line">+0x034 HighWaterNumberOfObjects : Uint4B</span><br><span class="line">+0x038 HighWaterNumberOfHandles : Uint4B</span><br><span class="line">+0x040 TypeInfo         : _OBJECT_TYPE_INITIALIZER</span><br><span class="line">+0x0b8 TypeLock         : _EX_PUSH_LOCK</span><br><span class="line">+0x0c0 Key              : Uint4B</span><br><span class="line">+0x0c8 CallbackList     : _LIST_ENTRY</span><br></pre></td></tr></table></figure>
+<p>而且<code>PsProcessType</code>是一个全局的地址，所以对抗的驱动依旧能够找到（有点像d3d hook中找到<code>SetPresent</code>的方法）</p>
+</li>
+</ol>
+</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2098/12/31/develop_handbook/">prev_post</a><a class="pagination__link pagination__next" href="/2026/03/06/windows-kernel-driver-9-proccallbackprotect/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2026 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>

@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2026/03/07/windows-kernel-driver-10-anti-reg-process-protect/
 https://joe1sn.eu.org/2026/03/06/windows-kernel-driver-9-proccallbackprotect/
 https://joe1sn.eu.org/2024/03/27/windows-kernel-driver-8-timer-notify/
 https://joe1sn.eu.org/2026/03/03/re-with-ai/
