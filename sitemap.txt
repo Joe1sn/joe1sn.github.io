@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2026/04/11/windows-kernel-driver-12-hook-full-ssdt/
 https://joe1sn.eu.org/2026/03/15/windows-kernel-driver-11-hook-inline-ssdt/
 https://joe1sn.eu.org/2026/03/07/windows-kernel-driver-10-anti-reg-process-protect/
 https://joe1sn.eu.org/2026/03/06/windows-kernel-driver-9-proccallbackprotect/
