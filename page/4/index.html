@@ -1,8 +1,236 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabin</title><meta name="description" content="A Blog Powered By Hexo"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabin"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
-</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabin</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/03/18/windows-kernel-driver-4-reg/">windows内核驱动 4-内核注册表</a></h3><div class="article__date metadata"><div class="post-info">2024/03/18</div></div><div class="article__body"><p>使用内核注册表实现开机启动驱动等</p></div><a class="article__link" href="/2024/03/18/windows-kernel-driver-4-reg/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/03/17/windows-kernel-driver-3/">windows内核驱动 3-文件操作</a></h3><div class="article__date metadata"><div class="post-info">2024/03/17</div></div><div class="article__body"><p>之前写过：<a href="https://joe1sn.eu.org/2023/02/16/windows_kernel_driver_1/">windows内核驱动 1-环境搭建</a>、<a href="https://joe1sn.eu.org/2023/02/17/windows_kernel_driver_2/">windows内核驱动 2-页表探索</a></p>
-<p>但是内容确实有点衔接不上，这里根据<a href="https://joe1sn.eu.org/2024/01/25/win-hevd-exp-stackoverflow-I/">【Win Pwn】HEVD-内核栈溢出(上)</a>中展示的基础技巧来继续</p></div><a class="article__link" href="/2024/03/17/windows-kernel-driver-3/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/03/17/win-kernel-pool/">【Win Pwn】Windows内核池笔记</a></h3><div class="article__date metadata"><div class="post-info">2024/03/17</div></div><div class="article__body"><p>文章来自blackhat 2021的文章《Windows-Heap-Backed-Pool-The-Good-The-Bad-And-The-Encoded》</p>
-<p>原文链接：<a target="_blank" rel="noopener" href="https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-Windows-Heap-Backed-Pool-The-Good-The-Bad-And-The-Encoded.pdf">https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-Windows-Heap-Backed-Pool-The-Good-The-Bad-And-The-Encoded.pdf</a></p>
-<p>Youtube：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=VvxNc8GTFfk">https://www.youtube.com/watch?v=VvxNc8GTFfk</a></p></div><a class="article__link" href="/2024/03/17/win-kernel-pool/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/03/15/little-hook/">【免杀】Windows Inline Hook小结</a></h3><div class="article__date metadata"><div class="post-info">2024/03/15</div></div><div class="article__body"><p>Inline Hook还是挺好玩的</p>
-<p>文章很短，只是打个总结，记录一些有趣的发现</p></div><a class="article__link" href="/2024/03/15/little-hook/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/02/25/PeFile/">【免杀】PE文件分析</a></h3><div class="article__date metadata"><div class="post-info">2024/02/25</div></div><div class="article__body"><p>最近代码能力飞速提升，顺便复习一下</p></div><a class="article__link" href="/2024/02/25/PeFile/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/02/24/win-hevd-exp-stackoverflow-GS/">【Win Pwn】HEVD-内核栈溢出GS保护及绕过</a></h3><div class="article__date metadata"><div class="post-info">2024/02/24</div></div><div class="article__body"><p>HEVD中的栈溢出加上GS保护<br />
-还有一个知识点就是windows内核栈地址泄露</p></div><a class="article__link" href="/2024/02/24/win-hevd-exp-stackoverflow-GS/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/02/23/win-hevd-exp-arbitrary-write/">【Win Pwn】HEVD-任意地址写</a></h3><div class="article__date metadata"><div class="post-info">2024/02/23</div></div><div class="article__body"><p>非预期方法，暂时不会放出来</p></div><a class="article__link" href="/2024/02/23/win-hevd-exp-arbitrary-write/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/02/23/potato-1/">【内网】从PoC看JuicyPotato提权</a></h3><div class="article__date metadata"><div class="post-info">2024/02/23</div></div><div class="article__body"><p>从此认识到自己不是做win安全的料</p></div><a class="article__link" href="/2024/02/23/potato-1/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/02/23/kerberos/">【内网】探索Windows内网的Kerberos协议</a></h3><div class="article__date metadata"><div class="post-info">2024/02/23</div></div><div class="article__body"><p>感恩学校扎实的密码学功底，分析起来也是很简单的</p></div><a class="article__link" href="/2024/02/23/kerberos/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2024/02/20/ad-dc-1/">【内网】环境搭建</a></h3><div class="article__date metadata"><div class="post-info">2024/02/20</div></div><div class="article__body"><p>Windows Server 2012 配置</p>
-<p>怀念大学时光，在学网络配置的时候就是用的winserver 2012，最近想探究内网就翻出来学一学。</p></div><a class="article__link" href="/2024/02/20/ad-dc-1/">read more ...</a></section><div class="pagination"><a class="pagination__link pagination__prev" href="/page/3/">prev</a><a class="pagination__link pagination__next" href="/page/5/">next</a></div></main><footer class="footer metadata"><p class="footer__text">© 2026 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Joe1sn's Cabin</title><meta name="author" content="Joe1sn"><meta name="copyright" content="Joe1sn"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="Joe1sn&#39;s Cabin">
+<meta property="og:url" content="https://joe1sn.eu.org/page/4/index.html">
+<meta property="og:site_name" content="Joe1sn&#39;s Cabin">
+<meta property="og:locale">
+<meta property="og:image" content="https://joe1sn.eu.org/img/avatar1.jpg">
+<meta property="article:author" content="Joe1sn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joe1sn.eu.org/img/avatar1.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="https://joe1sn.eu.org/page/4/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Joe1sn\'s Cabin',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
+</head><body><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/img/cyber_nijia.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Joe1sn's Cabin</span></a></span><div id="menus"></div></nav><div id="site-info"><h1 id="site-title">Joe1sn's Cabin</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/Joe1sn" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:joe1sn23333@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2024/03/18/windows-kernel-driver-4-reg/" title="windows内核驱动 4-内核注册表"><img class="post-bg" src="/img/win.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 4-内核注册表"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/03/18/windows-kernel-driver-4-reg/" title="windows内核驱动 4-内核注册表">windows内核驱动 4-内核注册表</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-03-18T04:34:17.000Z" title="Created 2024-03-18 12:34:17">2024-03-18</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/kernel/">kernel</a></span></div><div class="content">使用内核注册表实现开机启动驱动等   内核注册表 驱动创建描述符SYM_NAME后，会出现在注册表计算机\HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services中 启动项的名字为驱动的文件名，例如hevd_2   Start：2-开机自启动、3-手动启动、4-禁用，数字越小启动越早   打开注册表ZwCreateKey和ZwOpenKey  移动驱动启动位置并修改注册表 ZwCreateKey 12345678910111213141516171819NTSTATUS status = STATUS_SUCCESS;HANDLE hRegKey = NULL;OBJECT_ATTRIBUTES RegAttribute = &#123; 0 &#125;;ULONG KeyOp = 0;InitializeObjectAttributes(&amp;RegAttribute, RegistryPath, OBJ_CASE_INSENSITIVE, NULL, NULL);status = ZwCreateKey(&amp;hRegKey,...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/03/17/windows-kernel-driver-3/" title="windows内核驱动 3-文件操作"><img class="post-bg" src="/img/win.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 3-文件操作"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/03/17/windows-kernel-driver-3/" title="windows内核驱动 3-文件操作">windows内核驱动 3-文件操作</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-03-17T08:51:33.000Z" title="Created 2024-03-17 16:51:33">2024-03-17</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/kernel/">kernel</a></span></div><div class="content">之前写过：windows内核驱动 1-环境搭建、windows内核驱动 2-页表探索 但是内容确实有点衔接不上，这里根据【Win Pwn】HEVD-内核栈溢出(上)中展示的基础技巧来继续   项目结构优化  之前写过的所有功能都在main.c中，新加入IoctlFuncs，这里来写所有的ioctl功能，那么就要重新设计MyControl 1234567891011121314151617181920212223PIO_STACK_LOCATION pStack = IoGetCurrentIrpStackLocation(pIrp);ULONG ioCode = pStack-&gt;Parameters.DeviceIoControl.IoControlCode;ULONG inLen = pStack-&gt;Parameters.DeviceIoControl.InputBufferLength;ULONG ioInfo = 0;switch (ioCode)&#123;case IOCTL_MUL:&#123;    DWORDLONG inData = *(PDWORD...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2024/03/17/win-kernel-pool/" title="【Win Pwn】Windows内核池笔记">【Win Pwn】Windows内核池笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-03-17T01:43:37.000Z" title="Created 2024-03-17 09:43:37">2024-03-17</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a></span></div><div class="content">文章来自blackhat 2021的文章《Windows-Heap-Backed-Pool-The-Good-The-Bad-And-The-Encoded》 原文链接：https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-Windows-Heap-Backed-Pool-The-Good-The-Bad-And-The-Encoded.pdf Youtube：https://www.youtube.com/watch?v=VvxNc8GTFfk   粗略的分配 内核动态内存：和R3中的对差不多 类型为可分页和不可分页，程序按照4KB分页，之前写过一点相关的：Joe1sn’s Cabinet | windows内核驱动 2-页表探索 旧API初始化中不会将内存置零，导致信息泄露 一些API  在RS5（Redstone 5）版本前（及Windows 1809，在2018年10月前的版本）  没有任何校验、加密等等，但是之后就变得复杂得多了（严重怀疑微软借鉴了glibc的内存管理）   新版本的池设计管理和R3下是同一个库 每一...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/03/15/little-hook/" title="【免杀】Windows Inline Hook小结"><img class="post-bg" src="/img/cover/inject.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【免杀】Windows Inline Hook小结"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/03/15/little-hook/" title="【免杀】Windows Inline Hook小结">【免杀】Windows Inline Hook小结</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-03-15T05:47:31.000Z" title="Created 2024-03-15 13:47:31">2024-03-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/program/">program</a></span></div><div class="content">Inline Hook还是挺好玩的 文章很短，只是打个总结，记录一些有趣的发现   写在前面 之前在学习hook的时候，发现抄的一段代码只能在Debug模式下运行，调试后发现MSVC很有趣的一个点 当我们使用Debug模式编译的时候，程序为了调试方便，会将所有函数加入这个表中 比如 123456789void oldtest() &#123;    MessageBoxA(NULL, &quot;not hook&quot;, &quot;test&quot;, NULL);&#125;int main()&#123;    oldtest();&#125; 按照直觉 这里的call应该会直接来到函数的位置，但是真实情况并非如此  我们会发现一张跳表，根据距离这张表的地址差进行跳转，那段hook只是修改了这一段代码  x86 hook 首先是x86为啥叫32位架构，最突出的就是一个寄存器有32位(bit)大小，那么计算一下 1(1&lt;&lt;32)/int(1024*1024*1024) = 4 没错，32位的寄存器最多只能存放4GB个数字（比如从1到0x100000000）...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/02/25/PeFile/" title="【免杀】PE文件分析"><img class="post-bg" src="/img/cover/pe.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【免杀】PE文件分析"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/02/25/PeFile/" title="【免杀】PE文件分析">【免杀】PE文件分析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-02-25T15:17:26.000Z" title="Created 2024-02-25 23:17:26">2024-02-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/program/">program</a></span></div><div class="content">最近代码能力飞速提升，顺便复习一下  一般就是  DOS头：IMAGE_DOS_HEADER结构体 PE头：IMAGE_NT_HEADERS结构体 Section头：IMAGE_SECTION_HEADER结构体  OK，如果要分析PE文件的话，首先把文件读取出来 那么如何解析呢？这就是C/C++非常方便的一点：直接使用结构体转换，例如把地址值解析为数值 总体就是解释内存中的值  DOS 头 先看DOSHeader吧 123456789101112131415161718192021typedef struct _IMAGE_DOS_HEADER &#123;      // DOS .EXE header    WORD   e_magic;                     // Magic number    WORD   e_cblp;                      // Bytes on last page of file    WORD   e_cp;                        // Pages in file    WORD  ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/02/24/win-hevd-exp-stackoverflow-GS/" title="【Win Pwn】HEVD-内核栈溢出GS保护及绕过"><img class="post-bg" src="/img/cover/wink.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Win Pwn】HEVD-内核栈溢出GS保护及绕过"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/02/24/win-hevd-exp-stackoverflow-GS/" title="【Win Pwn】HEVD-内核栈溢出GS保护及绕过">【Win Pwn】HEVD-内核栈溢出GS保护及绕过</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-02-24T03:10:43.000Z" title="Created 2024-02-24 11:10:43">2024-02-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a></span></div><div class="content">HEVD中的栈溢出加上GS保护 还有一个知识点就是windows内核栈地址泄露  函数功能  在上三篇中讲的很清楚了，这里我关闭了KVAS  又是一段经典的栈溢出，但是有了内核的GS保护  编写exploit 这里就不得不提到Windows中一种Cannary的绕过方式了，通过try except的Handler进行绕过，很遗憾handler只在32位程序中才保存在栈上 查阅资料 https://paper.seebug.org/2017/#22 https://kristal-g.github.io/2021/02/07/HEVD_StackOverflowGS_Windows_10_RS5_x64.html cookie值是存储在_data段的第一个  函数检查的部分，有一个异或  123456789101112131415161718192021222324252627281: kd&gt; dqs rspffff8788`21979540  00000000`00000000ffff8788`21979548  ffffc186`261f98f0ffff8788`2197...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/02/23/win-hevd-exp-arbitrary-write/" title="【Win Pwn】HEVD-任意地址写"><img class="post-bg" src="/img/cover/wink.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Win Pwn】HEVD-任意地址写"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/02/23/win-hevd-exp-arbitrary-write/" title="【Win Pwn】HEVD-任意地址写">【Win Pwn】HEVD-任意地址写</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-02-23T15:35:34.000Z" title="Created 2024-02-23 23:35:34">2024-02-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a></span></div><div class="content">非预期方法，暂时不会放出来   HEVD练习-任意地址写  漏洞点   一点好玩的 传入一个结构体，得到结构体过后写入内容 结构体 12345typedef struct _WRITE_WHAT_WHERE&#123;	unsigned int* What;	unsigned int* Where;&#125;arbitrary_write, *pArbitraryWrite; 这里我做一个比较有意思的事儿，比如修改某个变量的值 1234567891011121314151617181920printf(&quot;[*] Start Exploit\n&quot;);pArbitraryWrite payload = (pArbitraryWrite)malloc(sizeof(arbitrary_write));if (payload == NULL) &#123;	printf(&quot;[!] Malloc payload failed\n&quot;);	return;&#125;int vuln = 0x10000;int pay = 0xDEADBEEF;prin...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/02/23/potato-1/" title="【内网】从PoC看JuicyPotato提权"><img class="post-bg" src="/img/kali.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【内网】从PoC看JuicyPotato提权"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/02/23/potato-1/" title="【内网】从PoC看JuicyPotato提权">【内网】从PoC看JuicyPotato提权</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-02-23T06:49:21.000Z" title="Created 2024-02-23 14:49:21">2024-02-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a></span></div><div class="content">从此认识到自己不是做win安全的料  个人认为JuictPotato的前身是著名的Rotten Potato    使用CoGetInstanceFromIStorage API 调用欺骗RPC,对代理进行身份验证.在此调用中指定了代理 IP/端口 RPC 向代理发送 NTLM 协商包 代理依赖的NTLM协商到RPC在端口135，被用作模板。同时，执行对AcceptSecurityContext的调用以强制进行本地身份验证 注:此包被修改为强制本地身份验证. &amp; 5. RPC 135和AcceptSecurityContext用NTLM Challenge回复 将两个数据包的内容混合以匹配本地协商并转发到RPC RPC使用发送到AcceptSecurityContext(8.)的NLTM Auth包进行响应，并执行模拟     【PotatoAPI】创建COM监听器startCOMListenerThread   初始化WinSocket，创建非阻塞式socket，并监听-t端口。跳转到2，后面的就是监听循环中的   【LocalNegotiator】使用processN...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2024/02/23/kerberos/" title="【内网】探索Windows内网的Kerberos协议"><img class="post-bg" src="/img/kali.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【内网】探索Windows内网的Kerberos协议"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/02/23/kerberos/" title="【内网】探索Windows内网的Kerberos协议">【内网】探索Windows内网的Kerberos协议</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-02-23T04:29:23.000Z" title="Created 2024-02-23 12:29:23">2024-02-23</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a></span></div><div class="content">感恩学校扎实的密码学功底，分析起来也是很简单的  说白了就一张图    攻击方式  黄金票据 第三步中 使用 KDC 特定账户 Krbtgt 的 NTLM-Hash 时，如果我们有了该NTML-Hash那么就能做到伪造TGT 该方法由于需要DC的NTLM-Hash，所以用于留后门 假设我们拿到了DC上administrator权限的shell  抓取Hash    CS使用的命令为：lsadump 相关项目：https://github.com/Xre0uS/MultiDump  获得管理员SID  mimikatz一把梭 wmic useraccount get name,sid  切换到域内用户的普通权限，制作黄金票据    横向移动 先尝试访问文件夹  原因：https://support.microsoft.com/zh-cn/topic/ms16-101-windows-身份验证方法的安全更新程序说明-2016-年-8-月-9-日-be16a40d-d7e2-c4b2-d885-6a22cff3cb77  貌似是WinServer2012的硬伤了，虚拟机必须用一些补丁才...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2024/02/20/ad-dc-1/" title="【内网】环境搭建"><img class="post-bg" src="/img/server.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【内网】环境搭建"></a></div><div class="recent-post-info"><a class="article-title" href="/2024/02/20/ad-dc-1/" title="【内网】环境搭建">【内网】环境搭建</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2024-02-20T13:56:00.000Z" title="Created 2024-02-20 21:56:00">2024-02-20</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a></span></div><div class="content">Windows Server 2012 配置 怀念大学时光，在学网络配置的时候就是用的winserver 2012，最近想探究内网就翻出来学一学。   简单配置 vmware虚拟机安装就不多说了，主要是网络，我配置了两块网卡   NAT：连接到物理机网络 WinDC：构建vmware的虚拟局域网  关于vmtool安装 vmtool是通过DVD光盘的形式安装的，所以要开启自动检测；软盘也要相同的设置   装完了过后就很方便了  关闭防火墙  开启远程桌面  配置路由 添加角色和功能 里面选择      配置DHCP服务器（非必要） 添加角色和功能 里面选择  创建和激活作用域：工具-&gt;DHCP      AD活动目录配置  AD和域控制器DC都在虚拟机上。 为了测试，安排一个Win7 局域网   Windows 7客户机  配置内网静态IP，设置DNS为域服务器IP   配置DC域控  提升为域控制器    密码：!234rewq  设置Administrator账户的密码为$321qwer  创建用户组织 用户组织可以用于委派等，是对组操作的最小单位 使用部门-&gt;个...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/3/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#content-inner">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#content-inner">8</a><a class="extend next" rel="next" href="/page/5/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Joe1sn</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Joe1sn"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Joe1sn" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:joe1sn23333@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">lue lue lue</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2098/12/31/develop_handbook/" title="【置顶】【编程】开发笔记"><img src="/img/git.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【置顶】【编程】开发笔记"/></a><div class="content"><a class="title" href="/2098/12/31/develop_handbook/" title="【置顶】【编程】开发笔记">【置顶】【编程】开发笔记</a><time datetime="2098-12-31T13:06:45.000Z" title="Created 2098-12-31 21:06:45">2098-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/11/windows-kernel-driver-12-hook-full-ssdt/" title="windows内核驱动 12-内核hook-1.5"><img src="/img/cover/winhook.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 12-内核hook-1.5"/></a><div class="content"><a class="title" href="/2026/04/11/windows-kernel-driver-12-hook-full-ssdt/" title="windows内核驱动 12-内核hook-1.5">windows内核驱动 12-内核hook-1.5</a><time datetime="2026-04-11T13:38:10.000Z" title="Created 2026-04-11 21:38:10">2026-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/15/windows-kernel-driver-11-hook-inline-ssdt/" title="windows内核驱动 11-内核hook-1"><img src="/img/cover/winhook.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 11-内核hook-1"/></a><div class="content"><a class="title" href="/2026/03/15/windows-kernel-driver-11-hook-inline-ssdt/" title="windows内核驱动 11-内核hook-1">windows内核驱动 11-内核hook-1</a><time datetime="2026-03-15T05:36:14.000Z" title="Created 2026-03-15 13:36:14">2026-03-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/07/windows-kernel-driver-10-anti-reg-process-protect/" title="windows内核驱动 10-对抗进程回调保护与注册表回调保护"><img src="/img/win.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 10-对抗进程回调保护与注册表回调保护"/></a><div class="content"><a class="title" href="/2026/03/07/windows-kernel-driver-10-anti-reg-process-protect/" title="windows内核驱动 10-对抗进程回调保护与注册表回调保护">windows内核驱动 10-对抗进程回调保护与注册表回调保护</a><time datetime="2026-03-07T05:40:50.000Z" title="Created 2026-03-07 13:40:50">2026-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/06/windows-kernel-driver-9-proccallbackprotect/" title="windows内核驱动 9-进程回调保护与注册表回调保护"><img src="/img/win.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 9-进程回调保护与注册表回调保护"/></a><div class="content"><a class="title" href="/2026/03/06/windows-kernel-driver-9-proccallbackprotect/" title="windows内核驱动 9-进程回调保护与注册表回调保护">windows内核驱动 9-进程回调保护与注册表回调保护</a><time datetime="2026-03-06T11:50:57.000Z" title="Created 2026-03-06 19:50:57">2026-03-06</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>Categories</span>
+            <a class="card-more-btn" href="/categories/" title="View More">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CVE/"><span class="card-category-list-name">CVE</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/hardware/"><span class="card-category-list-name">hardware</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/misc/"><span class="card-category-list-name">misc</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/"><span class="card-category-list-name">notes</span><span class="card-category-list-count">49</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/java/"><span class="card-category-list-name">java</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/kernel/"><span class="card-category-list-name">kernel</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/os/"><span class="card-category-list-name">os</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/program/"><span class="card-category-list-name">program</span><span class="card-category-list-count">9</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/hardware/" style="font-size: 1.14em; color: #999b9d">hardware</a> <a href="/tags/CTF/" style="font-size: 1.14em; color: #999b9d">CTF</a> <a href="/tags/dbg/" style="font-size: 1.1em; color: #999">dbg</a> <a href="/tags/web-framework/" style="font-size: 1.14em; color: #999b9d">web framework</a> <a href="/tags/cheats/" style="font-size: 1.1em; color: #999">cheats</a> <a href="/tags/python/" style="font-size: 1.1em; color: #999">python</a> <a href="/tags/c/" style="font-size: 1.1em; color: #999">c</a> <a href="/tags/cve/" style="font-size: 1.19em; color: #999da1">cve</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/" style="font-size: 1.1em; color: #999">漏洞挖掘</a> <a href="/tags/fuzz/" style="font-size: 1.28em; color: #99a0aa">fuzz</a> <a href="/tags/stm32/" style="font-size: 1.1em; color: #999">stm32</a> <a href="/tags/windows/" style="font-size: 1.5em; color: #99a9bf">windows</a> <a href="/tags/MinHook/" style="font-size: 1.14em; color: #999b9d">MinHook</a> <a href="/tags/CVE/" style="font-size: 1.37em; color: #99a4b2">CVE</a> <a href="/tags/cpp/" style="font-size: 1.1em; color: #999">cpp</a> <a href="/tags/source/" style="font-size: 1.19em; color: #999da1">source</a> <a href="/tags/pwn/" style="font-size: 1.41em; color: #99a5b7">pwn</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" style="font-size: 1.14em; color: #999b9d">漏洞复现</a> <a href="/tags/os/" style="font-size: 1.1em; color: #999">os</a> <a href="/tags/rootkit/" style="font-size: 1.23em; color: #999ea6">rootkit</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/C/" style="font-size: 1.28em; color: #99a0aa">C</a> <a href="/tags/AFL/" style="font-size: 1.1em; color: #999">AFL</a> <a href="/tags/pentest/" style="font-size: 1.19em; color: #999da1">pentest</a> <a href="/tags/AI/" style="font-size: 1.1em; color: #999">AI</a> <a href="/tags/writeup/" style="font-size: 1.19em; color: #999da1">writeup</a> <a href="/tags/notes/" style="font-size: 1.23em; color: #999ea6">notes</a> <a href="/tags/note/" style="font-size: 1.28em; color: #99a0aa">note</a> <a href="/tags/muud/" style="font-size: 1.14em; color: #999b9d">muud</a> <a href="/tags/malware/" style="font-size: 1.32em; color: #99a2ae">malware</a> <a href="/tags/crack/" style="font-size: 1.14em; color: #999b9d">crack</a> <a href="/tags/Windows/" style="font-size: 1.1em; color: #999">Windows</a> <a href="/tags/BUUCTF/" style="font-size: 1.1em; color: #999">BUUCTF</a> <a href="/tags/spring/" style="font-size: 1.1em; color: #999">spring</a> <a href="/tags/bypass/" style="font-size: 1.37em; color: #99a4b2">bypass</a> <a href="/tags/kernel/" style="font-size: 1.46em; color: #99a7bb">kernel</a> <a href="/tags/misc/" style="font-size: 1.1em; color: #999">misc</a> <a href="/tags/Java/" style="font-size: 1.23em; color: #999ea6">Java</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>Archives</span>
+      <a class="card-more-btn" href="/archives/"
+            title="View More">
+            <i class="fas fa-angle-right"></i>
+          </a>
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2098/12/">
+            <span class="card-archive-list-date">
+              December 2098
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/04/">
+            <span class="card-archive-list-date">
+              April 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/03/">
+            <span class="card-archive-list-date">
+              March 2026
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/02/">
+            <span class="card-archive-list-date">
+              February 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/01/">
+            <span class="card-archive-list-date">
+              January 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/11/">
+            <span class="card-archive-list-date">
+              November 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/10/">
+            <span class="card-archive-list-date">
+              October 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/08/">
+            <span class="card-archive-list-date">
+              August 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">79</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-04-23T12:01:03.231Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Joe1sn</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

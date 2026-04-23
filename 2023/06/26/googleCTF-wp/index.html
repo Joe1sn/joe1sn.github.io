@@ -1,7 +1,167 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Joe1sn's Cabin | 【CTF】2023 Google CTF WriteUp与复现</title><meta name="description" content="&lt;p&gt;端午节打的比赛，事情比较多没怎么看题，指导学弟做了下，这里来个复盘。&lt;/p&gt;
-&lt;p&gt;开始CTF的复健之路吧。&lt;/p&gt;"><link rel="icon" href="/images/favicon.png"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700"><link rel="stylesheet" href="/css/highlights/darkula.css"><link rel="stylesheet" href="/css/main.css"><link rel="search" type="application/opensearchdescription+xml" href="https://joe1sn.eu.org/atom.xml" title="Joe1sn's Cabin"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
-</head><body><div class="container"><header class="main-header"><h1 class="main-header__title uplize"><a class="main-header__title__link" href="/">Joe1sn's Cabin</a></h1><nav class="main-header__nav"><ul class="main-nav"><li class="main-nav__list"><a class="main-nav__list__link" href="/" target="_self">HOME</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="/archives/" target="_self">ARCHIVE</a></li><li class="main-nav__list"><a class="main-nav__list__link" href="https://github.com/Joe1sn" target="_blank">GITHUB</a></li></ul></nav></header><main class="container__wrapper"><article class="article post"><h3 class="article__title">【CTF】2023 Google CTF WriteUp与复现</h3><div class="article__date metadata"><div class="post-info">2023/06/26</div></div><div class="article__tags metadata">Tags:
-<a class="article__tags__link metadata" href="/tags/CTF/">CTF</a><a class="article__tags__link metadata" href="/tags/writeup/">writeup</a></div><div class="article__body"><p>端午节打的比赛，事情比较多没怎么看题，指导学弟做了下，这里来个复盘。</p>
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【CTF】2023 Google CTF WriteUp与复现 | Joe1sn's Cabin</title><meta name="author" content="Joe1sn"><meta name="copyright" content="Joe1sn"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="端午节打的比赛，事情比较多没怎么看题，指导学弟做了下，这里来个复盘。 开始CTF的复健之路吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CTF】2023 Google CTF WriteUp与复现">
+<meta property="og:url" content="https://joe1sn.eu.org/2023/06/26/googleCTF-wp/index.html">
+<meta property="og:site_name" content="Joe1sn&#39;s Cabin">
+<meta property="og:description" content="端午节打的比赛，事情比较多没怎么看题，指导学弟做了下，这里来个复盘。 开始CTF的复健之路吧。">
+<meta property="og:locale">
+<meta property="og:image" content="https://joe1sn.eu.org/img/googleCTF.png">
+<meta property="article:published_time" content="2023-06-26T15:44:49.000Z">
+<meta property="article:modified_time" content="2026-04-23T11:51:09.974Z">
+<meta property="article:author" content="Joe1sn">
+<meta property="article:tag" content="writeup">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joe1sn.eu.org/img/googleCTF.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【CTF】2023 Google CTF WriteUp与复现",
+  "url": "https://joe1sn.eu.org/2023/06/26/googleCTF-wp/",
+  "image": "https://joe1sn.eu.org/img/googleCTF.png",
+  "datePublished": "2023-06-26T15:44:49.000Z",
+  "dateModified": "2026-04-23T11:51:09.974Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Joe1sn",
+      "url": "https://joe1sn.eu.org"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="https://joe1sn.eu.org/2023/06/26/googleCTF-wp/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【CTF】2023 Google CTF WriteUp与复现',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
+</head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/googleCTF.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Joe1sn's Cabin</span></a><a class="nav-page-title" href="/"><span class="site-name">【CTF】2023 Google CTF WriteUp与复现</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">【CTF】2023 Google CTF WriteUp与复现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-06-26T15:44:49.000Z" title="Created 2023-06-26 23:44:49">2023-06-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-04-23T11:51:09.974Z" title="Updated 2026-04-23 19:51:09">2026-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/writeup/">writeup</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>端午节打的比赛，事情比较多没怎么看题，指导学弟做了下，这里来个复盘。</p>
 <p>开始CTF的复健之路吧。</p>
 <span id="more"></span>
 <h1 id="pwn"><a class="markdownIt-Anchor" href="#pwn"></a> Pwn</h1>
@@ -83,4 +243,4 @@
 <p>CTF{Sh3b4ng_1nj3cti0n_ftw}</p>
 </blockquote>
 <h2 id="ubf"><a class="markdownIt-Anchor" href="#ubf"></a> UBF</h2>
-</div></article><div class="pagination"><a class="pagination__link pagination__prev" href="/2023/07/03/qq-evasion/">prev_post</a><a class="pagination__link pagination__next" href="/2023/06/26/cpp-function/">next_post</a></div></main><footer class="footer metadata"><p class="footer__text">© 2026 Joe1sn</p><p class="footer__text">Powered by <a class="footer__text__link" href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a class="footer__text__link" href="https://pages.github.com/" target="_blank">Github Page</a></p></footer></div></body></html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://joe1sn.eu.org">Joe1sn</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://joe1sn.eu.org/2023/06/26/googleCTF-wp/">https://joe1sn.eu.org/2023/06/26/googleCTF-wp/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/writeup/">writeup</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post-share"><div class="social-share" data-image="/img/googleCTF.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2023/07/03/qq-evasion/" title="【漏洞复现】CVE-2023-34312分析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">【漏洞复现】CVE-2023-34312分析</div></div><div class="info-2"><div class="info-item-1">关于QQ提权漏洞CVE-2023-34312的分析 ！！未完待续！！   PoC分析 PoC地址：https://github.com/vi3t1/qq-tim-elevation，用rust写的按照教程编译好了就可以直接打了 由于没有开启ASLR保护所以很稳   接着是分析一下PoC  触发 触发方式是.\QQProtect .\evil.dll，同时必须保持tinyxml.dll在同一目录下，这里用QQ9.7.7举例子。  首先是GetCommandLineW获得启动参数，接着判断置否存在下列关键参数，然后不存在关键参数直接到了StartAddress 使用QQProtectEngine.dll中的RunQQProtect，设置回调函数sub_40C950  回调函数中的a2指针可以将任何地址的值设置为参数分析时的参数个数值，也就是 1。   那么现在我们就有了将任意地址写为1的能力，恰好QQProtect.exe没有开启ASLR保护，若开启的话下图应该存在IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE    PoC 和上文中结合起来，在QQPro...</div></div></div></a><a class="pagination-related" href="/2023/06/26/cpp-function/" title="【C++】Cpp函数进化"><img class="cover" src="/img/data.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">【C++】Cpp函数进化</div></div><div class="info-2"><div class="info-item-1">C++的函数进化小结   函数 有这样一个问题 1234567#include &lt;iostream&gt;int main()&#123;    int IntArray = &#123; 12, 13, 35, 16, 6, 5, 5, 12, 4, 13, 38, 35, 37, 33, 35, 15, 36, 14, 13, 12 &#125;;    //统计大于20的数字    return 0;&#125; 那么很自然的给出解法 123456789101112131415161718#include &lt;iostream&gt;int CountMatch(int* start, int* end)&#123;    int sum = 0;    for (; start &lt; end ; start++)    &#123;        if (*start &gt; 20)            sum++;    &#125;    return sum;&#125;int main()&#123;    int IntArray[] = &#...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/02/05/vnctf2026rewp/" title="【CTF】2026 VNCTF Re 复现与WriteUp"><img class="cover" src="/img/cover/vn.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-05</div><div class="info-item-2">【CTF】2026 VNCTF Re 复现与WriteUp</div></div><div class="info-2"><div class="info-item-1">好久没打CTF了，得快三年了吧。有一道安卓逆向就不写了，12月重装系统后没有环境   1. ez_maze  最短路径即为flag    MFC程序，常规IDA   一眼壳，上动态调试，还好是签到题，假设没有反调试  快速定位 直接运行到程序开始，定位字符串   下个断点，然后dump  然后IDA  发现验证算法的方向是反着来的。可以翻过去看看迷宫生成算法，其实在附件没更新之前的版本更好观察一点，但是直接在内存里面看更快些。   部分操作迷宫可能直接走死，没有到这个判断，跟一下rcx就行了的值，然后看rcx+0x260   还原迷宫 123456789from collections import dequetest = [0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,0,1,1,1,0,1,0,0,0,0,0,0,0,1,0,1,...</div></div></div></a><a class="pagination-related" href="/2021/03/14/BUUCTF/" title="BUUCTF Pwn WriteUp"><img class="cover" src="/img/BUUCTF.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-14</div><div class="info-item-2">BUUCTF Pwn WriteUp</div></div><div class="info-2"><div class="info-item-1">buu部分刷题记录   [HarekazeCTF2019]baby_rop  1.checksec() 12345Arch:     amd64-64-littleRELRO:    Partial RELROStack:    No canary foundNX:       NX enabledPIE:      No PIE (0x400000)  2.IDA main 123456789int __cdecl main(int argc, const char **argv, const char **envp)&#123;  char v4; // [rsp+0h] [rbp-10h]  system(&quot;echo -n \&quot;What&#x27;s your name? \&quot;&quot;);  __isoc99_scanf(&quot;%s&quot;, &amp;v4);  printf(&quot;Welcome to the Pwn World, %s!\n&quot;, &amp;v4);  return 0;&#125;  scan...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Joe1sn</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Joe1sn"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Joe1sn" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:joe1sn23333@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">lue lue lue</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#pwn"><span class="toc-number">1.</span> <span class="toc-text"> Pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#write-flag-where"><span class="toc-number">1.1.</span> <span class="toc-text"> WRITE-FLAG-WHERE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#write-flag-where-2"><span class="toc-number">1.2.</span> <span class="toc-text"> WRITE-FLAG-WHERE 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AA%E8%A7%A3%E5%87%BA%E4%BD%BF%E7%94%A8sscanf%E8%A6%86%E7%9B%96"><span class="toc-number">1.2.1.</span> <span class="toc-text"> 【未解出】使用sscanf覆盖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%AE%E4%B8%80%E7%82%B9%E5%8F%AF%E8%A7%86%E5%8C%96shellcode"><span class="toc-number">1.2.2.</span> <span class="toc-text"> 【差一点】可视化shellcode</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#write-flag-where-3"><span class="toc-number">1.3.</span> <span class="toc-text"> WRITE-FLAG-WHERE 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#storygen"><span class="toc-number">1.4.</span> <span class="toc-text"> STORYGEN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubf"><span class="toc-number">1.5.</span> <span class="toc-text"> UBF</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2098/12/31/develop_handbook/" title="【置顶】【编程】开发笔记"><img src="/img/git.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【置顶】【编程】开发笔记"/></a><div class="content"><a class="title" href="/2098/12/31/develop_handbook/" title="【置顶】【编程】开发笔记">【置顶】【编程】开发笔记</a><time datetime="2098-12-31T13:06:45.000Z" title="Created 2098-12-31 21:06:45">2098-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/11/windows-kernel-driver-12-hook-full-ssdt/" title="windows内核驱动 12-内核hook-1.5"><img src="/img/cover/winhook.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 12-内核hook-1.5"/></a><div class="content"><a class="title" href="/2026/04/11/windows-kernel-driver-12-hook-full-ssdt/" title="windows内核驱动 12-内核hook-1.5">windows内核驱动 12-内核hook-1.5</a><time datetime="2026-04-11T13:38:10.000Z" title="Created 2026-04-11 21:38:10">2026-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/15/windows-kernel-driver-11-hook-inline-ssdt/" title="windows内核驱动 11-内核hook-1"><img src="/img/cover/winhook.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 11-内核hook-1"/></a><div class="content"><a class="title" href="/2026/03/15/windows-kernel-driver-11-hook-inline-ssdt/" title="windows内核驱动 11-内核hook-1">windows内核驱动 11-内核hook-1</a><time datetime="2026-03-15T05:36:14.000Z" title="Created 2026-03-15 13:36:14">2026-03-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/07/windows-kernel-driver-10-anti-reg-process-protect/" title="windows内核驱动 10-对抗进程回调保护与注册表回调保护"><img src="/img/win.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 10-对抗进程回调保护与注册表回调保护"/></a><div class="content"><a class="title" href="/2026/03/07/windows-kernel-driver-10-anti-reg-process-protect/" title="windows内核驱动 10-对抗进程回调保护与注册表回调保护">windows内核驱动 10-对抗进程回调保护与注册表回调保护</a><time datetime="2026-03-07T05:40:50.000Z" title="Created 2026-03-07 13:40:50">2026-03-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/06/windows-kernel-driver-9-proccallbackprotect/" title="windows内核驱动 9-进程回调保护与注册表回调保护"><img src="/img/win.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="windows内核驱动 9-进程回调保护与注册表回调保护"/></a><div class="content"><a class="title" href="/2026/03/06/windows-kernel-driver-9-proccallbackprotect/" title="windows内核驱动 9-进程回调保护与注册表回调保护">windows内核驱动 9-进程回调保护与注册表回调保护</a><time datetime="2026-03-06T11:50:57.000Z" title="Created 2026-03-06 19:50:57">2026-03-06</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Joe1sn</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
