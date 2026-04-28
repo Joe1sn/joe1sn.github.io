@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joe1sn.eu.org/2026/04/14/flower-junk-code/</loc>
+    <lastmod>2026-04-28</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2026/04/28/SSTIC2020-Article-pool-overflow-exploitation-since-windows-10-19h1-bayet-fariello/</loc>
+    <lastmod>2026-04-28</lastmod>
+  </url>
+  <url>
     <loc>https://joe1sn.eu.org/2024/02/23/kerberos/</loc>
     <lastmod>2026-04-23</lastmod>
   </url>
@@ -201,11 +209,11 @@
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
-    <loc>https://joe1sn.eu.org/2022/03/16/java-d1-annotation/</loc>
+    <loc>https://joe1sn.eu.org/2022/03/19/java-day3-JDBC/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
-    <loc>https://joe1sn.eu.org/2022/03/19/java-day3-JDBC/</loc>
+    <loc>https://joe1sn.eu.org/2022/03/16/java-d1-annotation/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
@@ -221,11 +229,11 @@
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
-    <loc>https://joe1sn.eu.org/2022/04/13/sudo-fuzz2exp-2/</loc>
+    <loc>https://joe1sn.eu.org/2022/04/11/sudo-fuzz2exp-1/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
-    <loc>https://joe1sn.eu.org/2022/04/11/sudo-fuzz2exp-1/</loc>
+    <loc>https://joe1sn.eu.org/2022/04/13/sudo-fuzz2exp-2/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
@@ -237,6 +245,10 @@
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
+    <loc>https://joe1sn.eu.org/2023/06/01/web-0x2/</loc>
+    <lastmod>2025-01-26</lastmod>
+  </url>
+  <url>
     <loc>https://joe1sn.eu.org/2023/07/18/win-afl/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
@@ -245,19 +257,7 @@
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
-    <loc>https://joe1sn.eu.org/2023/06/01/web-0x2/</loc>
-    <lastmod>2025-01-26</lastmod>
-  </url>
-  <url>
     <loc>https://joe1sn.eu.org/2024/03/17/win-kernel-pool/</loc>
-    <lastmod>2025-01-26</lastmod>
-  </url>
-  <url>
-    <loc>https://joe1sn.eu.org/2022/06/10/windbg-note/</loc>
-    <lastmod>2025-01-26</lastmod>
-  </url>
-  <url>
-    <loc>https://joe1sn.eu.org/2023/06/14/windows-kernel-2-process&thread/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
@@ -265,11 +265,19 @@
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
-    <loc>https://joe1sn.eu.org/2024/03/18/windows-kernel-driver-4-reg/</loc>
+    <loc>https://joe1sn.eu.org/2023/06/14/windows-kernel-2-process&thread/</loc>
+    <lastmod>2025-01-26</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2022/06/10/windbg-note/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
     <loc>https://joe1sn.eu.org/2024/03/17/windows-kernel-driver-3/</loc>
+    <lastmod>2025-01-26</lastmod>
+  </url>
+  <url>
+    <loc>https://joe1sn.eu.org/2024/03/18/windows-kernel-driver-4-reg/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
@@ -281,11 +289,11 @@
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
-    <loc>https://joe1sn.eu.org/2023/02/16/windows_kernel_driver_1/</loc>
+    <loc>https://joe1sn.eu.org/2024/03/21/windows-kernel-driver-7-process-sync/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>
-    <loc>https://joe1sn.eu.org/2024/03/21/windows-kernel-driver-7-process-sync/</loc>
+    <loc>https://joe1sn.eu.org/2023/02/16/windows_kernel_driver_1/</loc>
     <lastmod>2025-01-26</lastmod>
   </url>
   <url>

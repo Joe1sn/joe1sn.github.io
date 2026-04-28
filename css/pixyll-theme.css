@@ -1,0 +1,323 @@
+/* ============================================
+   Pixyll Typora Theme — Butterfly Override
+   Forked from pixyll.com | MIT license
+   ============================================ */
+
+/* --- Font Faces (reuse theme font files) --- */
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Merriweather Light'), local('Merriweather-Light'),
+       url('/css/pixyll/merriweather-v19-latin-300.woff') format('woff');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Merriweather Heavy'), local('Merriweather-Heavy'),
+       url('/css/pixyll/merriweather-v19-latin-700.woff') format('woff');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Merriweather Light Italic'), local('Merriweather-LightItalic'),
+       url('/css/pixyll/merriweather-v19-latin-300italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Merriweather';
+  font-style: italic;
+  font-weight: bold;
+  src: local('Merriweather Heavy Italic'), local('Merriweather-HeavyItalic'),
+       url('/css/pixyll/merriweather-v19-latin-700italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'),
+       url('/css/pixyll/lato-v14-latin-300.woff') format('woff');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Lato Black'), local('Lato-Black'),
+       url('/css/pixyll/lato-v14-latin-900.woff') format('woff');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Lato LightItalic'), local('Lato-LightItalic'),
+       url('/css/pixyll/lato-v14-latin-300italic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: bold;
+  src: local('Lato BlackItalic'), local('Lato-BlackItalic'),
+       url('/css/pixyll/lato-v14-latin-900italic.woff') format('woff');
+}
+
+/* --- Article Container Override --- */
+#article-container {
+  font-family: "Merriweather", "PT Serif", Georgia, "Times New Roman", "STSong", 'Segoe UI Emoji', serif;
+  color: #333;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+/* --- Paragraphs --- */
+#article-container p {
+  font-weight: 300;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+/* --- Headings (Pixyll style: Lato, no prefix icons) --- */
+#article-container h1,
+#article-container h2,
+#article-container h3,
+#article-container h4,
+#article-container h5,
+#article-container h6 {
+  font-family: "Lato", 'Helvetica Neue', Helvetica, sans-serif;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 1em 0 0.5em;
+  color: #333;
+  transition: none;
+  padding-left: 0 !important;
+}
+
+/* Remove Butterfly beautify prefix icons from headings */
+#article-container h1::before,
+#article-container h2::before,
+#article-container h3::before,
+#article-container h4::before,
+#article-container h5::before,
+#article-container h6::before {
+  display: none !important;
+  content: none !important;
+}
+
+#article-container h1 { font-size: 1.8rem; line-height: 1.4; }
+#article-container h2 { font-size: 1.5rem; line-height: 1.3; }
+#article-container h3 { font-size: 1.25rem; line-height: 1.3; }
+#article-container h4 { font-size: 1.13rem; }
+
+/* Responsive heading sizes */
+@media screen and (min-width: 48em) {
+  #article-container h1 { font-size: 2.4rem; line-height: 1.35; }
+  #article-container h2 { font-size: 1.8rem; }
+  #article-container h3 { font-size: 1.5rem; }
+  #article-container h4 { font-size: 1.3rem; }
+  #article-container p,
+  #article-container li { font-size: 1.25rem; line-height: 1.8; }
+}
+
+@media (max-width: 48em) {
+  #article-container h1 { font-size: 2rem; }
+  #article-container h2 { font-size: 1.6rem; }
+  #article-container h3 { font-size: 1.3rem; }
+  #article-container h4 { font-size: 1.2rem; }
+}
+
+@media screen and (min-width: 64em) {
+  #article-container h1 { font-size: 3rem; line-height: 1.35; }
+  #article-container h2 { font-size: 2rem; }
+  #article-container h3 { font-size: 1.6rem; }
+  #article-container h4 { font-size: 1.4rem; }
+}
+
+/* --- Links (underlined, Pixyll purple-gray) --- */
+#article-container a {
+  color: #463F5C;
+  text-decoration: underline;
+}
+
+#article-container a:hover {
+  color: #2a2540;
+}
+
+/* --- Blockquote (italic, gray border) --- */
+#article-container blockquote {
+  padding: 1.33em;
+  font-style: italic;
+  border-left: 5px solid #7a7a7a;
+  background-color: transparent;
+  color: #555;
+  margin: 0 0 20px;
+}
+
+#article-container blockquote em {
+  color: #000;
+}
+
+#article-container blockquote footer {
+  font-size: .85rem;
+  font-style: normal;
+  background-color: transparent;
+  color: #7a7a7a;
+  border-color: transparent;
+}
+
+/* --- Code & Pre --- */
+#article-container code,
+#article-container pre {
+  font-family: Menlo, Monaco, "Courier New", monospace;
+}
+
+#article-container code {
+  color: #7a7a7a;
+  background: transparent;
+}
+
+#article-container pre {
+  padding: 1.125em;
+  margin-bottom: 0.88em;
+  font-size: 1rem;
+  border: 1px solid #7a7a7a;
+  border-radius: 0;
+}
+
+/* Override highlight code blocks */
+#article-container figure.highlight {
+  border: 1px solid #7a7a7a;
+}
+
+#article-container figure.highlight code {
+  color: inherit;
+}
+
+/* --- Tables (Pixyll: #333 borders) --- */
+#article-container table {
+  width: 100%;
+  font-size: 1.125rem;
+}
+
+#article-container table > thead > tr > th,
+#article-container table > thead > tr > td,
+#article-container table > tbody > tr > th,
+#article-container table > tbody > tr > td,
+#article-container table > tfoot > tr > th,
+#article-container table > tfoot > tr > td {
+  padding: 12px;
+  line-height: 1.2;
+  vertical-align: top;
+  border-top: 1px solid #333;
+  border-left: none;
+}
+
+#article-container table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #333;
+  background: transparent;
+}
+
+#article-container table > thead > tr:first-child > th,
+#article-container table > thead:first-child > tr:first-child > th {
+  border-top: 0;
+}
+
+#article-container table > tbody + tbody {
+  border-top: 2px solid #333;
+}
+
+/* Remove Butterfly table default border-left */
+#article-container table {
+  border-left: none;
+  border-top: none;
+}
+
+#article-container table th,
+#article-container table td {
+  border: 1px solid #333;
+  border-top: none;
+  border-left: none;
+}
+
+/* --- Lists --- */
+#article-container li {
+  margin: 0.5rem 0;
+}
+
+#article-container li > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Restore default list markers (override Butterfly colors) */
+#article-container li::marker {
+  color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+#article-container ul > li {
+  list-style-type: disc;
+}
+
+/* --- Horizontal Rules --- */
+#article-container hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+/* --- Images --- */
+#article-container img {
+  max-width: 100%;
+  width: auto;
+  box-sizing: border-box;
+}
+
+/* --- Task List --- */
+#article-container .task-list {
+  padding-left: 0;
+}
+
+#article-container .task-list-item {
+  padding-left: 34px;
+}
+
+/* ============================================
+   Dark Mode Adjustments (minimal, Pixyll-style)
+   ============================================ */
+[data-theme='dark'] #article-container {
+  color: #c8c8c8;
+}
+
+[data-theme='dark'] #article-container h1,
+[data-theme='dark'] #article-container h2,
+[data-theme='dark'] #article-container h3,
+[data-theme='dark'] #article-container h4,
+[data-theme='dark'] #article-container h5,
+[data-theme='dark'] #article-container h6 {
+  color: #e0e0e0;
+}
+
+[data-theme='dark'] #article-container a {
+  color: #a89bc0;
+}
+
+[data-theme='dark'] #article-container blockquote {
+  color: #aaa;
+  border-left-color: #888;
+}
+
+[data-theme='dark'] #article-container code {
+  color: #aaa;
+}
+
+[data-theme='dark'] #article-container table > thead > tr > th,
+[data-theme='dark'] #article-container table > thead > tr > td,
+[data-theme='dark'] #article-container table > tbody > tr > th,
+[data-theme='dark'] #article-container table > tbody > tr > td {
+  border-top-color: #555;
+}
+
+[data-theme='dark'] #article-container table > thead > tr > th {
+  border-bottom-color: #555;
+}
