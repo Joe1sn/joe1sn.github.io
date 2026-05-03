@@ -1,4 +1,5 @@
 https://joe1sn.eu.org/2026/05/01/winX-vs-pool-overflow/
+https://joe1sn.eu.org/2026/05/03/redsun-CVE-2026-33825/
 https://joe1sn.eu.org/2026/04/28/SSTIC2020-Article-pool-overflow-exploitation-since-windows-10-19h1-bayet-fariello/
 https://joe1sn.eu.org/2026/04/14/flower-junk-code/
 https://joe1sn.eu.org/2024/02/23/kerberos/
@@ -119,6 +120,7 @@ https://joe1sn.eu.org/tags/muud/
 https://joe1sn.eu.org/tags/web-framework/
 https://joe1sn.eu.org/tags/dbg/
 https://joe1sn.eu.org/tags/Windows/
+https://joe1sn.eu.org/tags/LPE/
 https://joe1sn.eu.org/categories/CVE/
 https://joe1sn.eu.org/categories/program/
 https://joe1sn.eu.org/categories/notes/
