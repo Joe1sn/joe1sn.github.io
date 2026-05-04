@@ -1,0 +1,667 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Joe1sn's Cabin | Joe1sn's Cabin</title><meta name="author" content="Joe1sn"><meta name="copyright" content="Joe1sn"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="扫雷  *{margin:0;padding:0;box-sizing:border-box} body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:&#39;Segoe UI&#39;,sans-serif;color:#fff} .game">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Joe1sn&#39;s Cabin">
+<meta property="og:url" content="https://joe1sn.eu.org/minesweeper.html">
+<meta property="og:site_name" content="Joe1sn&#39;s Cabin">
+<meta property="og:description" content="扫雷  *{margin:0;padding:0;box-sizing:border-box} body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:&#39;Segoe UI&#39;,sans-serif;color:#fff} .game">
+<meta property="og:locale">
+<meta property="og:image" content="https://joe1sn.eu.org/img/avatar1.jpg">
+<meta property="article:published_time" content="2026-04-24T11:30:30.213Z">
+<meta property="article:modified_time" content="2026-04-24T11:30:14.183Z">
+<meta property="article:author" content="Joe1sn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://joe1sn.eu.org/img/avatar1.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="https://joe1sn.eu.org/minesweeper.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Joe1sn\'s Cabin',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><link rel="stylesheet" href="/css/pixyll-theme.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Joe1sn's Cabin" type="application/atom+xml">
+</head><body><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(/img/cyber_nijia.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Joe1sn's Cabin</span></a></span><div id="menus"></div></nav><div id="page-site-info"><h1 id="site-title"></h1></div></header><main class="layout" id="content-inner"><div id="page"><div class="container" id="article-container"><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>扫雷</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Segoe UI',sans-serif;color:#fff}
+.game-wrapper{display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px}
+.top-bar{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:400px;padding:0 4px}
+.counter{background:#16213e;border:2px solid #4a4a8a;border-radius:4px;padding:6px 16px;font-size:22px;font-weight:bold;font-variant-numeric:tabular-nums;min-width:70px;text-align:center}
+.restart-btn{width:48px;height:48px;border:2px solid #4a4a8a;border-radius:4px;background:#16213e;color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;user-select:none}
+.restart-btn:hover{background:#2a2a5a}
+.restart-btn:active{background:#3a3a6a}
+.board-wrap{position:relative;border:2px solid #4a4a8a;border-radius:4px;background:#16213e;box-shadow:0 0 30px rgba(74,74,138,.3);line-height:0}
+canvas{display:block;touch-action:none}
+.game-over-overlay{position:absolute;inset:0;background:rgba(0,0,0,.82);display:none;flex-direction:column;justify-content:center;align-items:center;gap:14px;border-radius:2px}
+.game-over-overlay.show{display:flex}
+.game-over-overlay .title{font-size:30px;font-weight:bold}
+.game-over-overlay .title.win{color:#50fa7b;text-shadow:0 0 20px rgba(80,250,123,.4)}
+.game-over-overlay .title.lose{color:#ff6b6b;text-shadow:0 0 20px rgba(255,107,107,.4)}
+.game-over-overlay .sub{font-size:16px;color:#aaa}
+.game-over-overlay button{padding:10px 32px;font-size:16px;background:#4a4a8a;color:#fff;border:none;border-radius:6px;cursor:pointer;transition:background .2s}
+.game-over-overlay button:hover{background:#5a5aaa}
+.difficulty{display:flex;gap:8px}
+.difficulty button{padding:5px 14px;font-size:13px;background:#16213e;border:2px solid #4a4a8a;border-radius:4px;color:#8888b8;cursor:pointer;transition:all .15s}
+.difficulty button.active{border-color:#7c7cbc;color:#fff;background:#2a2a5a}
+.difficulty button:hover{border-color:#7c7cbc;color:#ddd}
+</style>
+</head>
+<body>
+
+<div class="game-wrapper">
+  <div class="difficulty">
+    <button data-rows="9" data-cols="9" data-mines="10">初级 9×9</button>
+    <button data-rows="16" data-cols="16" data-mines="40" class="active">中级 16×16</button>
+    <button data-rows="16" data-cols="30" data-mines="99">高级 30×16</button>
+  </div>
+  <div class="top-bar">
+    <div class="counter" id="mine-counter">040</div>
+    <button class="restart-btn" id="restart-btn">&#x1F604;</button>
+    <div class="counter" id="timer">000</div>
+  </div>
+  <div class="board-wrap">
+    <canvas id="game-canvas"></canvas>
+    <div class="game-over-overlay" id="game-over">
+      <div class="title" id="result-title">你赢了！</div>
+      <div class="sub" id="result-sub">用时 0 秒</div>
+      <button onclick="restartGame()">再来一局</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- 配置 ----
+let ROWS = 16, COLS = 16, MINE_COUNT = 40;
+const SIZES = {9:40, 16:32, 30:28};
+function cellSize() { return COLS <= 9 ? 40 : COLS <= 16 ? 32 : 28; }
+
+// ---- 状态 ----
+let board = [];        // 二维: { mine:bool, revealed:bool, flagged:bool, adjacent:number }
+let gameOver = false;
+let firstClick = true;
+let flagCount = 0;
+let revealedCount = 0;
+let timer = 0;
+let timerInterval = null;
+let canvas, ctx;
+
+// ---- DOM ----
+canvas = document.getElementById('game-canvas');
+ctx = canvas.getContext('2d');
+
+function updateCanvasSize() {
+  const s = cellSize();
+  canvas.width = COLS * s;
+  canvas.height = ROWS * s;
+}
+
+// ---- 初始化 ----
+function initBoard() {
+  board = [];
+  for (let r = 0; r < ROWS; r++) {
+    board[r] = [];
+    for (let c = 0; c < COLS; c++) {
+      board[r][c] = { mine: false, revealed: false, flagged: false, adjacent: 0 };
+    }
+  }
+  gameOver = false;
+  firstClick = true;
+  flagCount = 0;
+  revealedCount = 0;
+  timer = 0;
+  if (timerInterval) clearInterval(timerInterval), timerInterval = null;
+  document.getElementById('game-over').classList.remove('show');
+  document.getElementById('restart-btn').innerHTML = '&#x1F604;';
+  updateMineCounter();
+  updateTimer();
+}
+
+// ---- 布雷（保证首次点击位置及其周围安全） ----
+function placeMines(safeR, safeC) {
+  let placed = 0;
+  while (placed < MINE_COUNT) {
+    const r = Math.floor(Math.random() * ROWS);
+    const c = Math.floor(Math.random() * COLS);
+    if (board[r][c].mine) continue;
+    // 避开首次点击及其 8 邻域
+    if (firstClick && Math.abs(r - safeR) <= 1 && Math.abs(c - safeC) <= 1) continue;
+    board[r][c].mine = true;
+    placed++;
+  }
+  // 计算邻接数字
+  for (let r = 0; r < ROWS; r++)
+    for (let c = 0; c < COLS; c++)
+      if (!board[r][c].mine)
+        board[r][c].adjacent = countAdjMines(r, c);
+}
+
+function countAdjMines(r, c) {
+  let n = 0;
+  forEachNeighbor(r, c, (nr, nc) => { if (board[nr][nc].mine) n++; });
+  return n;
+}
+
+function forEachNeighbor(r, c, fn) {
+  for (let dr = -1; dr <= 1; dr++)
+    for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) continue;
+      const nr = r + dr, nc = c + dc;
+      if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) fn(nr, nc);
+    }
+}
+
+// ---- 揭示 ----
+function reveal(r, c) {
+  if (gameOver) return;
+  if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return;
+  const cell = board[r][c];
+  if (cell.revealed || cell.flagged) return;
+
+  // 首次点击：布雷
+  if (firstClick) {
+    placeMines(r, c);
+    firstClick = false;
+    startTimer();
+  }
+
+  cell.revealed = true;
+  revealedCount++;
+
+  if (cell.mine) {
+    cell.revealed = true;
+    loseGame(r, c);
+    return;
+  }
+
+  // 如果是空格，扩散
+  if (cell.adjacent === 0) {
+    forEachNeighbor(r, c, (nr, nc) => reveal(nr, nc));
+  }
+
+  draw();
+  checkWin();
+}
+
+// ---- 标记/取消标记 ----
+function toggleFlag(r, c) {
+  if (gameOver) return;
+  if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return;
+  const cell = board[r][c];
+  if (cell.revealed) return;
+  cell.flagged = !cell.flagged;
+  flagCount += cell.flagged ? 1 : -1;
+  updateMineCounter();
+  draw();
+  checkWin();
+}
+
+// ---- 双击/双键快速展开 ----
+function chord(r, c) {
+  if (gameOver) return;
+  if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return;
+  const cell = board[r][c];
+  if (!cell.revealed || cell.adjacent === 0) return;
+  const adjFlags = countAdjFlags(r, c);
+  if (adjFlags !== cell.adjacent) return;
+  forEachNeighbor(r, c, (nr, nc) => {
+    if (!board[nr][nc].revealed && !board[nr][nc].flagged) reveal(nr, nc);
+  });
+  draw();
+  checkWin();
+}
+
+function countAdjFlags(r, c) {
+  let n = 0;
+  forEachNeighbor(r, c, (nr, nc) => { if (board[nr][nc].flagged) n++; });
+  return n;
+}
+
+// ---- 输赢判断 ----
+function loseGame(mr, mc) {
+  gameOver = true;
+  if (timerInterval) clearInterval(timerInterval), timerInterval = null;
+  // 显示所有雷
+  for (let r = 0; r < ROWS; r++)
+    for (let c = 0; c < COLS; c++)
+      if (board[r][c].mine) board[r][c].revealed = true;
+  draw();
+  document.getElementById('result-title').className = 'title lose';
+  document.getElementById('result-title').textContent = '踩雷了！';
+  document.getElementById('result-sub').textContent = '游戏结束';
+  document.getElementById('game-over').classList.add('show');
+  document.getElementById('restart-btn').innerHTML = '&#x1F929;';
+}
+
+function checkWin() {
+  const totalSafe = ROWS * COLS - MINE_COUNT;
+  if (revealedCount >= totalSafe) {
+    gameOver = true;
+    if (timerInterval) clearInterval(timerInterval), timerInterval = null;
+    // 自动标记所有雷
+    for (let r = 0; r < ROWS; r++)
+      for (let c = 0; c < COLS; c++)
+        if (board[r][c].mine && !board[r][c].flagged) {
+          board[r][c].flagged = true;
+          flagCount++;
+        }
+    updateMineCounter();
+    draw();
+    document.getElementById('result-title').className = 'title win';
+    document.getElementById('result-title').textContent = '你赢了！';
+    document.getElementById('result-sub').textContent = `用时 ${timer} 秒`;
+    document.getElementById('game-over').classList.add('show');
+    document.getElementById('restart-btn').innerHTML = '&#x1F60E;';
+  }
+}
+
+// ---- 计时器 ----
+function startTimer() {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    timer++;
+    updateTimer();
+  }, 1000);
+}
+
+// ---- UI 更新 ----
+function updateMineCounter() {
+  const remaining = MINE_COUNT - flagCount;
+  document.getElementById('mine-counter').textContent = String(Math.max(remaining, 0)).padStart(3, '0');
+}
+
+function updateTimer() {
+  document.getElementById('timer').textContent = String(Math.min(timer, 999)).padStart(3, '0');
+}
+
+// ---- 渲染 ----
+const NUM_COLORS = ['', '#0000f0', '#008000', '#f00000', '#000080', '#800000', '#008080', '#000000', '#808080'];
+
+function draw() {
+  const s = cellSize();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = board[r][c];
+      const x = c * s, y = r * s;
+
+      if (cell.revealed) {
+        // 已揭示
+        ctx.fillStyle = '#232344';
+        ctx.fillRect(x, y, s, s);
+        ctx.fillStyle = 'rgba(74,74,138,0.12)';
+        ctx.fillRect(x, y, s, 1);
+        ctx.fillRect(x, y, 1, s);
+
+        if (cell.mine) {
+          ctx.fillStyle = '#ff6b6b';
+          ctx.beginPath();
+          ctx.arc(x + s/2, y + s/2, s/3.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#ff4444';
+          ctx.beginPath();
+          ctx.arc(x + s/2, y + s/2, s/7, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (cell.adjacent > 0) {
+          ctx.fillStyle = NUM_COLORS[cell.adjacent];
+          ctx.font = `bold ${s * 0.55}px 'Segoe UI',sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(cell.adjacent, x + s/2, y + s/2 + 1);
+        }
+      } else {
+        // 未揭示
+        const grad = ctx.createLinearGradient(x, y, x, y + s);
+        grad.addColorStop(0, '#2e2e5e');
+        grad.addColorStop(1, '#262650');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, s, s);
+        ctx.strokeStyle = 'rgba(74,74,138,0.2)';
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(x, y, s, s);
+
+        if (cell.flagged) {
+          // 旗杆
+          ctx.strokeStyle = '#888';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(x + s/2, y + s * 0.2);
+          ctx.lineTo(x + s/2, y + s * 0.8);
+          ctx.stroke();
+          // 旗子
+          ctx.fillStyle = '#ff6b6b';
+          ctx.beginPath();
+          ctx.moveTo(x + s/2, y + s * 0.2);
+          ctx.lineTo(x + s/2 + s * 0.3, y + s * 0.32);
+          ctx.lineTo(x + s/2, y + s * 0.44);
+          ctx.fill();
+          // 底座
+          ctx.fillStyle = '#888';
+          ctx.fillRect(x + s/2 - 4, y + s * 0.78, 8, 3);
+        }
+      }
+    }
+  }
+}
+
+// ---- 键盘 ----
+document.addEventListener('keydown', e => {
+  if (e.key === 'r' || e.key === 'R') restartGame();
+});
+
+// ---- 鼠标事件 ----
+canvas.addEventListener('mousedown', e => {
+  e.preventDefault();
+  if (gameOver) return;
+  const s = cellSize();
+  const rect = canvas.getBoundingClientRect();
+  const c = Math.floor((e.clientX - rect.left) / s);
+  const r = Math.floor((e.clientY - rect.top) / s);
+  if (r < 0 || r >= ROWS || c < 0 || c >= COLS) return;
+
+  if (e.button === 0) {
+    // 左键：揭示
+    const cell = board[r][c];
+    if (cell.revealed) { chord(r, c); return; }
+    reveal(r, c);
+  } else if (e.button === 2) {
+    // 右键：标记
+    toggleFlag(r, c);
+  }
+});
+
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+// ---- 触屏 ----
+let touchTimer = null;
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const t = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  const s = cellSize();
+  const tc = Math.floor((t.clientX - rect.left) / s);
+  const tr = Math.floor((t.clientY - rect.top) / s);
+  if (tr < 0 || tr >= ROWS || tc < 0 || tc >= COLS) return;
+
+  // 长按 = 标记
+  touchTimer = setTimeout(() => {
+    toggleFlag(tr, tc);
+    touchTimer = null;
+  }, 400);
+}, {passive: false});
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (touchTimer) { clearTimeout(touchTimer); touchTimer = null; }
+}, {passive: false});
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault();
+  if (touchTimer) {
+    clearTimeout(touchTimer);
+    touchTimer = null;
+    // 短触 = 揭示
+    const t = e.changedTouches[0];
+    const rect = canvas.getBoundingClientRect();
+    const s = cellSize();
+    const tc = Math.floor((t.clientX - rect.left) / s);
+    const tr = Math.floor((t.clientY - rect.top) / s);
+    if (tr >= 0 && tr < ROWS && tc >= 0 && tc < COLS) {
+      const cell = board[tr][tc];
+      if (cell.revealed) chord(tr, tc);
+      else reveal(tr, tc);
+    }
+  }
+}, {passive: false});
+
+// ---- 难度切换 ----
+document.querySelectorAll('.difficulty button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.difficulty button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    ROWS = parseInt(btn.dataset.rows);
+    COLS = parseInt(btn.dataset.cols);
+    MINE_COUNT = parseInt(btn.dataset.mines);
+    updateCanvasSize();
+    restartGame();
+  });
+});
+
+// ---- 重开 ----
+function restartGame() {
+  initBoard();
+  updateCanvasSize();
+  draw();
+}
+
+document.getElementById('restart-btn').addEventListener('click', restartGame);
+
+// ---- 启动 ----
+updateCanvasSize();
+restartGame();
+</script>
+</body>
+</html>
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Joe1sn</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">83</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Joe1sn"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Joe1sn" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:joe1sn23333@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">lue lue lue</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2098/12/31/develop_handbook/" title="【置顶】【编程】开发笔记"><img src="/img/git.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【置顶】【编程】开发笔记"/></a><div class="content"><a class="title" href="/2098/12/31/develop_handbook/" title="【置顶】【编程】开发笔记">【置顶】【编程】开发笔记</a><time datetime="2098-12-31T13:06:45.000Z" title="Created 2098-12-31 21:06:45">2098-12-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/03/redsun-CVE-2026-33825/" title="【漏洞】RedSun复现"><img src="/img/cover/redsun.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【漏洞】RedSun复现"/></a><div class="content"><a class="title" href="/2026/05/03/redsun-CVE-2026-33825/" title="【漏洞】RedSun复现">【漏洞】RedSun复现</a><time datetime="2026-05-03T12:33:47.000Z" title="Created 2026-05-03 20:33:47">2026-05-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/01/winX-vs-pool-overflow/" title="【Win Pwn】Windows10 内核VS池溢出利用"><img src="/img/cover/winp.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Win Pwn】Windows10 内核VS池溢出利用"/></a><div class="content"><a class="title" href="/2026/05/01/winX-vs-pool-overflow/" title="【Win Pwn】Windows10 内核VS池溢出利用">【Win Pwn】Windows10 内核VS池溢出利用</a><time datetime="2026-04-30T17:36:54.000Z" title="Created 2026-05-01 01:36:54">2026-05-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/28/SSTIC2020-Article-pool-overflow-exploitation-since-windows-10-19h1-bayet-fariello/" title="翻译-Scoop the Windows 10 pool!"><img src="/img/cover/winp.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="翻译-Scoop the Windows 10 pool!"/></a><div class="content"><a class="title" href="/2026/04/28/SSTIC2020-Article-pool-overflow-exploitation-since-windows-10-19h1-bayet-fariello/" title="翻译-Scoop the Windows 10 pool!">翻译-Scoop the Windows 10 pool!</a><time datetime="2026-04-28T10:04:56.000Z" title="Created 2026-04-28 18:04:56">2026-04-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/14/flower-junk-code/" title="【免杀】花指令入门"><img src="/img/cover/insflower.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【免杀】花指令入门"/></a><div class="content"><a class="title" href="/2026/04/14/flower-junk-code/" title="【免杀】花指令入门">【免杀】花指令入门</a><time datetime="2026-04-14T10:11:00.000Z" title="Created 2026-04-14 18:11:00">2026-04-14</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>Categories</span>
+            <a class="card-more-btn" href="/categories/" title="View More">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CVE/"><span class="card-category-list-name">CVE</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/hardware/"><span class="card-category-list-name">hardware</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/misc/"><span class="card-category-list-name">misc</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/"><span class="card-category-list-name">notes</span><span class="card-category-list-count">51</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/java/"><span class="card-category-list-name">java</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/kernel/"><span class="card-category-list-name">kernel</span><span class="card-category-list-count">14</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/notes/os/"><span class="card-category-list-name">os</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/program/"><span class="card-category-list-name">program</span><span class="card-category-list-count">9</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/pwn/" style="font-size: 1.41em; color: #99a5b7">pwn</a> <a href="/tags/c/" style="font-size: 1.1em; color: #999">c</a> <a href="/tags/Java/" style="font-size: 1.23em; color: #999ea6">Java</a> <a href="/tags/MinHook/" style="font-size: 1.14em; color: #999b9d">MinHook</a> <a href="/tags/BUUCTF/" style="font-size: 1.1em; color: #999">BUUCTF</a> <a href="/tags/LPE/" style="font-size: 1.1em; color: #999">LPE</a> <a href="/tags/python/" style="font-size: 1.1em; color: #999">python</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" style="font-size: 1.14em; color: #999b9d">漏洞复现</a> <a href="/tags/git/" style="font-size: 1.1em; color: #999">git</a> <a href="/tags/writeup/" style="font-size: 1.19em; color: #999da1">writeup</a> <a href="/tags/windows/" style="font-size: 1.5em; color: #99a9bf">windows</a> <a href="/tags/cheats/" style="font-size: 1.1em; color: #999">cheats</a> <a href="/tags/AFL/" style="font-size: 1.1em; color: #999">AFL</a> <a href="/tags/muud/" style="font-size: 1.14em; color: #999b9d">muud</a> <a href="/tags/fuzz/" style="font-size: 1.28em; color: #99a0aa">fuzz</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/" style="font-size: 1.1em; color: #999">漏洞挖掘</a> <a href="/tags/os/" style="font-size: 1.1em; color: #999">os</a> <a href="/tags/malware/" style="font-size: 1.32em; color: #99a2ae">malware</a> <a href="/tags/rootkit/" style="font-size: 1.23em; color: #999ea6">rootkit</a> <a href="/tags/cpp/" style="font-size: 1.1em; color: #999">cpp</a> <a href="/tags/Windows/" style="font-size: 1.1em; color: #999">Windows</a> <a href="/tags/spring/" style="font-size: 1.1em; color: #999">spring</a> <a href="/tags/web-framework/" style="font-size: 1.14em; color: #999b9d">web framework</a> <a href="/tags/cve/" style="font-size: 1.19em; color: #999da1">cve</a> <a href="/tags/bypass/" style="font-size: 1.37em; color: #99a4b2">bypass</a> <a href="/tags/C/" style="font-size: 1.28em; color: #99a0aa">C</a> <a href="/tags/notes/" style="font-size: 1.23em; color: #999ea6">notes</a> <a href="/tags/pentest/" style="font-size: 1.19em; color: #999da1">pentest</a> <a href="/tags/kernel/" style="font-size: 1.46em; color: #99a7bb">kernel</a> <a href="/tags/AI/" style="font-size: 1.1em; color: #999">AI</a> <a href="/tags/CVE/" style="font-size: 1.37em; color: #99a4b2">CVE</a> <a href="/tags/misc/" style="font-size: 1.1em; color: #999">misc</a> <a href="/tags/crack/" style="font-size: 1.14em; color: #999b9d">crack</a> <a href="/tags/note/" style="font-size: 1.32em; color: #99a2ae">note</a> <a href="/tags/hardware/" style="font-size: 1.14em; color: #999b9d">hardware</a> <a href="/tags/CTF/" style="font-size: 1.14em; color: #999b9d">CTF</a> <a href="/tags/source/" style="font-size: 1.19em; color: #999da1">source</a> <a href="/tags/stm32/" style="font-size: 1.1em; color: #999">stm32</a> <a href="/tags/dbg/" style="font-size: 1.1em; color: #999">dbg</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>Archives</span>
+      <a class="card-more-btn" href="/archives/"
+            title="View More">
+            <i class="fas fa-angle-right"></i>
+          </a>
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2098/12/">
+            <span class="card-archive-list-date">
+              December 2098
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/05/">
+            <span class="card-archive-list-date">
+              May 2026
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/04/">
+            <span class="card-archive-list-date">
+              April 2026
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/03/">
+            <span class="card-archive-list-date">
+              March 2026
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/02/">
+            <span class="card-archive-list-date">
+              February 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/01/">
+            <span class="card-archive-list-date">
+              January 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/11/">
+            <span class="card-archive-list-date">
+              November 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/10/">
+            <span class="card-archive-list-date">
+              October 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">83</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-05-04T14:12:04.383Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Joe1sn</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="Toggle Between Traditional and Simplified Chinese">简</button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
