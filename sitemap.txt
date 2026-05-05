@@ -1,3 +1,4 @@
+https://joe1sn.eu.org/2026/05/05/win-patchguard/
 https://joe1sn.eu.org/2026/05/01/winX-vs-pool-overflow/
 https://joe1sn.eu.org/2026/05/03/redsun-CVE-2026-33825/
 https://joe1sn.eu.org/2026/04/28/SSTIC2020-Article-pool-overflow-exploitation-since-windows-10-19h1-bayet-fariello/
