@@ -1,3 +1,5 @@
+https://joe1sn.eu.org/2098/12/31/develop_handbook/
+https://joe1sn.eu.org/2077/01/01/redaily/
 https://joe1sn.eu.org/2026/05/07/tencent-gameCTF-2026/
 https://joe1sn.eu.org/2026/05/05/win-patchguard/
 https://joe1sn.eu.org/2026/05/01/winX-vs-pool-overflow/
@@ -43,7 +45,6 @@ https://joe1sn.eu.org/2025/04/30/rookit-1-hide-process/
 https://joe1sn.eu.org/2025/07/29/rookit-3-ppl/
 https://joe1sn.eu.org/2025/08/16/talk-about-game-cheats/
 https://joe1sn.eu.org/2025/10/14/meltdown/
-https://joe1sn.eu.org/2098/12/31/develop_handbook/
 https://joe1sn.eu.org/2025/11/14/bad-cloud-Strategy/
 https://joe1sn.eu.org/2026/03/15/windows-kernel-driver-11-hook-inline-ssdt/
 https://joe1sn.eu.org/2026/04/11/windows-kernel-driver-12-hook-full-ssdt/
@@ -126,6 +127,7 @@ https://joe1sn.eu.org/tags/web-framework/
 https://joe1sn.eu.org/tags/dbg/
 https://joe1sn.eu.org/tags/Windows/
 https://joe1sn.eu.org/tags/LPE/
+https://joe1sn.eu.org/tags/re/
 https://joe1sn.eu.org/categories/CVE/
 https://joe1sn.eu.org/categories/program/
 https://joe1sn.eu.org/categories/notes/
