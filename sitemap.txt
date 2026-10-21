@@ -6,7 +6,6 @@ https://joe1sn.eu.org/2026/06/17/CVE-2021-1732/
 https://joe1sn.eu.org/2026/05/14/CVE-2023-21768/
 https://joe1sn.eu.org/2026/06/05/CVE-2026-41089/
 https://joe1sn.eu.org/2026/05/30/CVE-2026-40369/
-https://joe1sn.eu.org/2077/01/01/redaily/
 https://joe1sn.eu.org/2023/07/13/CVE-2019-9766/
 https://joe1sn.eu.org/2026/05/14/ollvm1/
 https://joe1sn.eu.org/2026/05/07/tencent-gameCTF-2026/
@@ -136,7 +135,6 @@ https://joe1sn.eu.org/tags/web-framework/
 https://joe1sn.eu.org/tags/dbg/
 https://joe1sn.eu.org/tags/Windows/
 https://joe1sn.eu.org/tags/LPE/
-https://joe1sn.eu.org/tags/re/
 https://joe1sn.eu.org/categories/CVE/
 https://joe1sn.eu.org/categories/program/
 https://joe1sn.eu.org/categories/notes/

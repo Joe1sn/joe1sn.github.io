@@ -74,15 +74,6 @@
   </url>
   
   <url>
-    <loc>https://joe1sn.eu.org/2077/01/01/redaily/</loc>
-    
-    <lastmod>2026-05-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://joe1sn.eu.org/2023/07/13/CVE-2019-9766/</loc>
     
     <lastmod>2026-05-23</lastmod>
@@ -1160,13 +1151,6 @@
   
   <url>
     <loc>https://joe1sn.eu.org/tags/LPE/</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://joe1sn.eu.org/tags/re/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
